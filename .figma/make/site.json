@@ -1,0 +1,10 @@
+{
+  "description": "Automates prompt execution from uploaded documents, enabling users to quickly generate responses and streamline content creation workflows.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
