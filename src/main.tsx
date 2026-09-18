@@ -19,10 +19,3 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Analytics />
   </React.StrictMode>,
 )
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-    <Analytics />
-  </React.StrictMode>,
-)
