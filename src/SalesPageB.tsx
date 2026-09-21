@@ -39,7 +39,7 @@ function FadeIn({ children, delay = 0, className = '' }: { children: React.React
 function CTAButton({ text, id }: { text: string; id?: string }) {
   return (
     <a
-      href="https://selar.com/978m069577"
+      href="https://wa.link/mxw0ow"
       target="_blank"
       rel="noopener noreferrer"
       id={id}
@@ -115,7 +115,7 @@ const bonuses = [
   {
     title: 'The Business Problem Diagnosis Worksheet',
     desc: 'A step-by-step worksheet to work through any problem, separate symptoms from root causes, and organise your thinking.',
-    value: '₦7,500',
+    value: '₦3,700',
   },
   {
     title: 'The Problem-Solving Checklist',
@@ -233,7 +233,7 @@ export default function SalesPageB() {
           <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(250,248,243,0.6)' }}>
             Quick Learn Plus
           </span>
-          <CTAButton text="Get the Guide — ₦7,500" />
+          <CTAButton text="Get the Guide — ₦3,700" />
         </div>
       </nav>
 
@@ -287,7 +287,7 @@ export default function SalesPageB() {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
-              <CTAButton text="Get Instant Access — ₦7,500" id="order" />
+              <CTAButton text="Get Instant Access — ₦3,700" id="order" />
               <p style={{ fontSize: '13px', color: 'rgba(250,248,243,0.5)', margin: 0 }}>30-day money-back guarantee</p>
             </div>
           </div>
@@ -298,7 +298,7 @@ export default function SalesPageB() {
               src={consultantCover}
               alt="Think Like a Consultant"
               style={{
-                width: '220px',
+                width: '320px',
                 borderRadius: '3px 10px 10px 3px',
                 boxShadow: '12px 20px 60px rgba(0,0,0,0.5)',
                 transform: 'rotateY(-6deg)',
@@ -488,7 +488,7 @@ export default function SalesPageB() {
 
           <FadeIn>
             <div style={{ textAlign: 'center' }}>
-              <CTAButton text="Get Everything — ₦7,500" />
+              <CTAButton text="Get Everything — ₦3,700" />
             </div>
           </FadeIn>
         </div>
@@ -591,7 +591,7 @@ export default function SalesPageB() {
                   {[
                     'The complete Think Like a Consultant guide',
                     'Quick-Reference Cheat Sheet (₦5,000 value)',
-                    'Business Problem Diagnosis Worksheet (₦7,500 value)',
+                    'Business Problem Diagnosis Worksheet (₦3,700 value)',
                     'Problem-Solving Checklist (₦5,000 value)',
                     '3 Complete Business Problem Walkthroughs (₦10,000 value)',
                     'Framework Selection Guide (₦5,000 value)',
@@ -602,7 +602,7 @@ export default function SalesPageB() {
                     </div>
                   ))}
                 </div>
-                <CTAButton text="Get Instant Access — ₦7,500" />
+                <CTAButton text="Get Instant Access — ₦3,700" />
                 <p style={{ fontSize: '13px', color: 'var(--muted-foreground)', marginTop: '14px' }}>
                   30-day money-back guarantee. No questions asked.
                 </p>
@@ -626,7 +626,7 @@ export default function SalesPageB() {
                   color: 'var(--primary)',
                   lineHeight: 1,
                 }}>
-                  ₦7,500
+                  ₦3,700
                 </div>
                 <p style={{ fontSize: '13px', color: 'var(--muted-foreground)', marginTop: '8px' }}>
                   One-time payment
@@ -707,7 +707,7 @@ export default function SalesPageB() {
             }}>
               Every business problem you've been carrying has a structure. Once you can see it clearly, you'll know what to do. This guide shows you how.
             </p>
-            <CTAButton text="Get Think Like a Consultant — ₦7,500" />
+            <CTAButton text="Get Think Like a Consultant — ₦3,700" />
             <p style={{ fontSize: '13px', color: 'rgba(250,248,243,0.4)', marginTop: '20px' }}>
               Instant digital download · 30-day money-back guarantee
             </p>
@@ -742,7 +742,7 @@ export default function SalesPageB() {
         }}
       >
         <a
-          href="https://selar.com/978m069577"
+          href="https://wa.link/mxw0ow"
           target="_blank"
           rel="noopener noreferrer"
           style={{
@@ -761,7 +761,7 @@ export default function SalesPageB() {
             borderRadius: '2px',
           }}
         >
-          Get Think Like a Consultant — ₦7,500
+          Get Think Like a Consultant — ₦3,700
         </a>
       </div>
 
