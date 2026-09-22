@@ -45,7 +45,7 @@ function Divider({ gold = false }: { gold?: boolean }) {
 function CTAButton({ text, id }: { text: string; id?: string }) {
   return (
     <a
-      href="https://wa.link/mxw0ow"
+      href="https://selar.com/978m069577"
       target="_blank"
       rel="noopener noreferrer"
       id={id}
@@ -887,7 +887,7 @@ export default function SalesPageC() {
         className="mobile-sticky"
       >
         <a
-          href="https://wa.link/mxw0ow"
+          href="https://selar.com/978m069577"
           target="_blank"
           rel="noopener noreferrer"
           style={{
