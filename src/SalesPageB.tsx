@@ -39,7 +39,7 @@ function FadeIn({ children, delay = 0, className = '' }: { children: React.React
 function CTAButton({ text, id }: { text: string; id?: string }) {
   return (
     <a
-      href="https://wa.link/mxw0ow"
+      href="https://selar.com/978m069577"
       target="_blank"
       rel="noopener noreferrer"
       id={id}
@@ -742,7 +742,7 @@ export default function SalesPageB() {
         }}
       >
         <a
-          href="https://wa.link/mxw0ow"
+          href="https://selar.com/978m069577"
           target="_blank"
           rel="noopener noreferrer"
           style={{
