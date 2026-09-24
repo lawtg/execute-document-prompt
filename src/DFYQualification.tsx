@@ -134,37 +134,19 @@ export default function DFYQualification() {
 
       {/* ── HERO (step 0) ── */}
       {step === 0 && (
-        <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 24px 60px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '640px', margin: '0 auto', padding: '100px 24px 60px', textAlign: 'center' }}>
           <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.accent, marginBottom: '24px' }}>
             A Done-For-You Digital Product Business
           </p>
           <h1 style={{
-            fontSize: 'clamp(32px, 7vw, 58px)', fontWeight: 900, lineHeight: 1.05,
-            letterSpacing: '-0.03em', color: C.dark, marginBottom: '24px',
+            fontSize: 'clamp(30px, 7vw, 54px)', fontWeight: 900, lineHeight: 1.1,
+            letterSpacing: '-0.03em', color: C.dark, marginBottom: '20px',
           }}>
-            Have ₦100,000 But Don't Know What Business To Start?
+            Do You Have ₦100,000 But Don't Know What Business To Start?
           </h1>
-          <p style={{ fontSize: 'clamp(18px, 3vw, 22px)', fontWeight: 800, color: C.ink, marginBottom: '24px', lineHeight: 1.3 }}>
+          <p style={{ fontSize: 'clamp(18px, 3vw, 22px)', fontWeight: 800, color: C.sub, marginBottom: '48px', lineHeight: 1.4 }}>
             We'll Build You a Digital Product Business.
           </p>
-          <div style={{ fontSize: '16px', lineHeight: 1.8, color: C.sub, marginBottom: '12px', textAlign: 'left', maxWidth: '480px', margin: '0 auto 12px' }}>
-            {[
-              "You don't need to know how to write an ebook.",
-              "You don't need to know what people are buying.",
-              "You don't need to learn Facebook Ads.",
-              "You don't need to spend months trying to figure everything out.",
-            ].map((t, i) => (
-              <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', padding: '8px 0', borderBottom: `1px solid ${C.border}` }}>
-                <span style={{ color: '#CC4444', fontWeight: 900, flexShrink: 0, paddingTop: '2px' }}>✗</span>
-                <span>{t}</span>
-              </div>
-            ))}
-          </div>
-          <div style={{ maxWidth: '480px', margin: '0 auto 40px', padding: '20px 24px', backgroundColor: C.dark }}>
-            <p style={{ fontSize: '16px', fontWeight: 700, color: '#fff', lineHeight: 1.75, margin: 0 }}>
-              We'll do the heavy lifting for you. We'll research the market, find a product opportunity, create the ebook, package it, set it up on Selar and launch the advertising campaign.
-            </p>
-          </div>
           <button onClick={() => setStep(-1)} style={{
             backgroundColor: C.btnBg, color: C.btnTxt,
             fontFamily: 'inherit', fontSize: '14px', fontWeight: 800,
