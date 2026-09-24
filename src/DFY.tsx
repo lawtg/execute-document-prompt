@@ -204,19 +204,30 @@ export default function DFY() {
             The Digital Product Business
           </p>
           <h1 style={{
-            fontSize: 'clamp(40px, 9vw, 80px)', fontWeight: 900,
+            fontSize: 'clamp(36px, 8vw, 72px)', fontWeight: 900,
             lineHeight: 1.0, letterSpacing: '-0.03em',
             color: '#FFFFFF', marginBottom: '24px',
           }}>
-            YOU HAVE THE CAPITAL.
-            <br />
-            <span style={{ color: C.accent }}>WE BUILD THE BUSINESS.</span>
+            Have ₦100,000 But Don't Know What Business To Start?
           </h1>
-          <p style={{ fontSize: 'clamp(16px, 2.5vw, 20px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.65)', maxWidth: '580px', margin: '0 auto 20px' }}>
-            You don't need to spend months learning how to find an idea, write an ebook, design it, set up a store or figure out Meta Ads.
+          <p style={{ fontSize: 'clamp(18px, 2.5vw, 22px)', fontWeight: 800, color: C.accent, marginBottom: '24px', lineHeight: 1.3 }}>
+            We'll Build You a Digital Product Business.
           </p>
-          <p style={{ fontSize: 'clamp(16px, 2.5vw, 18px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.65)', maxWidth: '540px', margin: '0 auto 48px' }}>
-            We handle the heavy lifting and build the digital product business around you.
+          <div style={{ fontSize: 'clamp(15px, 2vw, 17px)', lineHeight: 1.8, color: 'rgba(255,255,255,0.6)', maxWidth: '520px', margin: '0 auto 32px', textAlign: 'left' }}>
+            {[
+              "You don't need to know how to write an ebook.",
+              "You don't need to know what people are buying.",
+              "You don't need to learn Facebook Ads.",
+              "You don't need to spend months trying to figure everything out.",
+            ].map((t, i) => (
+              <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                <span style={{ color: '#CC5555', fontWeight: 900, flexShrink: 0, paddingTop: '2px' }}>✗</span>
+                <span>{t}</span>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 'clamp(15px, 2vw, 17px)', lineHeight: 1.8, color: 'rgba(255,255,255,0.75)', maxWidth: '520px', margin: '0 auto 48px' }}>
+            We'll do the heavy lifting for you. We'll research the market, find a product opportunity, create the ebook, package it, set it up on Selar and launch the advertising campaign.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
             <a href={WA_URL} target="_blank" rel="noopener noreferrer"
