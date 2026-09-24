@@ -6,6 +6,10 @@ import App from './App'
 import ThankYou from './ThankYou'
 import SalesPageB from './SalesPageB'
 import SalesPageC from './SalesPageC'
+import DFY from './DFY'
+import DFYCheckout from './DFYCheckout'
+import DFYOnboarding from './DFYOnboarding'
+import DFYConfirmation from './DFYConfirmation'
 import MetaPixel from './MetaPixel'
 import './index.css'
 
@@ -18,6 +22,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/business-owner" element={<SalesPageB />} />
         <Route path="/owner" element={<SalesPageC />} />
+        <Route path="/dfy" element={<DFY />} />
+        <Route path="/dfy/checkout" element={<DFYCheckout />} />
+        <Route path="/dfy/onboarding" element={<DFYOnboarding />} />
+        <Route path="/dfy/confirmation" element={<DFYConfirmation />} />
       </Routes>
     </BrowserRouter>
     <Analytics />
