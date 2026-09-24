@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { supabase } from './lib/supabase'
 
 const C = {
   bg:     '#FFFFFF',
@@ -61,23 +62,38 @@ export default function DFYQualification() {
   const navigate = useNavigate()
 
   // step 0 = hero, step -1 = contact form, steps 1-3 = questions
-  const [step, setStep]       = useState(0)
-  const [selected, setSelected] = useState<string | null>(null)
-  const [leaving, setLeaving]   = useState(false)
-  const [name, setName]         = useState('')
-  const [phone, setPhone]       = useState('')
+  const [step, setStep]           = useState(0)
+  const [selected, setSelected]   = useState<string | null>(null)
+  const [leaving, setLeaving]     = useState(false)
+  const [name, setName]           = useState('')
+  const [phone, setPhone]         = useState('')
   const [formError, setFormError] = useState('')
+  const [answers, setAnswers]     = useState<Record<number, string>>({})
 
-  /* auto-redirect after Q3 answer */
+  /* auto-redirect after Q3 answer — save lead first */
   useEffect(() => {
     if (step === 3 && selected !== null) {
+      const allAnswers = { ...answers, 3: selected }
+      // Fire-and-forget save — don't block redirect
+      supabase.from('leads').insert({
+        name,
+        phone,
+        q1: allAnswers[1] ?? '',
+        q2: allAnswers[2] ?? '',
+        q3: allAnswers[3] ?? '',
+        status: 'new',
+        notes: '',
+      }).then(({ error }) => {
+        if (error) console.error('Lead save error:', error.message)
+      })
       const t = setTimeout(() => navigate('/dfy'), 420)
       return () => clearTimeout(t)
     }
-  }, [step, selected, navigate])
+  }, [step, selected, navigate, name, phone, answers])
 
   const advance = (option: string) => {
     setSelected(option)
+    setAnswers(prev => ({ ...prev, [step]: option }))
     if (step < 3) {
       setLeaving(true)
       setTimeout(() => {

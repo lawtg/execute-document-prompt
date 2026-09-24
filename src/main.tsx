@@ -8,6 +8,7 @@ import SalesPageB from './SalesPageB'
 import SalesPageC from './SalesPageC'
 import DFY from './DFY'
 import DFYQualification from './DFYQualification'
+import CRM from './CRM'
 import MetaPixel from './MetaPixel'
 import './index.css'
 
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/owner" element={<SalesPageC />} />
         <Route path="/dfy" element={<DFY />} />
         <Route path="/dfy/start" element={<DFYQualification />} />
+        <Route path="/crm" element={<CRM />} />
       </Routes>
     </BrowserRouter>
     <Analytics />
