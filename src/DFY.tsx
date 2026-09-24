@@ -124,7 +124,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Is the ₦100,000 the advertising budget?',
-    a: 'No. The ₦100,000 is the setup and implementation fee. Your advertising budget is separate and used directly to acquire customers.',
+    a: 'The ₦100,000 covers everything — including the ad budget for the first 4 days of your campaign. After those 4 days, you reinvest the revenue your business has already generated back into advertising. The goal is to make the business self-funding as quickly as possible.',
   },
   {
     q: 'How do I get started?',
@@ -208,7 +208,7 @@ export default function DFY() {
             lineHeight: 1.0, letterSpacing: '-0.03em',
             color: '#FFFFFF', marginBottom: '24px',
           }}>
-            Have ₦100,000 But Don't Know What Business To Start?
+            Do You Have ₦100,000 But Don't Know What Business To Start?
           </h1>
           <p style={{ fontSize: 'clamp(18px, 2.5vw, 22px)', fontWeight: 800, color: C.accent, marginBottom: '24px', lineHeight: 1.3 }}>
             We'll Build You a Digital Product Business.
@@ -528,6 +528,94 @@ export default function DFY() {
         </div>
       </section>
 
+      {/* ── REVENUE POTENTIAL ───────────────────────── */}
+      <section style={{ backgroundColor: C.dark, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="The Numbers" />
+            <h2 style={{
+              fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 900,
+              lineHeight: 1.05, letterSpacing: '-0.03em', color: '#fff', marginBottom: '20px',
+            }}>
+              Let's talk about what this could actually look like for you.
+            </h2>
+            <p style={{ fontSize: '17px', lineHeight: 1.8, color: 'rgba(255,255,255,0.55)', marginBottom: '56px' }}>
+              We're not going to promise you millions. But we are going to show you what's realistic — based on what's already happened with people we've worked with.
+            </p>
+          </Reveal>
+
+          {/* Scenario */}
+          <Reveal delay={60}>
+            <div style={{ border: '1px solid rgba(255,255,255,0.1)', marginBottom: '32px' }}>
+              <div style={{ padding: '20px 28px', borderBottom: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'rgba(200,169,110,0.12)' }}>
+                <p style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.accent, margin: 0 }}>
+                  A Simple Example
+                </p>
+              </div>
+              <div style={{ padding: '32px 28px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: 'rgba(255,255,255,0.06)' }} className="dfy2-revenue-grid">
+                {[
+                  { label: 'Ebook Price', value: '₦5,000' },
+                  { label: 'Copies Sold', value: '100' },
+                  { label: 'Revenue', value: '₦500,000' },
+                ].map((item, i) => (
+                  <div key={i} style={{ backgroundColor: '#0F0F0D', padding: '28px 20px', textAlign: 'center' }}>
+                    <div style={{ fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 900, letterSpacing: '-0.03em', color: i === 2 ? C.accent : '#fff', lineHeight: 1, marginBottom: '8px' }}>{item.value}</div>
+                    <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>{item.label}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ padding: '24px 28px' }}>
+                <p style={{ fontSize: '15px', lineHeight: 1.75, color: 'rgba(255,255,255,0.55)', margin: 0 }}>
+                  100 copies at ₦5,000 each = <strong style={{ color: '#fff' }}>₦500,000 in revenue</strong> — in a single month. That's not a projection we made up. That's the kind of result our system is designed to produce.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* How the ₦100k works */}
+          <Reveal delay={80}>
+            <div style={{ border: '1px solid rgba(255,255,255,0.1)', marginBottom: '48px' }}>
+              <div style={{ padding: '20px 28px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                <p style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.accent, margin: 0 }}>
+                  How Your ₦100,000 Works
+                </p>
+              </div>
+              <div style={{ padding: '32px 28px', display: 'flex', flexDirection: 'column', gap: '0' }}>
+                {[
+                  { n: '01', t: 'We build everything', b: 'Market research, product creation, design, Selar setup, sales copy and ad creatives — all covered.' },
+                  { n: '02', t: 'We launch your ads', b: 'Your ₦100,000 includes the advertising budget for the first 4 days of your campaign. We run the ads and start driving customers to your product.' },
+                  { n: '03', t: 'Revenue starts coming in', b: 'Within those first 4 days, your product begins generating sales. Real money — from real customers.' },
+                  { n: '04', t: 'You reinvest and scale', b: 'After day 4, you take the revenue your business has already generated and reinvest it back into advertising. The business starts funding itself.' },
+                ].map((step, i, arr) => (
+                  <div key={i} style={{
+                    display: 'grid', gridTemplateColumns: '48px 1fr',
+                    gap: '16px', padding: '24px 0',
+                    borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                  }}>
+                    <div style={{ fontSize: '36px', fontWeight: 900, color: 'rgba(255,255,255,0.08)', lineHeight: 1, letterSpacing: '-0.03em' }}>{step.n}</div>
+                    <div>
+                      <p style={{ fontSize: '13px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.accent, marginBottom: '6px' }}>{step.t}</p>
+                      <p style={{ fontSize: '15px', lineHeight: 1.7, color: 'rgba(255,255,255,0.55)', margin: 0 }}>{step.b}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={100}>
+            <div style={{ borderLeft: `4px solid ${C.accent}`, paddingLeft: '24px' }}>
+              <p style={{ fontSize: 'clamp(18px, 3vw, 26px)', fontWeight: 900, letterSpacing: '-0.02em', color: '#fff', lineHeight: 1.3, marginBottom: '8px' }}>
+                One investment. A business that can fund itself.
+              </p>
+              <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, margin: 0 }}>
+                That's the model. You put in ₦100,000. We build the machine. The machine starts generating revenue. The revenue keeps the machine running.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ── MID CTA ─────────────────────────────────── */}
       <section style={{ backgroundColor: C.accent, padding: '64px 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: '560px', margin: '0 auto' }}>
@@ -684,7 +772,7 @@ export default function DFY() {
 
           <Reveal delay={80}>
             <p style={{ fontSize: '14px', lineHeight: 1.7, color: 'rgba(255,255,255,0.45)', marginBottom: '40px' }}>
-              The advertising budget is separate from the service fee.
+              Includes everything — setup, implementation and your first 4 days of advertising. After day 4, you reinvest your revenue.
             </p>
             <a href={WA_URL} target="_blank" rel="noopener noreferrer"
               style={{
@@ -900,6 +988,7 @@ export default function DFY() {
           .dfy2-offer-grid { grid-template-columns: 1fr !important; }
           .dfy2-stat-grid { grid-template-columns: 1fr !important; }
           .dfy2-include-grid { grid-template-columns: 1fr !important; }
+          .dfy2-revenue-grid { grid-template-columns: 1fr !important; }
           .dfy2-sticky { display: block !important; }
         }
       `}</style>
