@@ -1,786 +1,895 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 
-/* ─── tokens ─────────────────────────────────────────── */
-const T = {
-  bg:       '#F9F7F3',
-  ink:      '#1A1A18',
-  inkLight: '#4A4A45',
-  border:   '#DDD9D0',
-  accent:   '#2D5016',   // deep forest green
-  accentLt: '#3D6B1F',
-  cream:    '#F3F0E8',
-  charcoal: '#1C1C1A',
-  gold:     '#A08030',
+/* ─── Design tokens ─────────────────────────────────── */
+const C = {
+  bg:      '#FFFFFF',
+  surface: '#F7F5F0',
+  ink:     '#111111',
+  sub:     '#555550',
+  muted:   '#888882',
+  border:  '#E2DDD5',
+  accent:  '#C8A96E',
+  dark:    '#0F0F0D',
+  btnBg:   '#111111',
+  btnTxt:  '#FFFFFF',
+  sectionAlt: '#F7F5F0',
+  sectionDark: '#0F0F0D',
 }
 
-/* ─── helpers ─────────────────────────────────────────── */
-function useInView(threshold = 0.12) {
+const WA_NUMBER = '2348035062181'
+const WA_MSG    = encodeURIComponent("Hi, I just went through the Digital Product Business offer and I'm interested in getting started.")
+const WA_URL    = `https://wa.me/${WA_NUMBER}?text=${WA_MSG}`
+
+/* ─── Helpers ───────────────────────────────────────── */
+function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null)
   const [vis, setVis] = useState(false)
   useEffect(() => {
     const el = ref.current; if (!el) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect() } }, { threshold })
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setVis(true); obs.disconnect() }
+    }, { threshold })
     obs.observe(el); return () => obs.disconnect()
   }, [threshold])
   return { ref, vis }
 }
 
-function Reveal({ children, delay = 0, y = 22 }: { children: React.ReactNode; delay?: number; y?: number }) {
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const { ref, vis } = useInView()
   return (
-    <div ref={ref} style={{ opacity: vis ? 1 : 0, transform: vis ? 'none' : `translateY(${y}px)`, transition: `opacity 0.75s ease ${delay}ms, transform 0.75s ease ${delay}ms` }}>
+    <div ref={ref} style={{
+      opacity: vis ? 1 : 0,
+      transform: vis ? 'translateY(0)' : 'translateY(28px)',
+      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+    }}>
       {children}
     </div>
   )
 }
 
-function Rule() {
-  return <div style={{ height: '1px', backgroundColor: T.border, margin: '0' }} />
+function Divider() {
+  return <div style={{ height: '1px', backgroundColor: C.border }} />
 }
 
-function CTABtn({ text, to, large }: { text: string; to?: string; large?: boolean }) {
-  const style: React.CSSProperties = {
-    display: 'inline-flex', alignItems: 'center', gap: '10px',
-    backgroundColor: T.accent, color: '#fff',
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: large ? '16px' : '14px',
-    fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase',
-    padding: large ? '20px 48px' : '15px 36px',
-    border: 'none', borderRadius: '2px', cursor: 'pointer',
-    textDecoration: 'none',
-    transition: 'background-color 0.2s, transform 0.15s',
-  }
-  const hover = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    (e.currentTarget as HTMLAnchorElement).style.backgroundColor = T.accentLt
-    ;(e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)'
-  }
-  const leave = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    (e.currentTarget as HTMLAnchorElement).style.backgroundColor = T.accent
-    ;(e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'
-  }
-  if (to) return <Link to={to} style={style} onMouseEnter={hover} onMouseLeave={leave}>{text} <span style={{ fontSize: '18px', lineHeight: 1 }}>→</span></Link>
-  return <a href="#get-started" style={style} onMouseEnter={hover} onMouseLeave={leave}>{text} <span style={{ fontSize: '18px', lineHeight: 1 }}>→</span></a>
+/* Primary WhatsApp CTA */
+function WaBtn({ text, large }: { text: string; large?: boolean }) {
+  return (
+    <a
+      href={WA_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        gap: '10px',
+        backgroundColor: C.btnBg, color: C.btnTxt,
+        fontFamily: 'inherit',
+        fontSize: large ? '15px' : '13px',
+        fontWeight: 800,
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase',
+        padding: large ? '20px 48px' : '16px 36px',
+        textDecoration: 'none',
+        transition: 'opacity 0.15s',
+        cursor: 'pointer',
+        border: 'none',
+        width: '100%',
+        maxWidth: large ? '420px' : '360px',
+        boxSizing: 'border-box' as const,
+      }}
+      onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+      onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+    >
+      {text} <span style={{ fontSize: large ? '20px' : '16px', lineHeight: 1 }}>→</span>
+    </a>
+  )
 }
 
-const STEPS = [
-  { n: '01', title: 'FIND THE OPPORTUNITY', body: 'We research markets and identify digital product opportunities based on what people are already interested in buying.' },
-  { n: '02', title: 'BUILD THE PRODUCT', body: 'We research, structure, write and professionally design the digital product.' },
-  { n: '03', title: 'BUILD THE STORE', body: 'We publish the product on Selar and prepare the entire sales infrastructure.' },
-  { n: '04', title: 'GET CUSTOMERS', body: 'We create the advertising creatives and launch Meta Ads.' },
-  { n: '05', title: 'OPTIMIZE THE SYSTEM', body: 'We monitor the campaign, analyze the numbers and improve the advertising and offer.' },
+/* ─── Section label ─────────────────────────────────── */
+function Label({ text }: { text: string }) {
+  return (
+    <p style={{
+      fontSize: '10px', fontWeight: 800, letterSpacing: '0.22em',
+      textTransform: 'uppercase', color: C.accent, marginBottom: '20px',
+    }}>
+      {text}
+    </p>
+  )
+}
+
+/* ─── FAQ Accordion ─────────────────────────────────── */
+const FAQ_ITEMS = [
+  {
+    q: 'What exactly are you building for me?',
+    a: 'We build the complete digital product business — from market research and opportunity selection, to product creation and design, Selar setup, sales copy, Meta Ads setup and campaign management. You provide the capital. We handle the execution.',
+  },
+  {
+    q: 'Do I need to know how to write ebooks?',
+    a: 'No. We handle all research, writing, structuring and design of the digital product.',
+  },
+  {
+    q: 'Do I need to know Meta Ads?',
+    a: 'No. We create the ad creatives, set up the campaigns and manage the advertising on your behalf.',
+  },
+  {
+    q: 'Who chooses the product idea?',
+    a: 'We use market research to identify the right opportunity. You approve the direction before we proceed.',
+  },
+  {
+    q: 'How long does the setup take?',
+    a: 'The timeline depends on research, product creation and approvals. We structure the process from research through to advertising launch as efficiently as possible.',
+  },
+  {
+    q: 'Where will my product be sold?',
+    a: 'Your product will be published on Selar as the primary storefront.',
+  },
+  {
+    q: 'Is the ₦100,000 the advertising budget?',
+    a: 'No. The ₦100,000 is the setup and implementation fee. Your advertising budget is separate and used directly to acquire customers.',
+  },
+  {
+    q: 'How do I get started?',
+    a: 'Click any of the buttons on this page to open WhatsApp. Send us a message and we will walk you through the next steps.',
+  },
 ]
 
-const INCLUDED = [
-  { label: 'MARKET RESEARCH', body: 'Identify a digital product opportunity with real demand.' },
-  { label: 'PRODUCT STRATEGY', body: 'Determine what the product should teach and how it should be positioned.' },
-  { label: 'EBOOK CREATION', body: 'Research, write and structure the product.' },
-  { label: 'PROFESSIONAL DESIGN', body: 'Create the cover and interior design.' },
-  { label: 'SELAR SETUP', body: 'Publish and configure the product for sale.' },
-  { label: 'SALES COPY', body: 'Create the messaging that communicates the value of the product.' },
-  { label: 'AD CREATIVE', body: 'Create advertising assets designed for Meta.' },
-  { label: 'META ADS', body: 'Launch and manage the advertising campaign.' },
-  { label: 'OPTIMIZATION', body: 'Monitor performance and improve the system.' },
-]
-
-const TIMELINE = [
-  { n: '01', step: 'GET STARTED', body: 'Pay the ₦100,000 setup fee and complete onboarding.' },
-  { n: '02', step: 'RESEARCH', body: 'We research your market and identify the product opportunity.' },
-  { n: '03', step: 'CREATE', body: 'We research, write and design the digital product.' },
-  { n: '04', step: 'PUBLISH', body: 'We set up the Selar product and sales infrastructure.' },
-  { n: '05', step: 'LAUNCH', body: 'We create the advertising assets and launch Meta Ads.' },
-  { n: '06', step: 'OPTIMIZE', body: 'We monitor the campaign and improve performance.' },
-]
-
-const FAQS = [
-  { q: 'IS THE ₦100,000 MY ADVERTISING BUDGET?', a: 'No. The ₦100,000 is the setup and implementation fee. Advertising is funded separately.' },
-  { q: 'DO I NEED TO KNOW HOW TO WRITE EBOOKS?', a: 'No. We handle the research, writing and product creation.' },
-  { q: 'DO I CHOOSE THE TOPIC?', a: 'We use market research to identify the opportunity rather than simply choosing a topic based on personal preference.' },
-  { q: 'HOW MUCH SHOULD I BUDGET FOR ADS?', a: 'We recommend starting with approximately ₦50,000–₦100,000+ depending on the product and campaign strategy.' },
-  { q: 'WHERE WILL MY PRODUCT BE SOLD?', a: 'We use Selar as the initial digital product storefront.' },
-  { q: 'DO I NEED TO RUN THE ADS MYSELF?', a: 'No. We handle the initial Meta Ads setup and management included within the agreed scope.' },
-  { q: 'HOW LONG DOES IT TAKE?', a: 'The exact timeline depends on the research, product and approvals, but the process covers research, product creation, publishing and advertising launch.' },
-  { q: "WHAT IF I DON'T KNOW WHAT EBOOK TO SELL?", a: "That's part of what you're paying us to solve. We research the market and identify the opportunity." },
-]
-
-function FAQItem({ q, a }: { q: string; a: string }) {
+function AccordionItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
   return (
-    <div style={{ borderBottom: `1px solid ${T.border}`, cursor: 'pointer' }} onClick={() => setOpen(o => !o)}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '22px 0', gap: '16px' }}>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', fontWeight: 700, letterSpacing: '0.06em', margin: 0, color: T.ink }}>{q}</p>
-        <span style={{ color: T.accent, fontSize: '22px', fontWeight: 300, flexShrink: 0, transition: 'transform 0.2s', transform: open ? 'rotate(45deg)' : 'none' }}>+</span>
-      </div>
-      {open && <p style={{ fontSize: '16px', lineHeight: 1.8, color: T.inkLight, paddingBottom: '22px', margin: 0 }}>{a}</p>}
+    <div style={{ borderBottom: `1px solid ${C.border}` }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          width: '100%', background: 'none', border: 'none',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          padding: '22px 0', gap: '16px', cursor: 'pointer', textAlign: 'left',
+        }}
+      >
+        <span style={{ fontSize: '15px', fontWeight: 700, color: C.dark, lineHeight: 1.4 }}>{q}</span>
+        <span style={{
+          fontSize: '22px', fontWeight: 300, color: C.accent, flexShrink: 0,
+          transform: open ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s',
+          lineHeight: 1,
+        }}>+</span>
+      </button>
+      {open && (
+        <p style={{ fontSize: '15px', lineHeight: 1.8, color: C.sub, paddingBottom: '22px', margin: 0 }}>
+          {a}
+        </p>
+      )}
     </div>
   )
 }
 
-/* ─── HERO VISUAL ─────────────────────────────────────── */
-function SystemVisual() {
-  const nodes = ['MARKET', 'PRODUCT', 'SELAR', 'ADVERTISING', 'SALES']
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0', userSelect: 'none' }}>
-      {nodes.map((node, i) => (
-        <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          <div style={{
-            border: `1px solid ${i === nodes.length - 1 ? T.accent : T.border}`,
-            backgroundColor: i === nodes.length - 1 ? T.accent : 'transparent',
-            padding: '12px 28px',
-            minWidth: '200px',
-          }}>
-            <span style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: '11px', fontWeight: 700,
-              letterSpacing: '0.2em',
-              color: i === nodes.length - 1 ? '#fff' : T.inkLight,
-            }}>{node}</span>
-          </div>
-          {i < nodes.length - 1 && (
-            <div style={{ paddingLeft: '28px', paddingTop: '6px', paddingBottom: '6px' }}>
-              <div style={{ width: '1px', height: '28px', backgroundColor: T.border }} />
-              <div style={{ width: '6px', height: '6px', backgroundColor: T.accent, borderRadius: '50%', marginLeft: '-2.5px', marginTop: '-3px' }} />
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  )
-}
-
-/* ─── PAGE ─────────────────────────────────────────────── */
+/* ─── PAGE ───────────────────────────────────────────── */
 export default function DFY() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [stickyShow, setStickyShow] = useState(false)
+  const [sticky, setSticky] = useState(false)
 
   useEffect(() => {
-    const fn = () => setStickyShow(window.scrollY > 700)
+    const fn = () => setSticky(window.scrollY > 600)
     window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  const navLinks = [
-    { label: 'How It Works', href: '#how-it-works' },
-    { label: "What's Included", href: '#included' },
-    { label: 'Proof', href: '#proof' },
-    { label: 'FAQ', href: '#faq' },
-  ]
-
   return (
-    <div style={{ backgroundColor: T.bg, color: T.ink, minHeight: '100vh', fontFamily: "'DM Sans', sans-serif" }}>
+    <div style={{ backgroundColor: C.bg, color: C.ink, fontFamily: "'Inter', 'DM Sans', system-ui, sans-serif", lineHeight: 1.6 }}>
 
-      {/* ── NAV ───────────────────────────────────────── */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 100, backgroundColor: T.bg, borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '17px', fontWeight: 700, letterSpacing: '-0.01em', color: T.ink }}>
-            QuickLearn<span style={{ color: T.accent }}>+</span>
-          </span>
-          <div className="dfy-nav-links" style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-            {navLinks.map(l => (
-              <a key={l.label} href={l.href} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 500, color: T.inkLight, textDecoration: 'none', letterSpacing: '0.02em', transition: 'color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget.style.color = T.ink)}
-                onMouseLeave={e => (e.currentTarget.style.color = T.inkLight)}
-              >{l.label}</a>
-            ))}
-            <Link to="/dfy/checkout" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: T.accent, textDecoration: 'none', border: `1px solid ${T.accent}`, padding: '8px 20px', borderRadius: '2px', transition: 'all 0.2s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = T.accent; (e.currentTarget as HTMLAnchorElement).style.color = '#fff' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLAnchorElement).style.color = T.accent }}
-            >Get Started →</Link>
-          </div>
-          <button className="dfy-hamburger" onClick={() => setMenuOpen(o => !o)} style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: '8px', color: T.ink, fontSize: '20px' }}>☰</button>
-        </div>
-        {menuOpen && (
-          <div style={{ borderTop: `1px solid ${T.border}`, padding: '20px 2rem', display: 'flex', flexDirection: 'column', gap: '16px', backgroundColor: T.bg }}>
-            {navLinks.map(l => <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} style={{ fontSize: '15px', color: T.ink, textDecoration: 'none', fontWeight: 500 }}>{l.label}</a>)}
-            <Link to="/dfy/checkout" style={{ fontSize: '15px', color: T.accent, fontWeight: 700, textDecoration: 'none' }}>Get Started →</Link>
-          </div>
-        )}
+      {/* ── NAV ─────────────────────────────────────── */}
+      <nav style={{
+        position: 'sticky', top: 0, zIndex: 100,
+        backgroundColor: C.bg, borderBottom: `1px solid ${C.border}`,
+        height: '60px', display: 'flex', alignItems: 'center',
+        padding: '0 24px', justifyContent: 'space-between',
+      }}>
+        <span style={{ fontSize: '15px', fontWeight: 900, letterSpacing: '-0.03em', color: C.dark }}>
+          THE DIGITAL<span style={{ color: C.accent }}>.</span>
+        </span>
+        <a href={WA_URL} target="_blank" rel="noopener noreferrer"
+          style={{
+            fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em',
+            textTransform: 'uppercase', color: C.bg, textDecoration: 'none',
+            backgroundColor: C.btnBg, padding: '10px 20px',
+            transition: 'opacity 0.15s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')}
+          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+        >
+          I Want This →
+        </a>
       </nav>
 
-      {/* ── HERO ──────────────────────────────────────── */}
-      <section style={{ paddingTop: '100px', paddingBottom: '100px', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', display: 'grid', gridTemplateColumns: '1fr 340px', gap: '80px', alignItems: 'center' }} className="dfy-hero-grid">
-          <div>
-            <Reveal delay={0}>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: T.accent, marginBottom: '28px' }}>
-                Done-For-You Digital Product Business
-              </p>
-            </Reveal>
-            <Reveal delay={80}>
-              <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(42px, 6vw, 76px)', fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.02em', color: T.ink, marginBottom: '32px' }}>
-                You have the<br />capital.<br /><span style={{ color: T.accent }}>We build the</span><br />business.
-              </h1>
-            </Reveal>
-            <Reveal delay={160}>
-              <p style={{ fontSize: '18px', lineHeight: 1.8, color: T.inkLight, maxWidth: '520px', marginBottom: '48px', fontWeight: 400 }}>
-                We research the opportunity, create the digital product, publish it on Selar, launch the advertising and manage the system — so you don't have to spend months figuring it all out yourself.
-              </p>
-            </Reveal>
-            <Reveal delay={220}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'flex-start' }}>
-                <CTABtn text="Build My Digital Product Business" to="/dfy/checkout" large />
-                <p style={{ fontSize: '13px', color: T.inkLight, margin: 0 }}>₦100,000 setup fee + advertising budget</p>
-                <p style={{ fontSize: '13px', color: T.inkLight, margin: 0 }}>Built from a system we've already used to help <strong style={{ color: T.ink }}>53+ people</strong> sell digital products.</p>
-              </div>
-            </Reveal>
+      {/* ── HERO ─────────────────────────────────────── */}
+      <section style={{ backgroundColor: C.dark, padding: '100px 24px 80px' }}>
+        <div style={{ maxWidth: '760px', margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.accent, marginBottom: '28px' }}>
+            The Digital Product Business
+          </p>
+          <h1 style={{
+            fontSize: 'clamp(40px, 9vw, 80px)', fontWeight: 900,
+            lineHeight: 1.0, letterSpacing: '-0.03em',
+            color: '#FFFFFF', marginBottom: '24px',
+          }}>
+            YOU HAVE THE CAPITAL.
+            <br />
+            <span style={{ color: C.accent }}>WE BUILD THE BUSINESS.</span>
+          </h1>
+          <p style={{ fontSize: 'clamp(16px, 2.5vw, 20px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.65)', maxWidth: '580px', margin: '0 auto 20px' }}>
+            You don't need to spend months learning how to find an idea, write an ebook, design it, set up a store or figure out Meta Ads.
+          </p>
+          <p style={{ fontSize: 'clamp(16px, 2.5vw, 18px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.65)', maxWidth: '540px', margin: '0 auto 48px' }}>
+            We handle the heavy lifting and build the digital product business around you.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
+            <a href={WA_URL} target="_blank" rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                backgroundColor: C.accent, color: C.dark,
+                fontFamily: 'inherit', fontSize: '14px', fontWeight: 900,
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                padding: '20px 48px', textDecoration: 'none', width: '100%', maxWidth: '420px',
+                boxSizing: 'border-box', transition: 'opacity 0.15s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            >
+              I Want This Business →
+            </a>
+            <a href={WA_URL} target="_blank" rel="noopener noreferrer"
+              style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', textDecoration: 'underline' }}
+            >
+              Speak with us on WhatsApp
+            </a>
           </div>
-          <Reveal delay={300}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <SystemVisual />
-            </div>
-          </Reveal>
         </div>
       </section>
 
-      {/* ── PROOF BAR ─────────────────────────────────── */}
-      <section style={{ backgroundColor: T.charcoal, padding: '48px 0' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: 'rgba(255,255,255,0.08)' }} className="dfy-proof-grid">
+      {/* ── PROOF BAR ───────────────────────────────── */}
+      <section style={{ backgroundColor: C.accent, padding: '0' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }} className="dfy2-proof-bar">
           {[
             { n: '53+', l: 'People Helped' },
-            { n: '100+', l: 'Ebook Copies Sold Within First Month' },
-            { n: '1', l: 'Proven System' },
+            { n: '100+', l: 'Copies Sold Per Client Within First Month' },
           ].map((s, i) => (
-            <div key={i} style={{ backgroundColor: T.charcoal, padding: '40px 32px', textAlign: 'center' }}>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(42px, 5vw, 60px)', fontWeight: 700, color: '#fff', lineHeight: 1, marginBottom: '10px' }}>{s.n}</div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>{s.l}</div>
+            <div key={i} style={{
+              padding: '36px 32px', textAlign: 'center',
+              borderRight: i === 0 ? `1px solid rgba(0,0,0,0.12)` : 'none',
+            }}>
+              <div style={{ fontSize: 'clamp(36px, 6vw, 56px)', fontWeight: 900, letterSpacing: '-0.03em', color: C.dark, lineHeight: 1 }}>{s.n}</div>
+              <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.55)', marginTop: '8px' }}>{s.l}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── PROBLEM ───────────────────────────────────── */}
-      <section style={{ padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 2rem' }}>
+      {/* ── PROBLEM ─────────────────────────────────── */}
+      <section style={{ padding: '100px 24px', backgroundColor: C.bg }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
           <Reveal>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(32px, 5vw, 58px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '24px' }}>
-              You don't need another business idea.
+            <h2 style={{
+              fontSize: 'clamp(28px, 6vw, 52px)', fontWeight: 900,
+              lineHeight: 1.1, letterSpacing: '-0.03em', color: C.dark, marginBottom: '12px',
+            }}>
+              YOU DON'T NEED ANOTHER BUSINESS IDEA.
             </h2>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(20px, 3vw, 32px)', fontWeight: 600, lineHeight: 1.3, color: T.inkLight, marginBottom: '56px' }}>
-              You need someone to build the business.
+            <h3 style={{
+              fontSize: 'clamp(20px, 4vw, 36px)', fontWeight: 900,
+              lineHeight: 1.15, letterSpacing: '-0.02em', color: C.sub, marginBottom: '48px',
+            }}>
+              YOU NEED SOMEONE TO BUILD THE BUSINESS.
             </h3>
           </Reveal>
           <Reveal delay={80}>
-            <div style={{ fontSize: '18px', lineHeight: 1.85, color: T.inkLight, display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '56px' }}>
-              <p>You may already have money available.</p>
-              <p>You may want another income stream.</p>
-              <p>But building an online business requires much more than having capital.</p>
+            <div style={{ fontSize: '17px', lineHeight: 1.85, color: C.sub, display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '48px' }}>
+              <p>There are people with money who want another source of income but don't have the time or expertise to spend months learning online business.</p>
+              <p>They don't want another course.</p>
+              <p>They don't want another tutorial.</p>
+              <p>They want someone who understands the process and can execute it.</p>
             </div>
           </Reveal>
           <Reveal delay={120}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 40px', marginBottom: '56px' }} className="dfy-problem-grid">
-              {['Find something people want.', 'Research the market.', 'Create the product.', 'Write the sales copy.', 'Design the product.', 'Set up the store.', 'Create advertisements.', 'Learn Meta Ads.', 'Track the numbers.', 'Optimize the campaigns.'].map((t, i) => (
-                <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', padding: '10px 0', borderBottom: `1px solid ${T.border}` }}>
-                  <span style={{ color: '#C44', fontSize: '13px', flexShrink: 0, paddingTop: '4px' }}>✗</span>
-                  <span style={{ fontSize: '16px', lineHeight: 1.6 }}>{t}</span>
+            <div style={{ borderLeft: `4px solid ${C.accent}`, paddingLeft: '24px' }}>
+              <p style={{ fontSize: 'clamp(20px, 4vw, 32px)', fontWeight: 900, letterSpacing: '-0.02em', color: C.dark }}>
+                THAT'S WHAT WE DO.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <Divider />
+
+      {/* ── THE OFFER ───────────────────────────────── */}
+      <section style={{ padding: '100px 24px', backgroundColor: C.sectionAlt }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="The Offer" />
+            <h2 style={{
+              fontSize: 'clamp(28px, 6vw, 52px)', fontWeight: 900,
+              lineHeight: 1.05, letterSpacing: '-0.03em', color: C.dark, marginBottom: '12px',
+            }}>
+              WE BUILD THE DIGITAL PRODUCT BUSINESS.
+            </h2>
+            <h2 style={{
+              fontSize: 'clamp(28px, 6vw, 52px)', fontWeight: 900,
+              lineHeight: 1.05, letterSpacing: '-0.03em', color: C.accent, marginBottom: '48px',
+            }}>
+              YOU PROVIDE THE CAPITAL.
+            </h2>
+          </Reveal>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', backgroundColor: C.border, marginBottom: '56px' }} className="dfy2-offer-grid">
+            {/* We handle */}
+            <Reveal delay={60}>
+              <div style={{ backgroundColor: C.bg, padding: '36px 28px' }}>
+                <p style={{ fontSize: '10px', fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.sub, marginBottom: '20px' }}>We Handle</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {[
+                    'Market research',
+                    'Opportunity selection',
+                    'Product strategy',
+                    'Ebook creation',
+                    'Ebook design',
+                    'Cover design',
+                    'Sales copy',
+                    'Selar setup',
+                    'Marketing assets',
+                    'Meta Ads setup',
+                    'Campaign management',
+                    'Optimization',
+                  ].map((t, i) => (
+                    <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                      <span style={{ color: C.accent, fontWeight: 900, flexShrink: 0, fontSize: '14px', lineHeight: '1.5' }}>✓</span>
+                      <span style={{ fontSize: '14px', color: C.sub, lineHeight: 1.5 }}>{t}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Client provides */}
+            <Reveal delay={120}>
+              <div style={{ backgroundColor: C.dark, padding: '36px 28px', display: 'flex', flexDirection: 'column', gap: '28px' }}>
+                <p style={{ fontSize: '10px', fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '0' }}>You Provide</p>
+                {['THE CAPITAL', 'APPROVAL ON THE DIRECTION', 'THE ADVERTISING BUDGET'].map((t, i) => (
+                  <div key={i} style={{ borderBottom: i < 2 ? `1px solid rgba(255,255,255,0.08)` : 'none', paddingBottom: i < 2 ? '28px' : '0' }}>
+                    <p style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 900, letterSpacing: '-0.01em', color: '#fff', margin: 0 }}>{t}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal delay={80}>
+            <WaBtn text="I Want This Business" large />
+          </Reveal>
+        </div>
+      </section>
+
+      <Divider />
+
+      {/* ── 5-STEP SYSTEM ───────────────────────────── */}
+      <section style={{ padding: '100px 24px', backgroundColor: C.bg }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="The System" />
+            <h2 style={{
+              fontSize: 'clamp(28px, 6vw, 50px)', fontWeight: 900,
+              lineHeight: 1.05, letterSpacing: '-0.03em', color: C.dark, marginBottom: '72px',
+            }}>
+              FROM IDEA TO BUSINESS
+            </h2>
+          </Reveal>
+
+          {[
+            { n: '01', t: 'FIND THE OPPORTUNITY', b: 'We research markets, problems, audiences and existing demand to identify a digital product opportunity worth pursuing.' },
+            { n: '02', t: 'BUILD THE PRODUCT', b: 'We research, write, structure and design the digital product.' },
+            { n: '03', t: 'BUILD THE SELLING SYSTEM', b: 'We publish the product on Selar and create the sales assets needed to turn attention into customers.' },
+            { n: '04', t: 'GET CUSTOMERS', b: 'We create and launch Meta advertising campaigns designed to put the offer in front of the right audience.' },
+            { n: '05', t: 'OPTIMIZE THE SYSTEM', b: 'We monitor performance, identify what is working and improve the system over time.' },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 60}>
+              <div style={{
+                display: 'grid', gridTemplateColumns: '64px 1fr',
+                gap: '24px', padding: '40px 0',
+                borderBottom: `1px solid ${C.border}`, alignItems: 'flex-start',
+              }}>
+                <div style={{
+                  fontSize: 'clamp(40px, 6vw, 60px)', fontWeight: 900,
+                  color: 'rgba(0,0,0,0.06)', lineHeight: 1, letterSpacing: '-0.03em',
+                }}>
+                  {s.n}
+                </div>
+                <div>
+                  <p style={{ fontSize: '12px', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.accent, marginBottom: '10px' }}>{s.t}</p>
+                  <p style={{ fontSize: '16px', lineHeight: 1.75, color: C.sub, margin: 0 }}>{s.b}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── YOU DON'T HAVE TO ───────────────────────── */}
+      <section style={{ backgroundColor: C.sectionAlt, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+          <Reveal>
+            <h2 style={{
+              fontSize: 'clamp(28px, 6vw, 50px)', fontWeight: 900,
+              lineHeight: 1.1, letterSpacing: '-0.03em', color: C.dark, marginBottom: '48px',
+            }}>
+              YOU DON'T HAVE TO BECOME AN EXPERT FIRST.
+            </h2>
+          </Reveal>
+          <Reveal delay={60}>
+            <p style={{ fontSize: '17px', lineHeight: 1.8, color: C.sub, marginBottom: '32px' }}>
+              You don't have to:
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '56px' }}>
+              {[
+                'Spend months researching markets.',
+                'Learn how to write an ebook.',
+                'Learn graphic design.',
+                'Figure out Selar yourself.',
+                'Learn Meta Ads from scratch.',
+                'Build landing pages yourself.',
+                'Spend months trying different ideas.',
+              ].map((t, i) => (
+                <div key={i} style={{
+                  display: 'flex', gap: '16px', alignItems: 'flex-start',
+                  padding: '18px 0', borderBottom: `1px solid ${C.border}`,
+                }}>
+                  <span style={{ color: '#CC4444', fontWeight: 900, fontSize: '14px', flexShrink: 0, paddingTop: '2px' }}>✗</span>
+                  <span style={{ fontSize: '16px', color: C.sub, lineHeight: 1.6 }}>{t}</span>
                 </div>
               ))}
             </div>
           </Reveal>
-          <Reveal delay={160}>
-            <p style={{ fontSize: '17px', lineHeight: 1.8, color: T.inkLight, marginBottom: '40px' }}>And if you're busy, it becomes another thing you never get around to doing.</p>
-            <div style={{ borderLeft: `4px solid ${T.accent}`, paddingLeft: '28px' }}>
-              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px, 3.5vw, 38px)', fontWeight: 700, color: T.ink, lineHeight: 1.2 }}>
-                That's exactly why we built this.
-              </h3>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── OFFER INTRO ───────────────────────────────── */}
-      <section style={{ backgroundColor: T.cream, padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 2rem' }}>
-          <Reveal>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.accent, marginBottom: '28px' }}>The Done-For-You Model</p>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '48px' }}>
-              We build the digital product business.<br />You provide the capital.
-            </h2>
-          </Reveal>
-          <Reveal delay={80}>
-            <div style={{ fontSize: '18px', lineHeight: 1.9, color: T.inkLight, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <p>You don't need to become an ebook writer.</p>
-              <p>You don't need to become a designer.</p>
-              <p>You don't need to become a Meta Ads expert.</p>
-              <p>You don't need to spend months learning digital marketing.</p>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontWeight: 600, fontSize: '22px', color: T.ink, lineHeight: 1.4, margin: '16px 0' }}>We handle the execution. You provide the capital. We build the system.</p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── 5-STEP SYSTEM ─────────────────────────────── */}
-      <section id="how-it-works" style={{ padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
-          <Reveal>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.accent, marginBottom: '16px' }}>The System</p>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(30px, 4vw, 50px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '80px', maxWidth: '600px' }}>
-              Five steps. Market to sales.
-            </h2>
-          </Reveal>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-            {STEPS.map((s, i) => (
-              <Reveal key={i} delay={i * 60}>
-                <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '32px', padding: '52px 0', borderBottom: `1px solid ${T.border}`, alignItems: 'flex-start' }}>
-                  <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(48px, 6vw, 72px)', fontWeight: 700, color: 'rgba(0,0,0,0.06)', lineHeight: 1 }}>{s.n}</div>
-                  <div>
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: T.accent, marginBottom: '12px' }}>{s.title}</p>
-                    <p style={{ fontSize: '18px', lineHeight: 1.75, color: T.inkLight, margin: 0, maxWidth: '560px' }}>{s.body}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
           <Reveal delay={100}>
-            <div style={{ paddingTop: '72px', borderTop: 'none' }}>
-              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 4vw, 46px)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.01em', marginBottom: '8px' }}>From market research to sales.</h3>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(18px, 2.5vw, 26px)', fontWeight: 600, color: T.inkLight }}>We handle the heavy lifting.</p>
+            <div style={{ backgroundColor: C.dark, padding: '40px 32px' }}>
+              <p style={{ fontSize: 'clamp(18px, 4vw, 28px)', fontWeight: 900, letterSpacing: '-0.02em', color: '#fff', lineHeight: 1.2, margin: 0 }}>
+                YOU PROVIDE THE CAPITAL.<br />
+                <span style={{ color: C.accent }}>WE HANDLE THE EXECUTION.</span>
+              </p>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ── WHAT'S INCLUDED ───────────────────────────── */}
-      <section id="included" style={{ backgroundColor: T.cream, padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
-          <Reveal>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.accent, marginBottom: '16px' }}>What's Included</p>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(30px, 4vw, 50px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '72px' }}>Everything you need to launch.</h2>
-          </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: T.border }} className="dfy-included-grid">
-            {INCLUDED.map((item, i) => (
-              <Reveal key={i} delay={i * 40}>
-                <div style={{ backgroundColor: T.bg, padding: '36px 28px' }}>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: T.accent, marginBottom: '12px' }}>{item.label}</p>
-                  <p style={{ fontSize: '15px', lineHeight: 1.7, color: T.inkLight, margin: 0 }}>{item.body}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Divider />
 
-      {/* ── YOU DON'T HAVE TO ─────────────────────────── */}
-      <section style={{ padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }} className="dfy-split-grid">
+      {/* ── PROOF ───────────────────────────────────── */}
+      <section style={{ padding: '100px 24px', backgroundColor: C.bg }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
           <Reveal>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(32px, 5vw, 60px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', color: T.inkLight }}>
-              You don't have to...
+            <Label text="Track Record" />
+            <h2 style={{
+              fontSize: 'clamp(26px, 5vw, 46px)', fontWeight: 900,
+              lineHeight: 1.1, letterSpacing: '-0.03em', color: C.dark, marginBottom: '48px',
+            }}>
+              WE'RE NOT BUILDING THIS FROM THEORY.
             </h2>
           </Reveal>
-          <Reveal delay={80}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {['Research the market', 'Figure out what to sell', 'Write the ebook', 'Design the ebook', 'Set up Selar', 'Write sales copy', 'Create ads', 'Learn Meta Ads', 'Manage campaigns'].map((t, i) => (
-                <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'center', paddingBottom: '16px', borderBottom: `1px solid ${T.border}` }}>
-                  <div style={{ width: '22px', height: '22px', backgroundColor: T.accent, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <span style={{ color: '#fff', fontSize: '11px', fontWeight: 700 }}>✓</span>
-                  </div>
-                  <span style={{ fontSize: '17px', color: T.ink }}>{t}</span>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 2rem 0' }}>
-          <Rule />
-          <Reveal>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 4vw, 50px)', fontWeight: 700, letterSpacing: '-0.02em', paddingTop: '48px', color: T.ink }}>
-              We do it for you.
-            </h3>
-          </Reveal>
-        </div>
-      </section>
 
-      {/* ── CLIENT ROLE ───────────────────────────────── */}
-      <section style={{ backgroundColor: T.cream, padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 2rem' }}>
-          <Reveal>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(30px, 4vw, 50px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '72px' }}>Your part is simple.</h2>
-          </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: T.border, marginBottom: '64px' }} className="dfy-role-grid">
-            {[
-              { n: '01', t: 'Provide the Capital' },
-              { n: '02', t: 'Approve the Direction' },
-              { n: '03', t: 'Fund the Advertising' },
-            ].map((r, i) => (
-              <Reveal key={i} delay={i * 60}>
-                <div style={{ backgroundColor: T.bg, padding: '48px 32px' }}>
-                  <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '56px', fontWeight: 700, color: 'rgba(0,0,0,0.05)', lineHeight: 1, marginBottom: '16px' }}>{r.n}</div>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: T.ink, margin: 0 }}>{r.t}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px, 3.5vw, 40px)', fontWeight: 700, color: T.accent }}>We handle the rest.</h3>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── PROOF ─────────────────────────────────────── */}
-      <section id="proof" style={{ padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 2rem' }}>
-          <Reveal>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.accent, marginBottom: '24px' }}>Track Record</p>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(30px, 4.5vw, 54px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '24px' }}>We've done this before.</h2>
-            <p style={{ fontSize: '18px', lineHeight: 1.8, color: T.inkLight, marginBottom: '64px' }}>You're not paying us to figure out whether digital products can sell. We've already built and tested this model repeatedly.</p>
-          </Reveal>
-          <Reveal delay={80}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', backgroundColor: T.border, marginBottom: '64px' }} className="dfy-stat-grid">
+          {/* Big numbers */}
+          <Reveal delay={60}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', backgroundColor: C.border, marginBottom: '56px' }} className="dfy2-stat-grid">
               {[
                 { n: '53+', l: 'People Helped' },
-                { n: '100+', l: 'Copies Sold Within First Month' },
+                { n: '100+', l: 'Copies Sold By Each Client Within Their First Month' },
               ].map((s, i) => (
-                <div key={i} style={{ backgroundColor: T.bg, padding: '48px 36px' }}>
-                  <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(48px, 7vw, 80px)', fontWeight: 700, color: T.ink, lineHeight: 1, marginBottom: '12px' }}>{s.n}</div>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: T.inkLight, margin: 0 }}>{s.l}</p>
+                <div key={i} style={{ backgroundColor: C.bg, padding: '40px 28px' }}>
+                  <div style={{ fontSize: 'clamp(48px, 8vw, 80px)', fontWeight: 900, letterSpacing: '-0.04em', color: C.dark, lineHeight: 1, marginBottom: '10px' }}>{s.n}</div>
+                  <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.muted, margin: 0 }}>{s.l}</p>
                 </div>
               ))}
             </div>
           </Reveal>
+
+          <Reveal delay={80}>
+            <p style={{ fontSize: '17px', lineHeight: 1.85, color: C.sub, marginBottom: '40px' }}>
+              We've already helped more than 53 people build and sell digital products, with each client selling 100+ copies of their ebook within their first month across our previous campaigns.
+            </p>
+          </Reveal>
+
+          <Reveal delay={100}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '48px' }}>
+              {[
+                "We've researched the markets.",
+                "We've created the products.",
+                "We've built the offers.",
+                "We've run the ads.",
+                "We've learned what it takes to turn a digital product into something people actually buy.",
+              ].map((t, i) => (
+                <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', padding: '14px 0', borderBottom: `1px solid ${C.border}` }}>
+                  <span style={{ color: C.accent, fontWeight: 900, flexShrink: 0 }}>—</span>
+                  <span style={{ fontSize: '16px', color: C.sub, lineHeight: 1.65 }}>{t}</span>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
           <Reveal delay={120}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '17px', lineHeight: 1.8, color: T.inkLight, marginBottom: '48px' }}>
-              {["We've researched the markets.", "We've created the products.", "We've built the offers.", "We've run the ads.", "We've studied what converts."].map((t, i) => (
-                <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                  <span style={{ color: T.accent, fontWeight: 700, flexShrink: 0, paddingTop: '3px' }}>—</span>
-                  <span>{t}</span>
-                </div>
-              ))}
+            <div style={{ borderLeft: `4px solid ${C.accent}`, paddingLeft: '24px' }}>
+              <p style={{ fontSize: 'clamp(18px, 4vw, 28px)', fontWeight: 900, letterSpacing: '-0.02em', color: C.dark, margin: 0 }}>
+                NOW WE'RE PACKAGING THAT SYSTEM FOR YOU.
+              </p>
             </div>
-          </Reveal>
-          <Reveal delay={160}>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 700, color: T.ink }}>Now we're building the system for you.</h3>
           </Reveal>
         </div>
       </section>
 
-      {/* ── GUARANTEE ─────────────────────────────────── */}
-      <section style={{ backgroundColor: T.cream, padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 2rem' }}>
+      {/* ── MID CTA ─────────────────────────────────── */}
+      <section style={{ backgroundColor: C.accent, padding: '64px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '560px', margin: '0 auto' }}>
           <Reveal>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 4vw, 50px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '20px' }}>
-              But what if the product doesn't sell?
+            <p style={{ fontSize: 'clamp(20px, 4vw, 30px)', fontWeight: 900, letterSpacing: '-0.02em', color: C.dark, marginBottom: '28px' }}>
+              YOU PROVIDE THE CAPITAL.<br />WE BUILD THE BUSINESS.
+            </p>
+            <a href={WA_URL} target="_blank" rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                backgroundColor: C.dark, color: '#fff',
+                fontFamily: 'inherit', fontSize: '14px', fontWeight: 900,
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                padding: '20px 48px', textDecoration: 'none',
+                width: '100%', maxWidth: '380px', boxSizing: 'border-box',
+                transition: 'opacity 0.15s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            >
+              I Want This Business →
+            </a>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── NOT AN EBOOK ────────────────────────────── */}
+      <section style={{ backgroundColor: C.bg, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+          <Reveal>
+            <h2 style={{
+              fontSize: 'clamp(28px, 6vw, 52px)', fontWeight: 900,
+              lineHeight: 1.05, letterSpacing: '-0.03em', color: C.sub, marginBottom: '8px',
+            }}>
+              THIS IS NOT AN EBOOK.
             </h2>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(18px, 2.5vw, 28px)', fontWeight: 600, color: T.inkLight, marginBottom: '48px' }}>
-              That's exactly why you're not building it yourself.
-            </h3>
+            <h2 style={{
+              fontSize: 'clamp(28px, 6vw, 52px)', fontWeight: 900,
+              lineHeight: 1.05, letterSpacing: '-0.03em', color: C.dark, marginBottom: '40px',
+            }}>
+              IT'S A DIGITAL PRODUCT BUSINESS.
+            </h2>
+          </Reveal>
+          <Reveal delay={60}>
+            <div style={{ fontSize: '17px', lineHeight: 1.85, color: C.sub, display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '40px' }}>
+              <p>You're not paying us simply to write a PDF.</p>
+              <p>The goal is to build the complete system around a researched product opportunity:</p>
+            </div>
           </Reveal>
           <Reveal delay={80}>
-            <div style={{ fontSize: '17px', lineHeight: 1.85, color: T.inkLight, display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '64px' }}>
-              <p>We've already helped <strong style={{ color: T.ink }}>53+ people</strong> build and sell digital products, with <strong style={{ color: T.ink }}>100+ ebook copies sold within their first month</strong> across our previous campaigns.</p>
-              <p>So we're not coming into this trying to figure out what might work.</p>
-              <p>We've done this before. Repeatedly.</p>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontWeight: 600, fontSize: '20px', color: T.ink }}>Now we're packaging that system for you.</p>
-              <p>You are not paying us simply to write an ebook. You are paying us to build the business around it.</p>
-            </div>
-          </Reveal>
-          <Reveal delay={120}>
-            <div style={{ border: `2px solid ${T.accent}`, padding: '48px', backgroundColor: T.bg }}>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.accent, marginBottom: '20px' }}>Our Guarantee</p>
-              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 700, lineHeight: 1.2, marginBottom: '20px' }}>If we don't deliver what we promised within the agreed scope, we make it right.</h3>
-              <p style={{ fontSize: '15px', color: T.inkLight, lineHeight: 1.8, margin: 0 }}>Exact guarantee terms are agreed upon at onboarding.</p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── THIS IS A BUSINESS ────────────────────────── */}
-      <section style={{ padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 2rem' }}>
-          <Reveal>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.inkLight, marginBottom: '24px' }}>What You're Actually Buying</p>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 4vw, 50px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '20px', color: T.inkLight }}>This is not an ebook.</h2>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(32px, 5vw, 60px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '48px', color: T.ink }}>It's a digital product business.</h2>
-          </Reveal>
-          <Reveal delay={80}>
-            <div style={{ fontSize: '18px', lineHeight: 1.85, color: T.inkLight, display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '48px' }}>
-              <p>The ebook is the product. But the business is much bigger than the ebook.</p>
-              <p>We build the entire system around it:</p>
-            </div>
-          </Reveal>
-          <Reveal delay={120}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0', flexWrap: 'wrap', marginBottom: '48px' }}>
-              {['Market', 'Product', 'Store', 'Traffic', 'Customers', 'Sales'].map((n, i, arr) => (
-                <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: i === arr.length - 1 ? T.accent : T.ink, border: `1px solid ${i === arr.length - 1 ? T.accent : T.border}`, padding: '10px 20px', backgroundColor: i === arr.length - 1 ? `${T.accent}15` : 'transparent' }}>{n}</span>
-                  {i < arr.length - 1 && <span style={{ color: T.inkLight, fontSize: '14px', padding: '0 4px' }}>→</span>}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0', flexWrap: 'wrap', marginBottom: '16px' }}>
+              {['OPPORTUNITY', 'PRODUCT', 'STORE', 'TRAFFIC', 'SALES'].map((n, i, arr) => (
+                <span key={i} style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{
+                    fontSize: '11px', fontWeight: 800, letterSpacing: '0.12em',
+                    textTransform: 'uppercase', padding: '10px 16px',
+                    border: `1px solid ${i === arr.length - 1 ? C.accent : C.border}`,
+                    color: i === arr.length - 1 ? C.dark : C.sub,
+                    backgroundColor: i === arr.length - 1 ? `${C.accent}30` : 'transparent',
+                  }}>{n}</span>
+                  {i < arr.length - 1 && <span style={{ color: C.border, padding: '0 2px', fontSize: '14px' }}>→</span>}
                 </span>
               ))}
             </div>
           </Reveal>
-          <Reveal delay={160}>
-            <p style={{ fontSize: '17px', lineHeight: 1.8, color: T.inkLight }}>This is the reason the offer costs <strong style={{ color: T.ink }}>₦100,000</strong>. You're not hiring someone to type a PDF. You're getting the infrastructure required to take a digital product from idea to market.</p>
-          </Reveal>
         </div>
       </section>
 
-      {/* ── PRICING ───────────────────────────────────── */}
-      <section id="get-started" style={{ backgroundColor: T.cream, padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 2rem' }}>
+      <Divider />
+
+      {/* ── GUARANTEE ───────────────────────────────── */}
+      <section style={{ backgroundColor: C.sectionAlt, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
           <Reveal>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(30px, 4vw, 50px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '64px' }}>Let's build your business.</h2>
+            <h2 style={{
+              fontSize: 'clamp(24px, 5vw, 44px)', fontWeight: 900,
+              lineHeight: 1.1, letterSpacing: '-0.03em', color: C.dark, marginBottom: '12px',
+            }}>
+              BUT WHAT IF THE PRODUCT DOESN'T SELL?
+            </h2>
+            <h3 style={{
+              fontSize: 'clamp(18px, 3vw, 28px)', fontWeight: 800,
+              lineHeight: 1.2, letterSpacing: '-0.02em', color: C.sub, marginBottom: '40px',
+            }}>
+              THAT'S EXACTLY WHY YOU'RE NOT BUILDING IT YOURSELF.
+            </h3>
           </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', backgroundColor: T.border, marginBottom: '56px' }} className="dfy-price-grid">
-            <Reveal>
-              <div style={{ backgroundColor: T.bg, padding: '48px 36px' }}>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.accent, marginBottom: '16px' }}>Setup & Implementation</p>
-                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(48px, 7vw, 80px)', fontWeight: 700, color: T.ink, lineHeight: 1, marginBottom: '8px' }}>₦100,000</div>
-                <p style={{ fontSize: '13px', color: T.inkLight, marginBottom: '36px' }}>One-time setup fee</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {['Market research', 'Product creation', 'Product design', 'Selar setup', 'Sales copy', 'Ad creatives', 'Meta Ads setup', 'Campaign management', 'Initial optimization'].map((t, i) => (
-                    <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                      <span style={{ color: T.accent, fontWeight: 700, flexShrink: 0 }}>✓</span>
-                      <span style={{ fontSize: '15px', color: T.inkLight }}>{t}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={80}>
-              <div style={{ backgroundColor: T.charcoal, padding: '48px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: '16px' }}>Advertising Capital</p>
-                  <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 700, color: '#fff', lineHeight: 1, marginBottom: '8px' }}>Separate</div>
-                  <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', marginBottom: '24px' }}>Recommended starting budget</p>
-                  <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '20px' }}>₦50,000–₦100,000+</div>
-                  <p style={{ fontSize: '14px', lineHeight: 1.7, color: 'rgba(255,255,255,0.6)' }}>Your advertising budget is separate from the ₦100,000 service fee and is used to acquire customers for your business.</p>
-                </div>
-              </div>
-            </Reveal>
-          </div>
+          <Reveal delay={60}>
+            <div style={{ fontSize: '17px', lineHeight: 1.85, color: C.sub, display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '48px' }}>
+              <p>We've already helped 53+ people build and sell digital products, with each client selling 100+ copies of their ebook within their first month across our previous campaigns.</p>
+              <p>So we're not coming into this trying to figure out what might work.</p>
+              <p>We've done this before.</p>
+              <p>Repeatedly.</p>
+              <p>We've researched the markets.</p>
+              <p>We've identified products people actually want.</p>
+              <p>We've created the products.</p>
+              <p>We've built the offers.</p>
+              <p>We've run the ads.</p>
+              <p>And we've learned what it takes to turn a digital product into something people actually buy.</p>
+            </div>
+          </Reveal>
+          <Reveal delay={80}>
+            <div style={{ borderLeft: `4px solid ${C.accent}`, paddingLeft: '24px', marginBottom: '56px' }}>
+              <p style={{ fontSize: 'clamp(18px, 3.5vw, 26px)', fontWeight: 900, letterSpacing: '-0.02em', color: C.dark, margin: 0 }}>
+                NOW WE'RE PACKAGING THAT SYSTEM FOR YOU.
+              </p>
+            </div>
+          </Reveal>
           <Reveal delay={100}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '12px' }}>
-              <CTABtn text="Get Started" to="/dfy/checkout" large />
-              <p style={{ fontSize: '13px', color: T.inkLight, margin: 0 }}>One-time setup fee. Advertising budget separate.</p>
+            <div style={{ border: `2px solid ${C.dark}`, borderTop: `5px solid ${C.accent}`, padding: '40px 32px' }}>
+              <p style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.accent, marginBottom: '16px' }}>Our Guarantee</p>
+              <p style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800, lineHeight: 1.35, color: C.dark, margin: 0 }}>
+                If we don't deliver what we promised within the agreed scope, we make it right.
+              </p>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ── BEFORE / AFTER ────────────────────────────── */}
-      <section style={{ padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 2rem' }}>
+      {/* ── PRICING ─────────────────────────────────── */}
+      <section style={{ backgroundColor: C.dark, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
           <Reveal>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '72px' }}>The transformation.</h2>
-          </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', backgroundColor: T.border }} className="dfy-ba-grid">
-            <Reveal>
-              <div style={{ backgroundColor: T.bg, padding: '48px 36px' }}>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: T.inkLight, marginBottom: '32px' }}>Before</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  {[
-                    "I have money to invest, but I don't know what digital product to create.",
-                    "I don't have time to learn everything.",
-                    "I don't know how to run Meta Ads.",
-                    "I don't know how to sell an ebook.",
-                  ].map((t, i) => (
-                    <div key={i} style={{ borderLeft: `2px solid ${T.border}`, paddingLeft: '20px' }}>
-                      <p style={{ fontSize: '15px', lineHeight: 1.7, color: T.inkLight, margin: 0, fontStyle: 'italic' }}>"{t}"</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={80}>
-              <div style={{ backgroundColor: T.charcoal, padding: '48px 36px' }}>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', marginBottom: '32px' }}>After</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  {[
-                    'A digital product has been researched and created.',
-                    'My product is published on Selar.',
-                    'My sales infrastructure is ready.',
-                    'My advertising system is running.',
-                    'I have a business system instead of just an idea.',
-                  ].map((t, i) => (
-                    <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                      <span style={{ color: T.accent, fontWeight: 700, flexShrink: 0, paddingTop: '2px' }}>✓</span>
-                      <p style={{ fontSize: '15px', lineHeight: 1.7, color: '#fff', margin: 0 }}>{t}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ── WHO IT'S FOR ──────────────────────────────── */}
-      <section style={{ backgroundColor: T.cream, padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 2rem' }}>
-          <Reveal>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(26px, 4vw, 46px)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.01em', marginBottom: '56px' }}>
-              This was built for people who have the capital — but not the time.
+            <Label text="Investment" />
+            <h2 style={{
+              fontSize: 'clamp(26px, 5vw, 46px)', fontWeight: 900,
+              lineHeight: 1.1, letterSpacing: '-0.03em', color: '#fff', marginBottom: '56px',
+            }}>
+              START YOUR DIGITAL PRODUCT BUSINESS
             </h2>
           </Reveal>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '64px' }}>
-            {[
-              'You have at least ₦100,000 available for the setup.',
-              'You can fund advertising separately.',
-              'You want another digital income stream.',
-              'You don\'t have time to learn everything yourself.',
-              'You prefer paying an expert to execute.',
-              'You want a business that can be operated online.',
-            ].map((t, i) => (
-              <Reveal key={i} delay={i * 40}>
-                <div style={{ display: 'flex', gap: '20px', padding: '22px 0', borderBottom: `1px solid ${T.border}`, alignItems: 'flex-start' }}>
-                  <div style={{ width: '24px', height: '24px', backgroundColor: T.accent, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
-                    <span style={{ color: '#fff', fontSize: '11px', fontWeight: 700 }}>✓</span>
-                  </div>
-                  <p style={{ fontSize: '17px', lineHeight: 1.7, margin: 0 }}>{t}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Rule />
-          <Reveal delay={80}>
-            <div style={{ paddingTop: '56px' }}>
-              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 700, lineHeight: 1.2, marginBottom: '20px', color: T.inkLight }}>
-                If you want to build everything yourself, this isn't for you.
-              </h3>
-              <p style={{ fontSize: '17px', lineHeight: 1.8, color: T.inkLight, marginBottom: '24px' }}>This service is for people who want the execution handled for them. If you'd rather have an experienced team build the system for you:</p>
-              <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 700, color: T.accent }}>You're in the right place.</h4>
-            </div>
-          </Reveal>
-        </div>
-      </section>
 
-      {/* ── TIMELINE ──────────────────────────────────── */}
-      <section style={{ padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
-          <Reveal>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.accent, marginBottom: '16px' }}>The Process</p>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(30px, 4vw, 50px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '80px' }}>From payment to launch.</h2>
-          </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: T.border }} className="dfy-timeline-grid">
-            {TIMELINE.map((t, i) => (
-              <Reveal key={i} delay={i * 50}>
-                <div style={{ backgroundColor: i % 2 === 0 ? T.bg : T.cream, padding: '40px 28px' }}>
-                  <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '48px', fontWeight: 700, color: 'rgba(0,0,0,0.05)', lineHeight: 1, marginBottom: '20px' }}>{t.n}</div>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: T.accent, marginBottom: '10px' }}>{t.step}</p>
-                  <p style={{ fontSize: '15px', lineHeight: 1.7, color: T.inkLight, margin: 0 }}>{t.body}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── NUMBERS ───────────────────────────────────── */}
-      <section style={{ backgroundColor: T.charcoal, padding: '120px 0', borderBottom: `1px solid rgba(255,255,255,0.08)` }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 2rem' }}>
-          <Reveal>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 4vw, 50px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', color: '#fff', marginBottom: '72px' }}>The numbers tell the story.</h2>
-          </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', backgroundColor: 'rgba(255,255,255,0.06)', marginBottom: '72px' }} className="dfy-stat-grid">
-            {[{ n: '53+', l: 'People Helped' }, { n: '100+', l: 'Copies Sold Within First Month' }].map((s, i) => (
-              <div key={i} style={{ backgroundColor: T.charcoal, padding: '52px 36px' }}>
-                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(56px, 8vw, 96px)', fontWeight: 700, color: '#fff', lineHeight: 1, marginBottom: '12px' }}>{s.n}</div>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', margin: 0 }}>{s.l}</p>
+          <Reveal delay={60}>
+            <div style={{ borderTop: `1px solid rgba(255,255,255,0.1)`, borderBottom: `1px solid rgba(255,255,255,0.1)`, padding: '48px 0', marginBottom: '48px' }}>
+              <div style={{ fontSize: 'clamp(56px, 10vw, 96px)', fontWeight: 900, letterSpacing: '-0.04em', color: '#fff', lineHeight: 1, marginBottom: '8px' }}>
+                ₦100,000
               </div>
-            ))}
-          </div>
-          {/* Case study placeholders */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: 'rgba(255,255,255,0.06)' }} className="dfy-cases-grid">
-            {['01', '02', '03'].map((n, i) => (
-              <div key={i} style={{ backgroundColor: '#222220', padding: '36px 28px' }}>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: '20px' }}>Case Study {n}</p>
-                {['Client', 'Product', 'Ad Spend', 'Copies Sold', 'Revenue'].map((f, j) => (
-                  <div key={j} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                    <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', fontWeight: 500 }}>{f}</span>
-                    <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.15)' }}>Coming soon</span>
+              <p style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '36px' }}>
+                One-Time Setup &amp; Implementation Fee
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }} className="dfy2-include-grid">
+                {[
+                  'Research', 'Product creation', 'Design', 'Publishing',
+                  'Sales assets', 'Marketing setup', 'Meta Ads management',
+                ].map((t, i) => (
+                  <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <span style={{ color: C.accent, fontWeight: 900, flexShrink: 0 }}>✓</span>
+                    <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.5 }}>{t}</span>
                   </div>
                 ))}
               </div>
-            ))}
-          </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={80}>
+            <p style={{ fontSize: '14px', lineHeight: 1.7, color: 'rgba(255,255,255,0.45)', marginBottom: '40px' }}>
+              The advertising budget is separate from the service fee.
+            </p>
+            <a href={WA_URL} target="_blank" rel="noopener noreferrer"
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                gap: '10px', backgroundColor: C.accent, color: C.dark,
+                fontFamily: 'inherit', fontSize: '14px', fontWeight: 900,
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                padding: '20px 48px', textDecoration: 'none',
+                width: '100%', maxWidth: '420px', boxSizing: 'border-box',
+                transition: 'opacity 0.15s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            >
+              I Want To Get Started →
+            </a>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── FAQ ───────────────────────────────────────── */}
-      <section id="faq" style={{ padding: '120px 0', borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 2rem' }}>
+      {/* ── WHO IT'S FOR ────────────────────────────── */}
+      <section style={{ backgroundColor: C.bg, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
           <Reveal>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.accent, marginBottom: '16px' }}>FAQ</p>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 4vw, 46px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '56px' }}>Common questions.</h2>
+            <Label text="Is This For You?" />
+            <h2 style={{
+              fontSize: 'clamp(26px, 5vw, 46px)', fontWeight: 900,
+              lineHeight: 1.1, letterSpacing: '-0.03em', color: C.dark, marginBottom: '48px',
+            }}>
+              THIS IS FOR YOU IF...
+            </h2>
           </Reveal>
-          <div style={{ borderTop: `1px solid ${T.border}` }}>
-            {FAQS.map((f, i) => (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '56px' }}>
+            {[
+              'You have at least ₦100,000 available to invest.',
+              'You want another source of income.',
+              'You want to build an online business.',
+              "You don't have time to figure everything out yourself.",
+              'You would rather pay someone with experience to execute.',
+              'You are willing to fund the business and follow the process.',
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 40}>
+                <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', padding: '22px 0', borderBottom: `1px solid ${C.border}` }}>
+                  <div style={{
+                    width: '26px', height: '26px', backgroundColor: C.accent,
+                    borderRadius: '50%', display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', flexShrink: 0, marginTop: '1px',
+                  }}>
+                    <span style={{ color: C.dark, fontSize: '11px', fontWeight: 900 }}>✓</span>
+                  </div>
+                  <p style={{ fontSize: '17px', lineHeight: 1.7, color: C.sub, margin: 0 }}>{t}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={80}>
+            <div style={{ backgroundColor: C.sectionAlt, padding: '36px 28px' }}>
+              <p style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 900, letterSpacing: '-0.01em', color: C.dark, lineHeight: 1.3, margin: 0 }}>
+                IT'S NOT ABOUT KNOWING EVERYTHING.<br />
+                <span style={{ color: C.sub }}>IT'S ABOUT HAVING THE CAPITAL AND BEING READY TO BUILD.</span>
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <Divider />
+
+      {/* ── HOW IT WORKS ────────────────────────────── */}
+      <section style={{ backgroundColor: C.sectionAlt, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="The Process" />
+            <h2 style={{
+              fontSize: 'clamp(26px, 5vw, 46px)', fontWeight: 900,
+              lineHeight: 1.1, letterSpacing: '-0.03em', color: C.dark, marginBottom: '72px',
+            }}>
+              FROM PAYMENT TO LAUNCH
+            </h2>
+          </Reveal>
+          {[
+            { n: '01', t: 'GET STARTED', b: 'You speak with us on WhatsApp and complete payment.' },
+            { n: '02', t: 'DISCOVER', b: 'We understand your goals, interests and direction.' },
+            { n: '03', t: 'RESEARCH', b: 'We research the market and identify the opportunity.' },
+            { n: '04', t: 'BUILD', b: 'We create and package the digital product.' },
+            { n: '05', t: 'LAUNCH', b: 'We publish the product and launch the marketing system.' },
+            { n: '06', t: 'OPTIMIZE', b: 'We monitor performance and improve the campaigns.' },
+          ].map((s, i) => (
+            <Reveal key={i} delay={i * 50}>
+              <div style={{
+                display: 'grid', gridTemplateColumns: '56px 1fr',
+                gap: '20px', padding: '36px 0',
+                borderBottom: `1px solid ${C.border}`, alignItems: 'flex-start',
+              }}>
+                <div style={{
+                  fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 900,
+                  color: 'rgba(0,0,0,0.07)', lineHeight: 1, letterSpacing: '-0.03em',
+                }}>
+                  {s.n}
+                </div>
+                <div>
+                  <p style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.accent, marginBottom: '8px' }}>{s.t}</p>
+                  <p style={{ fontSize: '16px', lineHeight: 1.7, color: C.sub, margin: 0 }}>{s.b}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FAQ ─────────────────────────────────────── */}
+      <section style={{ backgroundColor: C.bg, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="FAQ" />
+            <h2 style={{
+              fontSize: 'clamp(26px, 5vw, 44px)', fontWeight: 900,
+              lineHeight: 1.1, letterSpacing: '-0.03em', color: C.dark, marginBottom: '56px',
+            }}>
+              COMMON QUESTIONS
+            </h2>
+          </Reveal>
+          <div style={{ borderTop: `1px solid ${C.border}` }}>
+            {FAQ_ITEMS.map((f, i) => (
               <Reveal key={i} delay={i * 30}>
-                <FAQItem q={f.q} a={f.a} />
+                <AccordionItem q={f.q} a={f.a} />
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── FINAL CTA ─────────────────────────────────── */}
-      <section style={{ backgroundColor: T.charcoal, padding: '140px 0' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 2rem', textAlign: 'center' }}>
+      <Divider />
+
+      {/* ── FINAL CTA ───────────────────────────────── */}
+      <section style={{ backgroundColor: C.dark, padding: '120px 24px' }}>
+        <div style={{ maxWidth: '680px', margin: '0 auto', textAlign: 'center' }}>
           <Reveal>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: '32px' }}>Done-For-You Digital Product Business</p>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.02em', color: '#fff', marginBottom: '16px' }}>
-              You have the capital.
-            </h2>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.02em', color: T.accent, marginBottom: '40px' }}>
-              Now build something with it.
-            </h2>
-            <p style={{ fontSize: '18px', lineHeight: 1.8, color: 'rgba(255,255,255,0.6)', marginBottom: '56px', maxWidth: '520px', margin: '0 auto 56px' }}>
-              You don't need another business idea. You need a system — and you don't have to build it yourself.
+            <p style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.accent, marginBottom: '28px' }}>
+              Done-For-You Digital Product Business
             </p>
-            <CTABtn text="Build My Digital Product Business" to="/dfy/checkout" large />
-            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', marginTop: '16px' }}>₦100,000 setup fee + advertising budget</p>
+            <h2 style={{
+              fontSize: 'clamp(36px, 8vw, 72px)', fontWeight: 900,
+              lineHeight: 1.0, letterSpacing: '-0.03em', marginBottom: '24px',
+            }}>
+              <span style={{ color: '#fff' }}>YOU HAVE THE CAPITAL.</span>
+              <br />
+              <span style={{ color: C.accent }}>NOW BUILD SOMETHING WITH IT.</span>
+            </h2>
+            <p style={{ fontSize: '17px', lineHeight: 1.8, color: 'rgba(255,255,255,0.55)', marginBottom: '48px', maxWidth: '500px', margin: '0 auto 48px' }}>
+              Let us handle the research, product creation and marketing system while you focus on building another source of income.
+            </p>
+            <a href={WA_URL} target="_blank" rel="noopener noreferrer"
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                gap: '10px', backgroundColor: C.accent, color: C.dark,
+                fontFamily: 'inherit', fontSize: '15px', fontWeight: 900,
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                padding: '22px 48px', textDecoration: 'none',
+                width: '100%', maxWidth: '420px', boxSizing: 'border-box',
+                margin: '0 auto 20px', transition: 'opacity 0.15s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            >
+              Talk To Us On WhatsApp →
+            </a>
+            <p style={{ fontSize: 'clamp(20px, 4vw, 28px)', fontWeight: 900, color: '#fff', letterSpacing: '-0.01em', marginBottom: '12px' }}>
+              08035062181
+            </p>
+            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.4)', lineHeight: 1.7 }}>
+              We'll explain the process, answer your questions and show you how to get started.
+            </p>
           </Reveal>
         </div>
       </section>
 
-      {/* ── FOOTER ────────────────────────────────────── */}
-      <footer style={{ backgroundColor: '#111110', padding: '32px 0' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '15px', fontWeight: 700, color: 'rgba(255,255,255,0.4)' }}>QuickLearn<span style={{ color: T.accent }}>+</span></span>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.2)', margin: 0 }}>© {new Date().getFullYear()} Quick Learn Plus · Done-For-You Digital Product Business</p>
-        </div>
+      {/* ── FOOTER ──────────────────────────────────── */}
+      <footer style={{ backgroundColor: '#080806', padding: '28px 24px', textAlign: 'center' }}>
+        <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.2)', margin: 0 }}>
+          © {new Date().getFullYear()} Quick Learn Plus · The Digital Product Business
+        </p>
       </footer>
 
-      {/* ── MOBILE STICKY ─────────────────────────────── */}
-      <div className="dfy-mobile-sticky" style={{
-        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
-        padding: '12px 16px', backgroundColor: T.charcoal,
-        borderTop: `1px solid ${T.accent}`,
-        display: 'none',
-        transform: stickyShow ? 'translateY(0)' : 'translateY(100%)',
+      {/* ── MOBILE STICKY CTA ───────────────────────── */}
+      <div className="dfy2-sticky" style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0,
+        zIndex: 200, display: 'none',
+        padding: '12px 16px',
+        backgroundColor: C.dark,
+        borderTop: `2px solid ${C.accent}`,
+        transform: sticky ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.3s ease',
       }}>
-        <Link to="/dfy/checkout" style={{
-          display: 'block', width: '100%', textAlign: 'center',
-          backgroundColor: T.accent, color: '#fff',
-          fontFamily: "'DM Sans', sans-serif", fontSize: '14px', fontWeight: 700,
-          letterSpacing: '0.08em', textTransform: 'uppercase',
-          padding: '16px', textDecoration: 'none', borderRadius: '2px',
-        }}>
+        <a href={WA_URL} target="_blank" rel="noopener noreferrer"
+          style={{
+            display: 'block', width: '100%', textAlign: 'center',
+            backgroundColor: C.accent, color: C.dark,
+            fontFamily: 'inherit', fontSize: '14px', fontWeight: 900,
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            padding: '16px', textDecoration: 'none',
+          }}
+        >
           Build My Business →
-        </Link>
+        </a>
       </div>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap');
-        @media (max-width: 900px) {
-          .dfy-hero-grid { grid-template-columns: 1fr !important; }
-          .dfy-split-grid { grid-template-columns: 1fr !important; }
-          .dfy-included-grid { grid-template-columns: 1fr 1fr !important; }
-          .dfy-timeline-grid { grid-template-columns: 1fr 1fr !important; }
-          .dfy-cases-grid { grid-template-columns: 1fr !important; }
-          .dfy-ba-grid { grid-template-columns: 1fr !important; }
-          .dfy-price-grid { grid-template-columns: 1fr !important; }
-          .dfy-role-grid { grid-template-columns: 1fr !important; }
-        }
-        @media (max-width: 640px) {
-          .dfy-nav-links { display: none !important; }
-          .dfy-hamburger { display: block !important; }
-          .dfy-proof-grid { grid-template-columns: 1fr !important; }
-          .dfy-stat-grid { grid-template-columns: 1fr !important; }
-          .dfy-included-grid { grid-template-columns: 1fr !important; }
-          .dfy-timeline-grid { grid-template-columns: 1fr !important; }
-          .dfy-problem-grid { grid-template-columns: 1fr !important; }
-          .dfy-mobile-sticky { display: block !important; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        @media (max-width: 600px) {
+          .dfy2-proof-bar { grid-template-columns: 1fr !important; }
+          .dfy2-offer-grid { grid-template-columns: 1fr !important; }
+          .dfy2-stat-grid { grid-template-columns: 1fr !important; }
+          .dfy2-include-grid { grid-template-columns: 1fr !important; }
+          .dfy2-sticky { display: block !important; }
         }
       `}</style>
     </div>

@@ -7,9 +7,7 @@ import ThankYou from './ThankYou'
 import SalesPageB from './SalesPageB'
 import SalesPageC from './SalesPageC'
 import DFY from './DFY'
-import DFYCheckout from './DFYCheckout'
-import DFYOnboarding from './DFYOnboarding'
-import DFYConfirmation from './DFYConfirmation'
+import DFYQualification from './DFYQualification'
 import MetaPixel from './MetaPixel'
 import './index.css'
 
@@ -23,9 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/business-owner" element={<SalesPageB />} />
         <Route path="/owner" element={<SalesPageC />} />
         <Route path="/dfy" element={<DFY />} />
-        <Route path="/dfy/checkout" element={<DFYCheckout />} />
-        <Route path="/dfy/onboarding" element={<DFYOnboarding />} />
-        <Route path="/dfy/confirmation" element={<DFYConfirmation />} />
+        <Route path="/dfy/start" element={<DFYQualification />} />
       </Routes>
     </BrowserRouter>
     <Analytics />
