@@ -725,12 +725,6 @@ export default function DFY() {
             </div>
           </Reveal>
           <Reveal delay={100}>
-            <div style={{ border: `2px solid ${C.dark}`, borderTop: `5px solid ${C.accent}`, padding: '40px 32px' }}>
-              <p style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.accent, marginBottom: '16px' }}>Our Guarantee</p>
-              <p style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800, lineHeight: 1.35, color: C.dark, margin: 0 }}>
-                If we don't deliver what we promised within the agreed scope, we make it right.
-              </p>
-            </div>
           </Reveal>
         </div>
       </section>
@@ -940,9 +934,6 @@ export default function DFY() {
             >
               Talk To Us On WhatsApp →
             </a>
-            <p style={{ fontSize: 'clamp(20px, 4vw, 28px)', fontWeight: 900, color: '#fff', letterSpacing: '-0.01em', marginBottom: '12px' }}>
-              08035062181
-            </p>
             <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.4)', lineHeight: 1.7 }}>
               We'll explain the process, answer your questions and show you how to get started.
             </p>

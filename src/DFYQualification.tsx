@@ -179,7 +179,7 @@ export default function DFYQualification() {
             Before we start, tell us who you are.
           </h2>
           <p style={{ fontSize: '15px', color: C.sub, lineHeight: 1.7, marginBottom: '36px' }}>
-            We'll use this to follow up with you on WhatsApp.
+            Before we start, tell us who you are.
           </p>
           <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
