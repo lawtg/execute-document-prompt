@@ -3,20 +3,21 @@ import consultantCover from './-like-a-consultant-cover.png'
 
 /* ─── tokens ─────────────────────────────────────────── */
 const T = {
-  bg:      '#FAF8F3',
-  cream:   '#F3F0E8',
-  navy:    '#0D2137',
-  gold:    '#B89B5E',
-  ink:     '#1C1C1E',
-  muted:   '#6B6760',
-  border:  '#D8D3C8',
-  white:   '#FFFFFF',
+  bg:     '#FAF8F3',
+  cream:  '#F3F0E8',
+  navy:   '#0D2137',
+  gold:   '#B89B5E',
+  ink:    '#1C1C1E',
+  muted:  '#6B6760',
+  border: '#D8D3C8',
+  white:  '#FFFFFF',
+  red:    '#C0392B',
 }
 
 const SELAR = 'https://selar.com/978m069577'
 
 /* ─── helpers ─────────────────────────────────────────── */
-function useInView(threshold = 0.1) {
+function useInView(threshold = 0.08) {
   const ref = useRef<HTMLDivElement>(null)
   const [vis, setVis] = useState(false)
   useEffect(() => {
@@ -42,7 +43,8 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   )
 }
 
-function CTABtn({ text, id, light }: { text: string; id?: string; light?: boolean }) {
+/* ─── CTA Button ─────────────────────────────────────── */
+function CTABtn({ text, id, full }: { text: string; id?: string; full?: boolean }) {
   return (
     <a
       href={SELAR}
@@ -50,20 +52,23 @@ function CTABtn({ text, id, light }: { text: string; id?: string; light?: boolea
       rel="noopener noreferrer"
       id={id}
       style={{
-        display: 'inline-block',
-        backgroundColor: light ? T.gold : T.navy,
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: T.navy,
         color: T.white,
         fontFamily: "'DM Sans', sans-serif",
         fontSize: '14px',
         fontWeight: 700,
-        letterSpacing: '0.08em',
+        letterSpacing: '0.06em',
         textTransform: 'uppercase',
-        padding: '18px 48px',
+        padding: '18px 40px',
         textDecoration: 'none',
         transition: 'opacity 0.15s',
         cursor: 'pointer',
-        border: 'none',
-        borderRadius: '2px',
+        width: full ? '100%' : 'auto',
+        maxWidth: full ? '480px' : 'none',
+        boxSizing: 'border-box' as const,
       }}
       onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
       onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
@@ -73,10 +78,75 @@ function CTABtn({ text, id, light }: { text: string; id?: string; light?: boolea
   )
 }
 
-/* Book mockup with 3D tilt */
-function BookMockup({ width = 220 }: { width?: number }) {
+/* ─── Price block ────────────────────────────────────── */
+function PriceBlock({ dark }: { dark?: boolean }) {
+  const textColor = dark ? T.white : T.ink
+  const mutedColor = dark ? 'rgba(255,255,255,0.5)' : T.muted
+  const borderColor = dark ? 'rgba(255,255,255,0.1)' : T.border
+
   return (
-    <div style={{ perspective: '800px', display: 'inline-block' }}>
+    <div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '24px' }}>
+        {[
+          { label: 'Regular Price:', value: '₦15,000', strike: true },
+          { label: 'Today Only:', value: '₦5,000', highlight: true },
+          { label: 'You Save:', value: '₦10,000 (75%)', save: true },
+        ].map((row, i) => (
+          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: `1px solid ${borderColor}` }}>
+            <span style={{ fontSize: '13px', color: mutedColor, fontFamily: "'DM Sans', sans-serif" }}>{row.label}</span>
+            <span style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: row.highlight ? '20px' : '14px',
+              fontWeight: row.highlight ? 700 : 500,
+              color: row.highlight ? (dark ? T.gold : T.navy) : row.save ? (dark ? '#7EC8A0' : '#1A7A4A') : mutedColor,
+              textDecoration: row.strike ? 'line-through' : 'none',
+            }}>
+              {row.value}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <a
+        href={SELAR}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          gap: '8px',
+          backgroundColor: T.navy,
+          color: T.white,
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: '14px',
+          fontWeight: 700,
+          letterSpacing: '0.06em',
+          padding: '18px 32px',
+          textDecoration: 'none',
+          transition: 'opacity 0.15s',
+          width: '100%',
+          maxWidth: '480px',
+          boxSizing: 'border-box' as const,
+          marginBottom: '12px',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+        onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+      >
+        Get Instant Access —{' '}
+        <span style={{ textDecoration: 'line-through', opacity: 0.6, fontWeight: 500 }}>₦15,000</span>
+        &nbsp;₦5,000
+      </a>
+
+      <p style={{ fontSize: '11px', color: mutedColor, fontFamily: "'DM Sans', sans-serif", letterSpacing: '0.04em' }}>
+        Instant Digital Access · Secure Checkout · Read on Any Device
+      </p>
+    </div>
+  )
+}
+
+/* ─── Book mockup ────────────────────────────────────── */
+function BookMockup({ width = 200 }: { width?: number }) {
+  return (
+    <div style={{ perspective: '800px', display: 'inline-block', flexShrink: 0 }}>
       <img
         src={consultantCover}
         alt="Think Like a Consultant"
@@ -84,8 +154,8 @@ function BookMockup({ width = 220 }: { width?: number }) {
           width: `${width}px`,
           display: 'block',
           borderRadius: '3px 6px 6px 3px',
-          boxShadow: '10px 18px 48px rgba(0,0,0,0.35), 2px 4px 14px rgba(0,0,0,0.18)',
-          transform: 'rotateY(-8deg)',
+          boxShadow: '10px 18px 48px rgba(0,0,0,0.3), 2px 4px 14px rgba(0,0,0,0.15)',
+          transform: 'rotateY(-6deg)',
           transformOrigin: 'left center',
         }}
       />
@@ -93,75 +163,74 @@ function BookMockup({ width = 220 }: { width?: number }) {
   )
 }
 
-const benefits = [
-  "Discover what really makes a business decision valuable — and why having information isn't enough. Learn how to move from simply having opinions about your business to thinking through problems in a structured way.",
-  "The one skill that can make you better at solving business problems than knowing dozens of business frameworks. Learn why the way you think about a problem can matter more than how many business concepts you know.",
-  "How to break down a complicated business problem into smaller pieces without getting overwhelmed. So instead of staring at one giant problem, you'll know exactly where to start.",
-  "How to turn a messy business situation into a clear story before making a decision. Learn how to separate what is happening, what changed, and what question actually needs to be answered.",
-  'The simple 6-step process you can use to approach almost any business problem. So when something goes wrong in your business, you have a process to help you figure out what to investigate first.',
-  'How to quickly understand what is really happening inside your business — without relying entirely on guesswork or assumptions.',
-  'How to identify the external forces that could affect your business — including changes in the economy, technology, regulations, society, and competition.',
-  'How to determine how attractive or difficult your industry really is before making major strategic decisions.',
-  'How to estimate the size of a business opportunity without needing an expensive research team. So you can answer a question every serious business owner needs to ask: "Is this opportunity actually big enough to pursue?"',
-  'How to find where your business is actually creating value — and where that value is being lost.',
-  'Why the problem you see on the surface may NOT be the real problem — and how to dig deeper until you find what is actually causing it.',
-  "How to find the 20% of causes responsible for 80% of your biggest business headaches. So you can focus your attention on the things most likely to make a meaningful difference.",
-  "How to uncover where your business is leaking money, time, and resources — even when the problem isn't immediately obvious.",
-  'How to map the way work actually moves through your business and identify where things are getting stuck.',
-  'How to stop solving isolated symptoms and start seeing your entire business as a connected system.',
-  'How to generate multiple possible solutions instead of jumping at the first idea that comes to mind.',
-  "How to think about where your business should compete and how it can win — without making strategy unnecessarily complicated.",
-  'What to do when everything feels urgent and you want to fix everything at once. Learn how to identify what should actually come first.',
-  'How to think through what could go wrong BEFORE committing money and resources to a strategy.',
-  'How to test an idea before betting the entire business on it.',
-  "How to tell whether a business model actually makes sense — before investing more money into it.",
-  'How to think beyond the immediate quarter without losing sight of the bigger picture.',
-  "Why pricing may be one of the fastest ways to change your business's performance — and how to think about pricing strategically.",
-  'How to identify problems that can appear when a business starts growing before they become expensive emergencies.',
-  'How to lead your people through change without losing the people you need to make the change happen.',
-  "How to turn a good decision into actual execution. Because a great strategy that nobody implements doesn't create business value.",
-  'How to manage projects without drowning yourself and your team in unnecessary processes.',
-  "How to get your team to support important decisions even when they weren't part of the original decision-making process.",
-  'How to know whether your decisions and strategies are actually working — using simple ways to track progress instead of relying on feelings.',
-  'How to build a business that continuously improves instead of solving the same problems over and over again.',
-  'The quick-reference checklist you can use whenever a new business problem lands on your desk.',
+/* ─── Table of contents ──────────────────────────────── */
+const toc = [
+  "What Consultants Get Paid For (It's Not What You Think)",
+  "The One Skill That Matters More Than Any Framework",
+  "Breaking Any Problem Into Pieces That Don't Overlap (MECE, in Plain English)",
+  "Telling the Story Before You Solve It — Situation, Complication, Question",
+  "A Simple 6-Step Process You Can Use on Literally Any Problem",
+  "What's Actually Going On Inside Your Business (SWOT, Simplified)",
+  "What's Happening Outside Your Business That You Can't Control (PESTLE)",
+  "Why Some Industries Are Brutal and Others Aren't (Competitive Forces, Explained)",
+  "How Big Is This Opportunity, Really? (Market Sizing Without a Research Team)",
+  "Finding Where the Real Value Gets Made — and Lost",
+  "Why \"The Problem\" Is Rarely the Real Problem (KPI Trees & Root Cause Analysis)",
+  "The 20% of Causes Behind 80% of Your Headaches",
+  "Where Your Money and Time Are Actually Leaking",
+  "Mapping How Work Really Flows (and Where It Gets Stuck)",
+  "Seeing the Whole System, Not Just the Symptom in Front of You",
+  "Generating More Than One Good Option, on Purpose",
+  "Deciding Where to Play and How to Win (Simple Strategic Choice Tools)",
+  "What to Do First When Everything Feels Urgent",
+  "Thinking Through What Could Go Wrong Before It Does",
+  "Testing an Idea Before You Bet the Business on It",
+  "Does Your Business Model Actually Make Sense?",
+  "Planning for Next Quarter Without Losing Sight of Next Year",
+  "Pricing — The Fastest Lever You're Probably Ignoring",
+  "What Breaks When You Scale (and How to See It Coming)",
+  "Leading Your Team Through Change Without Losing Them",
+  "Turning a Smart Recommendation Into Something That Gets Done",
+  "Running Projects Without Drowning in Process",
+  "Getting People on Board Who Weren't in the Room",
+  "Knowing If It's Working (Simple Ways to Track Progress)",
+  "Getting Slightly Better, Continuously, Without a Consulting Budget",
+  "A Quick-Reference Checklist for Any New Problem",
+  "Applying the System — Three Problems, Start to Finish",
+  "When to Use the Full Process — and When a Shortcut Is Fine",
+  "Common Traps Even Trained Consultants Fall Into",
+  "Your Turn — A Repeatable Way to Approach Whatever's Next",
 ]
 
-const bonuses = [
-  { num: '01', title: "The Business Owner's Quick-Reference Cheat Sheet", value: '₦5,000', desc: "You shouldn't have to read through an entire book every time a new business problem comes your way. This quick-reference sheet gives you the key questions and frameworks you need to quickly determine where to start, what to investigate, and what to do next. Keep it beside you whenever you're dealing with an important business decision." },
-  { num: '02', title: 'The Business Problem Diagnosis Worksheet', value: '₦7,500', desc: "Sometimes the hardest part of solving a business problem isn't finding the solution — it's figuring out what the problem actually is. This practical worksheet helps you work through a business problem step by step, ask better questions, separate symptoms from root causes, and organize your thinking before making a decision." },
-  { num: '03', title: 'The Business Problem-Solving Checklist', value: '₦5,000', desc: "Before you commit to an important decision, run through this checklist. Have you defined the problem correctly? Have you identified the root cause? Have you considered alternative explanations? Have you generated more than one possible solution? This checklist helps you catch the gaps that can turn an otherwise good decision into an expensive mistake." },
-  { num: '04', title: '3 Complete Business Problem Walkthroughs', value: '₦10,000', desc: "Don't just learn the theory — see how the thinking works. You'll get three complete examples showing how the problem-solving system can be applied from the initial problem all the way to the final recommendation. This gives you something to study when you're facing a real business problem." },
-  { num: '05', title: 'The Framework Selection Guide', value: '₦5,000', desc: "One of the biggest mistakes business owners make is trying to use every business framework they know on every problem. This guide helps you understand which type of thinking tool to reach for depending on the problem you're trying to solve. Because the goal isn't to sound intelligent — the goal is to solve the problem." },
-]
-
+/* ─── FAQ ────────────────────────────────────────────── */
 const faqs = [
-  { q: 'Is this only for business owners?', a: "This guide was written for anyone who makes business decisions and wants a clearer way to think through problems. Whether you run a business, manage a team, or advise clients, the frameworks inside are practical and immediately applicable." },
-  { q: 'Do I need a business background to understand this?', a: "Not at all. The guide is written in plain language with practical examples. You don't need an MBA or formal business training to benefit from it." },
-  { q: 'What format will I receive?', a: "You will receive an instant digital PDF download immediately after purchase. You can read it on your phone, tablet, laptop, or print it out." },
-  { q: 'What if the guide does not work for me?', a: "If you go through the guide and feel it didn't deliver on its promise, reach out within 7 days and we will give you a full refund. No complicated process." },
-  { q: 'How is this different from other business books?', a: "Most business books explain what to do. This guide focuses on how to think — giving you a repeatable system you can apply to any problem, not just the examples in the book." },
-  { q: 'How quickly can I start using what I learn?', a: "Immediately. Each chapter has practical frameworks you can apply to a real business problem the same day. You don't have to finish the entire book before you start using the ideas." },
+  { q: 'Is this book only for consultants?', a: 'No. This book is for anyone who makes business decisions and wants a clearer, more structured way to think through problems. Whether you run a business, manage a team, or advise clients, the frameworks inside are immediately applicable.' },
+  { q: 'Do I need an MBA or business degree?', a: "Not at all. The book is written in plain English with practical examples. You don't need formal business training to understand or use what's inside." },
+  { q: 'Is this a book about starting a business?', a: "No. This is a book about thinking through business problems better — whether you've been in business for years or are just getting started." },
+  { q: 'Is the book mostly theory?', a: "No. Every chapter focuses on practical frameworks you can apply immediately. The book ends with three complete worked examples showing the system applied from start to finish." },
+  { q: 'What kinds of problems can I use this book to solve?', a: "Any real business problem — from diagnosing why revenue is falling, to deciding whether to expand, to figuring out what's causing a team to underperform. The system is designed to be flexible." },
+  { q: 'Will this book guarantee business success?', a: "No book can guarantee that. What this book gives you is a better way to think — so when problems come up, you have a structured approach instead of guessing." },
+  { q: 'How many chapters are in the book?', a: "35 chapters covering the complete problem-solving system, plus worked examples and a repeatable checklist you can use on any new problem." },
 ]
 
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
   return (
     <div style={{ borderBottom: `1px solid ${T.border}`, cursor: 'pointer' }} onClick={() => setOpen(o => !o)}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 0', gap: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 0', gap: '16px' }}>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '15px', fontWeight: 600, margin: 0, color: T.ink, lineHeight: 1.4 }}>{q}</p>
         <span style={{ color: T.gold, fontSize: '22px', fontWeight: 300, flexShrink: 0, transition: 'transform 0.2s', transform: open ? 'rotate(45deg)' : 'none', lineHeight: 1 }}>+</span>
       </div>
-      {open && <p style={{ fontSize: '15px', lineHeight: 1.8, color: T.muted, paddingBottom: '20px', margin: 0 }}>{a}</p>}
+      {open && <p style={{ fontSize: '15px', lineHeight: 1.8, color: T.muted, paddingBottom: '18px', margin: 0 }}>{a}</p>}
     </div>
   )
 }
 
+/* ─── PAGE ───────────────────────────────────────────── */
 export default function SalesPageC() {
   const [sticky, setSticky] = useState(false)
-
   useEffect(() => {
-    const fn = () => setSticky(window.scrollY > 600)
+    const fn = () => setSticky(window.scrollY > 700)
     window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
@@ -179,46 +248,35 @@ export default function SalesPageC() {
         </a>
       </nav>
 
-      {/* ── HERO — two-column ── */}
-      <section style={{ backgroundColor: T.bg, padding: '80px 24px 60px' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 300px', gap: '80px', alignItems: 'center' }} className="ownerC-hero-grid">
+      {/* ── HERO ── */}
+      <section style={{ backgroundColor: T.bg, padding: '72px 24px 64px' }}>
+        <div style={{ maxWidth: '1060px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 280px', gap: '72px', alignItems: 'flex-start' }} className="ownerC-hero-grid">
 
-          {/* Left: copy */}
+          {/* Left copy */}
           <div>
             <Reveal>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.muted, marginBottom: '20px' }}>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.gold, marginBottom: '20px' }}>
                 Quick Learn Plus
               </p>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: T.gold, marginBottom: '16px' }}>
+              <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 700, lineHeight: 1.35, color: T.ink, marginBottom: '20px', maxWidth: '560px' }}>
                 If you are serious about solving any business problem without the guesswork, you should read this book today.
-              </p>
-              <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 4vw, 46px)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.01em', color: T.ink, marginBottom: '32px' }}>
-                To Every Business Owner Who Wants to Solve Their Business Problems Without Always Hiring A Consultant.
               </h1>
+              <p style={{ fontSize: '16px', lineHeight: 1.8, color: T.muted, marginBottom: '12px', maxWidth: '520px' }}>
+                <em style={{ fontFamily: "'Playfair Display', serif", color: T.ink }}>Think Like a Consultant</em> shows you how to break down complex business problems, find the root cause, and choose solutions based on clear thinking — not guesswork.
+              </p>
+              <p style={{ fontSize: '15px', lineHeight: 1.8, color: T.muted, marginBottom: '32px' }}>
+                No MBA. No consulting background.<br />
+                Just practical tools for thinking through your business like a consultant.
+              </p>
             </Reveal>
             <Reveal delay={60}>
-              {/* Price breakdown */}
-              <div style={{ marginBottom: '32px' }}>
-                {[
-                  { label: 'Book Price', value: '₦3,500' },
-                  { label: 'Bonuses Value', value: '₦32,500' },
-                  { label: 'Total Value', value: '₦36,000' },
-                ].map((item, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: `1px solid ${T.border}`, maxWidth: '320px' }}>
-                    <span style={{ fontSize: '13px', color: i === 2 ? T.ink : T.muted, fontWeight: i === 2 ? 700 : 400 }}>{item.label}</span>
-                    <span style={{ fontSize: '14px', fontWeight: 700, color: i === 2 ? T.navy : T.muted, fontFamily: "'Playfair Display', serif" }}>{item.value}</span>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-            <Reveal delay={100}>
-              <CTABtn text="Get Think Like a Consultant — ₦3,500" id="order" />
+              <PriceBlock />
             </Reveal>
           </div>
 
-          {/* Right: book */}
-          <Reveal delay={120}>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+          {/* Right book */}
+          <Reveal delay={100}>
+            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '8px' }}>
               <BookMockup width={240} />
             </div>
           </Reveal>
@@ -226,25 +284,28 @@ export default function SalesPageC() {
       </section>
 
       {/* ── WHAT'S INSIDE ── */}
-      <section style={{ backgroundColor: T.bg, padding: '80px 24px' }}>
+      <section style={{ backgroundColor: T.bg, padding: '80px 24px', borderTop: `1px solid ${T.border}` }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <Reveal>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(26px, 3.5vw, 38px)', fontWeight: 700, lineHeight: 1.2, color: T.ink, marginBottom: '16px', textAlign: 'center' }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 700, lineHeight: 1.25, color: T.ink, marginBottom: '20px' }}>
               What's Inside <em>Think Like a Consultant</em>?
             </h2>
-            <p style={{ fontSize: '16px', color: T.muted, textAlign: 'center', marginBottom: '56px', maxWidth: '580px', margin: '0 auto 56px' }}>
-              A complete system for thinking through, diagnosing, and solving any business problem — with clarity and confidence.
+            <p style={{ fontSize: '16px', lineHeight: 1.8, color: T.muted, marginBottom: '48px', maxWidth: '620px' }}>
+              If you've ever faced a business problem and didn't know where to start, this book gives you a practical system for breaking it down, finding the real problem, choosing the right solution, and turning your thinking into action.
+            </p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: T.gold, marginBottom: '24px' }}>
+              Table of Contents
             </p>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {benefits.map((benefit, i) => (
-              <Reveal key={i} delay={Math.min(i * 15, 150)}>
-                <div style={{ display: 'flex', gap: '20px', padding: '20px 0', borderBottom: `1px solid ${T.border}`, alignItems: 'flex-start' }}>
-                  <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '12px', fontWeight: 700, color: T.gold, minWidth: '28px', paddingTop: '3px', letterSpacing: '0.04em', flexShrink: 0 }}>
+            {toc.map((item, i) => (
+              <Reveal key={i} delay={Math.min(i * 12, 120)}>
+                <div style={{ display: 'flex', gap: '20px', padding: '16px 0', borderBottom: `1px solid ${T.border}`, alignItems: 'flex-start' }}>
+                  <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '12px', fontWeight: 700, color: T.gold, minWidth: '26px', paddingTop: '2px', letterSpacing: '0.04em', flexShrink: 0 }}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <p style={{ fontSize: '15px', lineHeight: 1.75, margin: 0, color: T.ink }}>{benefit}</p>
+                  <p style={{ fontSize: '15px', lineHeight: 1.7, margin: 0, color: T.ink }}>{item}</p>
                 </div>
               </Reveal>
             ))}
@@ -252,58 +313,124 @@ export default function SalesPageC() {
         </div>
       </section>
 
-      {/* ── YOUR PURCHASE INCLUDES — dark banner ── */}
+      {/* ── YOUR PURCHASE INCLUDES — dark ── */}
       <section style={{ backgroundColor: T.navy, padding: '80px 24px' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1060px', margin: '0 auto' }}>
           <Reveal>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(26px, 3.5vw, 40px)', fontWeight: 700, color: T.white, textAlign: 'center', marginBottom: '56px', letterSpacing: '0.02em' }}>
-              YOUR PURCHASE INCLUDES
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(22px, 3.5vw, 36px)', fontWeight: 700, color: T.white, textAlign: 'center', marginBottom: '12px', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+              Your Purchase Includes
             </h2>
+            <p style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', textAlign: 'center', marginBottom: '56px' }}>
+              Think Like a Consultant — complete bundle
+            </p>
           </Reveal>
 
-          {/* Book + bonuses layout */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '56px', alignItems: 'flex-start', marginBottom: '56px' }} className="ownerC-purchase-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '56px', alignItems: 'flex-start' }} className="ownerC-purchase-grid">
 
-            {/* Book stack */}
-            <Reveal delay={60}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-                <BookMockup width={180} />
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>
+            {/* Book */}
+            <Reveal delay={40}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                <BookMockup width={170} />
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', textAlign: 'center', maxWidth: '140px' }}>
                   Think Like a Consultant
                 </p>
               </div>
             </Reveal>
 
-            {/* Bonuses grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: 'rgba(255,255,255,0.08)' }} className="ownerC-bonuses-grid">
-              {bonuses.map((bonus, i) => (
-                <Reveal key={i} delay={i * 50}>
-                  <div style={{ backgroundColor: 'rgba(255,255,255,0.04)', padding: '24px 20px' }}>
-                    <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '28px', fontWeight: 700, color: 'rgba(255,255,255,0.08)', lineHeight: 1, marginBottom: '12px' }}>{bonus.num}</div>
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: T.gold, marginBottom: '8px' }}>
-                      Bonus #{bonus.num} · Value {bonus.value}
-                    </p>
-                    <p style={{ fontSize: '13px', fontWeight: 600, color: T.white, lineHeight: 1.4, marginBottom: '8px' }}>{bonus.title}</p>
-                    <p style={{ fontSize: '12px', lineHeight: 1.7, color: 'rgba(255,255,255,0.5)', margin: 0 }}>{bonus.desc}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
+            {/* Feature list */}
+            <Reveal delay={80}>
+              <div>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.gold, marginBottom: '12px' }}>
+                  Get the book
+                </p>
+                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 700, color: T.white, lineHeight: 1.25, marginBottom: '8px' }}>
+                  Think Like a Consultant
+                </h3>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '14px', fontStyle: 'italic', color: 'rgba(255,255,255,0.55)', marginBottom: '28px' }}>
+                  Understand the Problem. Find the Opportunity. Make Better Decisions.
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '32px' }}>
+                  {[
+                    'Identify the real problem instead of treating symptoms',
+                    'Break complex challenges into manageable parts',
+                    'Ask better questions before making important decisions',
+                    'Use 10+ practical frameworks to understand your business',
+                    'Evaluate options and test ideas before committing',
+                    'Turn recommendations into action plans that get done',
+                  ].map((f, i) => (
+                    <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                      <span style={{ color: T.gold, fontWeight: 700, flexShrink: 0, paddingTop: '2px' }}>✓</span>
+                      <span style={{ fontSize: '15px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.6 }}>{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Price inside dark section */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '24px' }}>
+                  {[
+                    { label: 'Regular Price:', value: '₦15,000', strike: true },
+                    { label: 'Today Only:', value: '₦5,000', highlight: true },
+                  ].map((row, i) => (
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.1)', maxWidth: '320px' }}>
+                      <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', fontFamily: "'DM Sans', sans-serif" }}>{row.label}</span>
+                      <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: row.highlight ? '20px' : '14px', fontWeight: row.highlight ? 700 : 500, color: row.highlight ? T.gold : 'rgba(255,255,255,0.35)', textDecoration: row.strike ? 'line-through' : 'none' }}>
+                        {row.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <a href={SELAR} target="_blank" rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '8px',
+                    backgroundColor: T.gold, color: T.navy,
+                    fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 800,
+                    letterSpacing: '0.08em', textTransform: 'uppercase',
+                    padding: '16px 36px', textDecoration: 'none',
+                    transition: 'opacity 0.15s', marginBottom: '12px',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+                  onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                >
+                  Get Instant Access — <span style={{ textDecoration: 'line-through', opacity: 0.6, fontWeight: 500 }}>₦15,000</span>&nbsp;₦5,000
+                </a>
+                <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.04em' }}>
+                  Instant Digital Access · Secure Checkout via Selar · Pay Once, Keep Forever
+                </p>
+              </div>
+            </Reveal>
           </div>
 
           <Reveal delay={100}>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '8px', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>Quick Learn Plus</p>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '16px', fontStyle: 'italic', color: 'rgba(255,255,255,0.6)', marginBottom: '32px' }}>Think Like a Consultant</p>
-              <CTABtn text="Get Think Like a Consultant — ₦3,500" light />
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: '56px', paddingTop: '40px', textAlign: 'center' }}>
+              <p style={{ fontSize: '16px', fontWeight: 600, color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>
+                Stop reacting. Start diagnosing. Get instant access today.
+              </p>
+              <a href={SELAR} target="_blank" rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '8px',
+                  backgroundColor: T.white, color: T.navy,
+                  fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 800,
+                  letterSpacing: '0.08em', textTransform: 'uppercase',
+                  padding: '16px 40px', textDecoration: 'none',
+                  transition: 'opacity 0.15s', marginBottom: '10px',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
+                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+              >
+                Get Instant Access · <span style={{ textDecoration: 'line-through', opacity: 0.5, fontWeight: 500 }}>₦15,000</span>&nbsp;&nbsp;₦5,000
+              </a>
+              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em', marginTop: '8px' }}>
+                Instant Digital Access · Secure Checkout · Read on Any Device
+              </p>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ── PRICING SECTION — two-column ── */}
+      {/* ── SECOND PRICING BLOCK — light ── */}
       <section style={{ backgroundColor: T.cream, padding: '80px 24px' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '64px', alignItems: 'center' }} className="ownerC-price-grid">
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '64px', alignItems: 'flex-start' }} className="ownerC-price-grid">
 
           <Reveal>
             <BookMockup width={200} />
@@ -311,67 +438,42 @@ export default function SalesPageC() {
 
           <Reveal delay={80}>
             <div>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: T.gold, marginBottom: '12px' }}>
-                The Guide
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: T.gold, marginBottom: '10px' }}>
+                Think Like a Consultant
               </p>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 700, lineHeight: 1.25, color: T.ink, marginBottom: '20px' }}>
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(20px, 3vw, 30px)', fontWeight: 700, lineHeight: 1.3, color: T.ink, marginBottom: '6px' }}>
                 Think Like a Consultant
               </h2>
-              <p style={{ fontSize: '15px', lineHeight: 1.8, color: T.muted, marginBottom: '28px' }}>
-                A practical guide that teaches business owners how to approach any business problem systematically — so you can move from guesswork to clarity and make better decisions with confidence.
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '14px', fontStyle: 'italic', color: T.muted, marginBottom: '24px' }}>
+                Understand the Problem. Find the Opportunity. Make Better Decisions.
               </p>
-
-              {/* Price breakdown */}
-              <div style={{ marginBottom: '28px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '28px' }}>
                 {[
-                  { label: 'Book Price', value: '₦3,500' },
-                  { label: 'Bonuses Value', value: '₦32,500' },
-                  { label: 'You Get Everything For', value: '₦3,500', highlight: true },
-                ].map((item, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: `1px solid ${T.border}` }}>
-                    <span style={{ fontSize: '13px', color: item.highlight ? T.ink : T.muted, fontWeight: item.highlight ? 700 : 400 }}>{item.label}</span>
-                    <span style={{ fontFamily: "'Playfair Display', serif", fontSize: item.highlight ? '20px' : '14px', fontWeight: 700, color: item.highlight ? T.navy : T.muted }}>
-                      {item.value}
-                    </span>
+                  'Identify the real problem instead of treating symptoms',
+                  'Break complex challenges into manageable parts',
+                  'Ask better questions before making important decisions',
+                  'Use 10+ practical frameworks to understand your business',
+                  'Evaluate options and test ideas before committing',
+                  'Turn recommendations into action plans that get done',
+                ].map((f, i) => (
+                  <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', padding: '10px 0', borderBottom: `1px solid ${T.border}` }}>
+                    <span style={{ color: T.gold, fontWeight: 700, flexShrink: 0, paddingTop: '2px' }}>✓</span>
+                    <span style={{ fontSize: '14px', color: T.muted, lineHeight: 1.6 }}>{f}</span>
                   </div>
                 ))}
               </div>
-
-              <CTABtn text="Get Instant Access — ₦3,500" />
-              <p style={{ fontSize: '12px', color: T.muted, marginTop: '12px' }}>Instant digital download · 7-day money-back guarantee</p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── GUARANTEE ── */}
-      <section style={{ backgroundColor: T.bg, padding: '64px 24px' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-          <Reveal>
-            <div style={{ backgroundColor: T.navy, padding: '40px 36px', display: 'flex', gap: '28px', alignItems: 'flex-start' }} className="ownerC-guarantee">
-              <div style={{ fontSize: '32px', lineHeight: 1, flexShrink: 0 }}>🛡</div>
-              <div>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: T.gold, marginBottom: '10px' }}>
-                  30-Day Money-Back Guarantee
-                </p>
-                <p style={{ fontSize: '15px', lineHeight: 1.8, color: 'rgba(255,255,255,0.75)', margin: 0 }}>
-                  Go through the guide. Use the frameworks. Apply the tools. If you don't find it valuable within 7 days, let us know and we'll refund your money. No arguments. No stress.
-                </p>
-              </div>
+              <PriceBlock />
             </div>
           </Reveal>
         </div>
       </section>
 
       {/* ── FAQ ── */}
-      <section style={{ backgroundColor: T.bg, padding: '80px 24px' }}>
+      <section style={{ backgroundColor: T.bg, padding: '80px 24px', borderTop: `1px solid ${T.border}` }}>
         <div style={{ maxWidth: '720px', margin: '0 auto' }}>
           <Reveal>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: T.gold, marginBottom: '12px', textAlign: 'center' }}>
-              Frequently Asked Questions
-            </p>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, lineHeight: 1.3, color: T.ink, marginBottom: '40px', textAlign: 'center' }}>
-              Questions You Might Have
+              Frequently Asked Questions
             </h2>
           </Reveal>
           <div style={{ borderTop: `1px solid ${T.border}` }}>
@@ -386,29 +488,48 @@ export default function SalesPageC() {
 
       {/* ── FINAL CTA — dark ── */}
       <section style={{ backgroundColor: T.navy, padding: '100px 24px' }}>
-        <div style={{ maxWidth: '680px', margin: '0 auto', textAlign: 'center' }}>
+        <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center' }}>
           <Reveal>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '24px' }}>
-              Your business problems deserve real solutions, not more guesses.
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.5)', marginBottom: '12px', lineHeight: 1.7 }}>
+              Your business doesn't always need more effort.
             </p>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 5vw, 52px)', fontWeight: 700, lineHeight: 1.15, color: T.white, marginBottom: '12px' }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 5vw, 50px)', fontWeight: 700, lineHeight: 1.15, color: T.white, marginBottom: '4px' }}>
               Sometimes, it needs
             </h2>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 5vw, 52px)', fontWeight: 700, lineHeight: 1.15, color: T.gold, fontStyle: 'italic', marginBottom: '40px' }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 5vw, 50px)', fontWeight: 700, lineHeight: 1.15, fontStyle: 'italic', color: T.gold, marginBottom: '40px' }}>
               a better way to think.
             </h2>
-            <CTABtn text="Get Started Now →" light />
-            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginTop: '16px' }}>
-              ₦3,500 · Instant access · 7-day guarantee
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: '6px' }}>
+              Think Like a Consultant
             </p>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '14px', fontStyle: 'italic', color: 'rgba(255,255,255,0.45)', marginBottom: '36px' }}>
+              Understand the Problem. Find the Opportunity. Make Better Decisions.
+            </p>
+            <a href={SELAR} target="_blank" rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                backgroundColor: T.gold, color: T.navy,
+                fontFamily: "'DM Sans', sans-serif", fontSize: '14px', fontWeight: 800,
+                letterSpacing: '0.08em', textTransform: 'uppercase',
+                padding: '18px 48px', textDecoration: 'none',
+                transition: 'opacity 0.15s', marginBottom: '16px',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            >
+              Get Your Copy — ₦3,700
+            </a>
           </Reveal>
         </div>
       </section>
 
       {/* ── FOOTER ── */}
       <footer style={{ backgroundColor: '#0A1826', padding: '28px 24px', textAlign: 'center' }}>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.2)', margin: 0, letterSpacing: '0.06em' }}>
-          © {new Date().getFullYear()} Quick Learn Plus · Think Like a Consultant
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.2)', margin: '0 0 8px', letterSpacing: '0.06em' }}>
+          © {new Date().getFullYear()} Think Like a Consultant. All rights reserved.
+        </p>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.15)', margin: 0, maxWidth: '560px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}>
+          Results depend on your circumstances, industry and effort. No specific business outcome is guaranteed.
         </p>
       </footer>
 
@@ -429,23 +550,20 @@ export default function SalesPageC() {
             padding: '16px', textDecoration: 'none',
           }}
         >
-          Get Think Like a Consultant — ₦3,500
+          Get Instant Access — ₦5,000
         </a>
       </div>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500;600;700;800&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         @media (max-width: 768px) {
           .ownerC-hero-grid     { grid-template-columns: 1fr !important; }
           .ownerC-purchase-grid { grid-template-columns: 1fr !important; }
           .ownerC-price-grid    { grid-template-columns: 1fr !important; }
-          .ownerC-bonuses-grid  { grid-template-columns: 1fr 1fr !important; }
-          .ownerC-guarantee     { flex-direction: column !important; }
         }
         @media (max-width: 520px) {
-          .ownerC-bonuses-grid  { grid-template-columns: 1fr !important; }
-          .ownerC-sticky        { display: block !important; }
+          .ownerC-sticky { display: block !important; }
         }
       `}</style>
     </div>
