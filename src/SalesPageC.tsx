@@ -3,14 +3,15 @@ import consultantCover from './-like-a-consultant-cover.png'
 
 /* ─── tokens ─────────────────────────────────────────── */
 const C = {
-  bg:      '#000000',
-  surface: '#0D0D0D',
-  ink:     '#FFFFFF',
-  body:    '#E8E8E8',
-  yellow:  '#FFD700',
+  bg:      '#FFFFFF',
+  surface: '#F5F5F5',
+  ink:     '#111111',
+  body:    '#333333',
+  yellow:  '#1A1A1A',   /* headlines now near-black */
+  accent:  '#B89B5E',   /* gold accent */
   red:     '#CC0000',
-  muted:   '#AAAAAA',
-  border:  '#222222',
+  muted:   '#777777',
+  border:  '#E0E0E0',
 }
 
 const SELAR = 'https://selar.com/978m069577'
@@ -49,8 +50,8 @@ function CTABtn({ text, id }: { text: string; id?: string }) {
       style={{
         display: 'block',
         width: '100%',
-        backgroundColor: C.yellow,
-        color: '#000000',
+        backgroundColor: '#0D2137',
+        color: '#FFFFFF',
         fontFamily: "'Georgia', 'Times New Roman', serif",
         fontSize: '18px',
         fontWeight: 700,
@@ -65,8 +66,8 @@ function CTABtn({ text, id }: { text: string; id?: string }) {
         lineHeight: 1.3,
         boxSizing: 'border-box' as const,
       }}
-      onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#e6c200')}
-      onMouseLeave={e => (e.currentTarget.style.backgroundColor = C.yellow)}
+      onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#1A3A5C')}
+      onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#0D2137')}
     >
       {text}
     </a>
@@ -75,7 +76,7 @@ function CTABtn({ text, id }: { text: string; id?: string }) {
 
 /* ─── Yellow rule ─────────────────────────────────────── */
 function YRule() {
-  return <div style={{ height: '2px', backgroundColor: C.yellow, margin: '48px 0' }} />
+  return <div style={{ height: '2px', backgroundColor: C.accent, margin: '48px 0' }} />
 }
 
 /* ─── Section headline ────────────────────────────────── */
@@ -85,7 +86,7 @@ function SHeadline({ children }: { children: React.ReactNode }) {
       fontFamily: "'Georgia', 'Times New Roman', serif",
       fontSize: 'clamp(20px, 3.5vw, 28px)',
       fontWeight: 700,
-      color: C.yellow,
+      color: C.ink,
       textTransform: 'uppercase',
       lineHeight: 1.25,
       marginBottom: '28px',
@@ -96,7 +97,6 @@ function SHeadline({ children }: { children: React.ReactNode }) {
   )
 }
 
-/* ─── Body text style ─────────────────────────────────── */
 const body: React.CSSProperties = {
   fontFamily: "'Georgia', 'Times New Roman', serif",
   fontSize: 'clamp(15px, 2vw, 17px)',
@@ -111,13 +111,13 @@ function Benefit({ num, title, body: bodyText }: { num: number; title: string; b
       <div style={{ borderBottom: `1px solid ${C.border}`, padding: '28px 0' }}>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', marginBottom: '10px' }}>
           <span style={{
-            backgroundColor: C.yellow, color: '#000',
+            backgroundColor: '#0D2137', color: '#fff',
             fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: 700,
             width: '32px', height: '32px', borderRadius: '50%',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexShrink: 0, lineHeight: 1,
           }}>{num}</span>
-          <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(14px, 2vw, 17px)', fontWeight: 700, color: C.yellow, textTransform: 'uppercase', letterSpacing: '0.02em', lineHeight: 1.35, margin: 0 }}>
+          <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(14px, 2vw, 17px)', fontWeight: 700, color: C.ink, textTransform: 'uppercase', letterSpacing: '0.02em', lineHeight: 1.35, margin: 0 }}>
             {title}
           </p>
         </div>
@@ -131,9 +131,9 @@ function Benefit({ num, title, body: bodyText }: { num: number; title: string; b
 function Testi({ quote, name, title }: { quote: string; name: string; title: string }) {
   return (
     <Reveal>
-      <div style={{ borderLeft: `3px solid ${C.yellow}`, paddingLeft: '20px', marginBottom: '32px' }}>
+      <div style={{ borderLeft: `3px solid ${C.accent}`, paddingLeft: '20px', marginBottom: '32px' }}>
         <p style={{ ...body, fontStyle: 'italic', marginBottom: '10px' }}>"{quote}"</p>
-        <p style={{ fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: 700, color: C.yellow, margin: 0 }}>{name}</p>
+        <p style={{ fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: 700, color: C.ink, margin: 0 }}>{name}</p>
         <p style={{ fontFamily: "'Georgia', serif", fontSize: '13px', color: C.muted, margin: 0 }}>{title}</p>
       </div>
     </Reveal>
@@ -169,7 +169,7 @@ export default function SalesPageC() {
               fontFamily: "'Georgia', 'Times New Roman', serif",
               fontSize: 'clamp(24px, 5vw, 42px)',
               fontWeight: 700,
-              color: C.yellow,
+              color: C.ink,
               textTransform: 'uppercase',
               lineHeight: 1.2,
               letterSpacing: '0.02em',
@@ -228,7 +228,7 @@ export default function SalesPageC() {
               'You have tried a few things, but you are still not sure what is actually working.',
             ].map((line, i) => (
               <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', padding: '10px 0', borderBottom: `1px solid ${C.border}` }}>
-                <span style={{ color: C.yellow, fontWeight: 700, flexShrink: 0, paddingTop: '3px', fontSize: '14px' }}>›</span>
+                <span style={{ color: C.accent, fontWeight: 700, flexShrink: 0, paddingTop: '3px', fontSize: '14px' }}>›</span>
                 <span style={body}>{line}</span>
               </div>
             ))}
@@ -238,7 +238,7 @@ export default function SalesPageC() {
             <p>You can keep guessing.</p>
             <p>You can try one solution after another.</p>
             <p>Or you can learn how to properly solve business problems.</p>
-            <p style={{ color: C.yellow, fontWeight: 700, fontSize: 'clamp(16px, 2.2vw, 19px)' }}>That is what this book is about.</p>
+            <p style={{ color: C.accent, fontWeight: 700, fontSize: 'clamp(16px, 2.2vw, 19px)' }}>That is what this book is about.</p>
           </div>
         </Reveal>
 
@@ -260,14 +260,14 @@ export default function SalesPageC() {
               'And they know how to turn all of this into a clear recommendation.',
             ].map((line, i) => (
               <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', padding: '10px 0', borderBottom: `1px solid ${C.border}` }}>
-                <span style={{ color: C.yellow, fontWeight: 700, flexShrink: 0 }}>✓</span>
+                <span style={{ color: C.accent, fontWeight: 700, flexShrink: 0 }}>✓</span>
                 <span style={body}>{line}</span>
               </div>
             ))}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', ...body }}>
             <p>We put these ideas into <em>Think Like a Consultant</em> so you can learn the same way of thinking without spending years trying to figure it out yourself.</p>
-            <p style={{ color: C.yellow, fontWeight: 700 }}>Whether you are a consultant or a business owner, you can use these ideas immediately.</p>
+            <p style={{ color: C.accent, fontWeight: 700 }}>Whether you are a consultant or a business owner, you can use these ideas immediately.</p>
           </div>
         </Reveal>
 
@@ -310,8 +310,8 @@ export default function SalesPageC() {
           body="You will learn a simple process you can use whenever a difficult problem comes up. So the next time something goes wrong, you don't have to start from zero. You have a process to follow." />
 
         <Reveal>
-          <div style={{ backgroundColor: C.surface, border: `1px solid ${C.yellow}`, padding: '28px', margin: '16px 0' }}>
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(16px, 2.5vw, 20px)', fontWeight: 700, color: C.yellow, marginBottom: '14px', textTransform: 'uppercase' }}>
+          <div style={{ backgroundColor: C.surface, border: `1px solid ${C.accent}`, padding: '28px', margin: '16px 0' }}>
+            <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(16px, 2.5vw, 20px)', fontWeight: 700, color: C.accent, marginBottom: '14px', textTransform: 'uppercase' }}>
               AND THERE IS MUCH MORE.
             </p>
             <p style={{ ...body, marginBottom: '12px' }}>
@@ -339,7 +339,7 @@ export default function SalesPageC() {
             <p>Your clients don't pay you because you know big words.</p>
             <p>They pay you because they expect you to help them solve problems.</p>
             <p>The better you become at understanding problems, asking good questions, analysing situations and developing solutions, the more useful you become to your clients.</p>
-            <p style={{ color: C.yellow, fontWeight: 700 }}>This book gives you practical frameworks you can use in your consulting work.</p>
+            <p style={{ color: C.accent, fontWeight: 700 }}>This book gives you practical frameworks you can use in your consulting work.</p>
           </div>
         </Reveal>
 
@@ -365,7 +365,7 @@ export default function SalesPageC() {
               </div>
             ))}
           </div>
-          <p style={{ ...body, color: C.yellow, fontWeight: 700, fontSize: 'clamp(16px, 2.2vw, 19px)', marginTop: '16px' }}>
+          <p style={{ ...body, color: C.accent, fontWeight: 700, fontSize: 'clamp(16px, 2.2vw, 19px)', marginTop: '16px' }}>
             You simply need to learn how to think through problems properly.
           </p>
         </Reveal>
@@ -407,7 +407,7 @@ export default function SalesPageC() {
             <p>Quick Learn Plus is a business education company that turns complex business ideas into simple and practical lessons.</p>
             <p>We create books and learning resources around business, strategy, problem-solving and other useful business skills.</p>
             <p>The goal is simple:</p>
-            <p style={{ color: C.yellow, fontWeight: 700, fontStyle: 'italic', borderLeft: `3px solid ${C.yellow}`, paddingLeft: '18px' }}>
+            <p style={{ color: C.accent, fontWeight: 700, fontStyle: 'italic', borderLeft: `3px solid ${C.accent}`, paddingLeft: '18px' }}>
               Help you learn useful ideas quickly and apply them in the real world.
             </p>
             <p><em>Think Like a Consultant</em> is one of our practical books designed to help consultants, entrepreneurs and business owners develop a better way of solving business problems.</p>
@@ -426,7 +426,7 @@ export default function SalesPageC() {
             <p>When it comes, you can guess.</p>
             <p>You can panic.</p>
             <p>You can keep trying random solutions.</p>
-            <p style={{ color: C.yellow, fontWeight: 700, fontSize: 'clamp(16px, 2.2vw, 19px)' }}>
+            <p style={{ color: C.accent, fontWeight: 700, fontSize: 'clamp(16px, 2.2vw, 19px)' }}>
               Or you can have a process that helps you understand the problem and work towards the right solution.
             </p>
             <p><em>Think Like a Consultant</em> gives you that process.</p>
@@ -452,14 +452,14 @@ export default function SalesPageC() {
       <div className="ownerC-sticky" style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
         display: 'none', padding: '10px 16px',
-        backgroundColor: '#000', borderTop: `2px solid ${C.yellow}`,
+        backgroundColor: '#fff', borderTop: `2px solid ${C.accent}`,
         transform: sticky ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.3s ease',
       }}>
         <a href={SELAR} target="_blank" rel="noopener noreferrer"
           style={{
             display: 'block', width: '100%', textAlign: 'center',
-            backgroundColor: C.yellow, color: '#000',
+            backgroundColor: C.accent, color: '#fff',
             fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: 700,
             letterSpacing: '0.06em', textTransform: 'uppercase',
             padding: '15px', textDecoration: 'none',
