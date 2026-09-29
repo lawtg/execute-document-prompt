@@ -53,7 +53,7 @@ function CTABtn({ text, id }: { text: string; id?: string }) {
         backgroundColor: '#0D2137',
         color: '#FFFFFF',
         fontFamily: "'Georgia', 'Times New Roman', serif",
-        fontSize: '18px',
+        fontSize: '20px',
         fontWeight: 700,
         letterSpacing: '0.04em',
         textTransform: 'uppercase',
@@ -84,7 +84,7 @@ function SHeadline({ children }: { children: React.ReactNode }) {
   return (
     <h2 style={{
       fontFamily: "'Georgia', 'Times New Roman', serif",
-      fontSize: 'clamp(20px, 3.5vw, 28px)',
+      fontSize: 'clamp(24px, 4vw, 34px)',
       fontWeight: 700,
       color: C.ink,
       textTransform: 'uppercase',
@@ -99,7 +99,7 @@ function SHeadline({ children }: { children: React.ReactNode }) {
 
 const body: React.CSSProperties = {
   fontFamily: "'Georgia', 'Times New Roman', serif",
-  fontSize: 'clamp(15px, 2vw, 17px)',
+  fontSize: 'clamp(17px, 2.2vw, 20px)',
   lineHeight: 1.9,
   color: C.body,
 }
@@ -117,7 +117,7 @@ function Benefit({ num, title, body: bodyText }: { num: number; title: string; b
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexShrink: 0, lineHeight: 1,
           }}>{num}</span>
-          <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(14px, 2vw, 17px)', fontWeight: 700, color: C.ink, textTransform: 'uppercase', letterSpacing: '0.02em', lineHeight: 1.35, margin: 0 }}>
+          <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(16px, 2.2vw, 19px)', fontWeight: 700, color: C.ink, textTransform: 'uppercase', letterSpacing: '0.02em', lineHeight: 1.35, margin: 0 }}>
             {title}
           </p>
         </div>
@@ -133,8 +133,8 @@ function Testi({ quote, name, title }: { quote: string; name: string; title: str
     <Reveal>
       <div style={{ borderLeft: `3px solid ${C.accent}`, paddingLeft: '20px', marginBottom: '32px' }}>
         <p style={{ ...body, fontStyle: 'italic', marginBottom: '10px' }}>"{quote}"</p>
-        <p style={{ fontFamily: "'Georgia', serif", fontSize: '14px', fontWeight: 700, color: C.ink, margin: 0 }}>{name}</p>
-        <p style={{ fontFamily: "'Georgia', serif", fontSize: '13px', color: C.muted, margin: 0 }}>{title}</p>
+        <p style={{ fontFamily: "'Georgia', serif", fontSize: '17px', fontWeight: 700, color: C.ink, margin: 0 }}>{name}</p>
+        <p style={{ fontFamily: "'Georgia', serif", fontSize: '15px', color: C.muted, margin: 0 }}>{title}</p>
       </div>
     </Reveal>
   )
@@ -167,7 +167,7 @@ export default function SalesPageC() {
             {/* Big yellow headline */}
             <h1 style={{
               fontFamily: "'Georgia', 'Times New Roman', serif",
-              fontSize: 'clamp(24px, 5vw, 42px)',
+              fontSize: 'clamp(28px, 5.5vw, 48px)',
               fontWeight: 700,
               color: C.ink,
               textTransform: 'uppercase',
