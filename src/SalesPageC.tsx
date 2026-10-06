@@ -1,45 +1,49 @@
 import { useRef, useState, useEffect } from 'react'
 import consultantCover from './-like-a-consultant-cover.png'
 
-/* ─── Design tokens — reference page style ──────────── */
+/* ─── Google Fonts injected via <style> below ─────────
+   Anton  — display headings
+   Poppins — body, labels, buttons
+──────────────────────────────────────────────────────── */
+
 const C = {
-  heroBg:   '#0A0A0A',   /* near-black hero */
-  sectionBg:'#FFFFFF',   /* white body sections */
-  altBg:    '#F2F2F2',   /* light grey alternating */
-  darkBg:   '#111111',   /* dark sections */
-  ink:      '#1A1A1A',   /* body text */
-  body:     '#333333',
-  red:      '#CC1111',   /* primary red — buttons, highlights */
-  redDark:  '#A50D0D',
-  white:    '#FFFFFF',
-  muted:    '#666666',
-  border:   '#DDDDDD',
-  yellow:   '#FFD700',   /* highlight text */
+  purple:     '#2D1B69',   // dominant deep purple
+  purpleMid:  '#3D2A80',
+  purpleLight:'#4E3894',
+  yellow:     '#FFD600',   // vivid yellow
+  yellowHover:'#E6C000',
+  white:      '#FFFFFF',
+  offWhite:   '#F9F8FF',
+  lightGrey:  '#F4F3FC',
+  ink:        '#1A1033',
+  bodyText:   '#3D3557',
+  muted:      '#7B72A0',
+  border:     '#E2DFF4',
 }
 
 const SELAR = 'https://selar.com/978m069577'
 
 /* ─── helpers ────────────────────────────────────────── */
-function useInView(threshold = 0.07) {
+function useInView(t = 0.08) {
   const ref = useRef<HTMLDivElement>(null)
   const [vis, setVis] = useState(false)
   useEffect(() => {
     const el = ref.current; if (!el) return
     const obs = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) { setVis(true); obs.disconnect() }
-    }, { threshold })
+    }, { threshold: t })
     obs.observe(el); return () => obs.disconnect()
-  }, [threshold])
+  }, [t])
   return { ref, vis }
 }
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+function Reveal({ children, delay = 0, y = 28 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const { ref, vis } = useInView()
   return (
     <div ref={ref} style={{
       opacity: vis ? 1 : 0,
-      transform: vis ? 'translateY(0)' : 'translateY(22px)',
-      transition: `opacity 0.55s ease ${delay}ms, transform 0.55s ease ${delay}ms`,
+      transform: vis ? 'none' : `translateY(${y}px)`,
+      transition: `opacity .65s ease ${delay}ms, transform .65s ease ${delay}ms`,
     }}>
       {children}
     </div>
@@ -47,442 +51,938 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 }
 
 /* ─── CTA Button ─────────────────────────────────────── */
-function CTABtn({ text, id }: { text: string; id?: string }) {
+function CTABtn({ text, id, small }: { text: string; id?: string; small?: boolean }) {
   return (
     <a href={SELAR} target="_blank" rel="noopener noreferrer" id={id}
       style={{
-        display: 'block',
-        width: '100%',
-        backgroundColor: C.red,
-        color: C.white,
-        fontFamily: "'Georgia', 'Times New Roman', serif",
-        fontSize: '20px',
-        fontWeight: 700,
-        letterSpacing: '0.05em',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        backgroundColor: C.yellow, color: C.purple,
+        fontFamily: "'Poppins', sans-serif",
+        fontSize: small ? '14px' : '17px',
+        fontWeight: 800,
+        letterSpacing: '0.06em',
         textTransform: 'uppercase',
-        padding: '22px 32px',
+        padding: small ? '14px 32px' : '20px 52px',
         textDecoration: 'none',
-        textAlign: 'center',
-        transition: 'background-color 0.15s',
+        transition: 'background-color 0.15s, transform 0.12s',
         cursor: 'pointer',
-        lineHeight: 1.3,
+        lineHeight: 1.2,
         boxSizing: 'border-box' as const,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+        boxShadow: '0 6px 24px rgba(255,214,0,0.35)',
       }}
-      onMouseEnter={e => (e.currentTarget.style.backgroundColor = C.redDark)}
-      onMouseLeave={e => (e.currentTarget.style.backgroundColor = C.red)}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLAnchorElement).style.backgroundColor = C.yellowHover
+        ;(e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-2px)'
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLAnchorElement).style.backgroundColor = C.yellow
+        ;(e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'
+      }}
     >
       {text}
     </a>
   )
 }
 
-/* ─── Red banner label ───────────────────────────────── */
-function RedBanner({ text }: { text: string }) {
+/* ─── CSS-drawn book mockup ──────────────────────────── */
+function BookMockup({ size = 280 }: { size?: number }) {
   return (
-    <div style={{ backgroundColor: C.red, padding: '14px 24px', textAlign: 'center', margin: '0' }}>
-      <span style={{
-        fontFamily: "'Georgia', serif",
-        fontSize: 'clamp(16px, 2.5vw, 20px)',
-        fontWeight: 700,
-        color: C.white,
-        textTransform: 'uppercase',
-        letterSpacing: '0.06em',
-      }}>
-        {text}
-      </span>
+    <div style={{ perspective: '900px', display: 'inline-block' }}>
+      <img
+        src={consultantCover}
+        alt="Think Like a Consultant"
+        style={{
+          width: `${size}px`,
+          display: 'block',
+          borderRadius: '2px 6px 6px 2px',
+          boxShadow: `
+            ${size * 0.06}px ${size * 0.1}px ${size * 0.22}px rgba(0,0,0,0.55),
+            ${size * 0.015}px ${size * 0.02}px ${size * 0.05}px rgba(0,0,0,0.3),
+            0 0 ${size * 0.15}px rgba(255,214,0,0.12)
+          `,
+          transform: 'rotateY(-12deg) rotateX(2deg)',
+          transformOrigin: 'left center',
+        }}
+      />
     </div>
   )
 }
 
-/* ─── Section headline ───────────────────────────────── */
-function SHead({ children, center, dark }: { children: React.ReactNode; center?: boolean; dark?: boolean }) {
+/* ─── Section label ──────────────────────────────────── */
+function Label({ text, light }: { text: string; light?: boolean }) {
   return (
-    <h2 style={{
-      fontFamily: "'Georgia', 'Times New Roman', serif",
-      fontSize: 'clamp(22px, 3.8vw, 32px)',
-      fontWeight: 700,
-      color: dark ? C.yellow : C.ink,
-      textTransform: 'uppercase',
-      lineHeight: 1.25,
-      marginBottom: '28px',
-      letterSpacing: '0.03em',
-      textAlign: center ? 'center' : 'left',
+    <p style={{
+      fontFamily: "'Poppins', sans-serif",
+      fontSize: '11px', fontWeight: 700,
+      letterSpacing: '0.22em', textTransform: 'uppercase',
+      color: light ? 'rgba(255,255,255,0.45)' : C.purpleLight,
+      marginBottom: '16px',
     }}>
-      {children}
-    </h2>
+      {text}
+    </p>
   )
 }
 
-/* ─── Body text ──────────────────────────────────────── */
-const P: React.CSSProperties = {
-  fontFamily: "'Georgia', 'Times New Roman', serif",
-  fontSize: 'clamp(17px, 2.2vw, 20px)',
-  lineHeight: 1.9,
-  color: C.body,
-  marginBottom: '18px',
-}
-
-const PW: React.CSSProperties = {
-  ...P,
-  color: 'rgba(255,255,255,0.88)',
-}
-
-/* ─── Bullet item ────────────────────────────────────── */
-function Bullet({ text, dark }: { text: string; dark?: boolean }) {
-  return (
-    <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', padding: '12px 0', borderBottom: `1px solid ${dark ? 'rgba(255,255,255,0.08)' : C.border}` }}>
-      <span style={{ color: C.red, fontWeight: 900, fontSize: '18px', flexShrink: 0, paddingTop: '3px', lineHeight: 1 }}>›</span>
-      <span style={{ ...(dark ? PW : P), marginBottom: 0 }}>{text}</span>
-    </div>
-  )
-}
-
-/* ─── Testimonial card ───────────────────────────────── */
-const INITIALS_COLORS = ['#1A6B3C', '#1A3A8F', '#7B1A1A', '#4A1A6B']
-
-function TestiCard({ quote, name, title, index }: { quote: string; name: string; title: string; index: number }) {
-  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
-  const bgColor = INITIALS_COLORS[index % INITIALS_COLORS.length]
-
-  return (
-    <Reveal delay={index * 60}>
-      <div style={{
-        backgroundColor: C.sectionBg,
-        border: `1px solid ${C.border}`,
-        borderTop: `4px solid ${C.red}`,
-        padding: '28px',
-        boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-      }}>
-        {/* Quote marks */}
-        <p style={{ fontFamily: "'Georgia', serif", fontSize: '64px', color: C.red, lineHeight: 0.6, marginBottom: '20px', opacity: 0.6 }}>"</p>
-
-        {/* Quote */}
-        <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(16px, 2vw, 18px)', lineHeight: 1.85, color: C.body, fontStyle: 'italic', marginBottom: '24px' }}>
-          {quote}
-        </p>
-
-        {/* Author row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', borderTop: `1px solid ${C.border}`, paddingTop: '16px' }}>
-          {/* Avatar with initials */}
-          <div style={{
-            width: '48px', height: '48px', borderRadius: '50%',
-            backgroundColor: bgColor,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexShrink: 0,
-            border: `2px solid ${C.red}`,
-          }}>
-            <span style={{ fontFamily: "'Georgia', serif", fontSize: '16px', fontWeight: 700, color: '#fff' }}>{initials}</span>
-          </div>
-          <div>
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: '16px', fontWeight: 700, color: C.ink, margin: 0 }}>{name}</p>
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: '14px', color: C.muted, margin: 0 }}>{title}</p>
-          </div>
-        </div>
-      </div>
-    </Reveal>
-  )
+/* ─── Divider ─────────────────────────────────────────── */
+function Rule({ yellow }: { yellow?: boolean }) {
+  return <div style={{ height: '2px', backgroundColor: yellow ? C.yellow : C.border, margin: '0' }} />
 }
 
 /* ─── PAGE ────────────────────────────────────────────── */
 export default function SalesPageC() {
   const [sticky, setSticky] = useState(false)
   useEffect(() => {
-    const fn = () => setSticky(window.scrollY > 600)
+    const fn = () => setSticky(window.scrollY > 700)
     window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
   return (
-    <div style={{ backgroundColor: C.sectionBg, color: C.ink, fontFamily: "'Georgia', 'Times New Roman', serif" }}>
+    <div style={{ backgroundColor: C.offWhite, color: C.ink, fontFamily: "'Poppins', sans-serif" }}>
 
-      {/* ── HERO — dark background ── */}
-      <section style={{ backgroundColor: C.heroBg, padding: '64px 24px 56px' }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
+      {/* ════════════════════════════════════════════════
+          § 1 — HERO
+      ════════════════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.purple, padding: '80px 24px 72px', overflow: 'hidden' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr auto', gap: '72px', alignItems: 'center' }} className="pc-hero-grid">
+
+          {/* Left copy */}
+          <div>
+            <Reveal>
+              <Label text="Think Like a Consultant" light />
+              <h1 style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: 'clamp(38px, 7vw, 76px)',
+                fontWeight: 400,   /* Anton is inherently bold */
+                lineHeight: 1.05,
+                color: C.white,
+                letterSpacing: '0.01em',
+                textTransform: 'uppercase',
+                marginBottom: '20px',
+              }}>
+                Become one of the{' '}
+                <span style={{ color: C.yellow }}>Top 1%</span>{' '}
+                Consultants in Africa.
+              </h1>
+            </Reveal>
+
+            <Reveal delay={80}>
+              <p style={{
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: 'clamp(16px, 2.2vw, 20px)',
+                fontWeight: 600,
+                lineHeight: 1.55,
+                color: 'rgba(255,255,255,0.75)',
+                marginBottom: '14px',
+              }}>
+                Are you struggling to deliver{' '}
+                <span style={{ color: C.yellow, fontWeight: 700 }}>consistent solutions</span>{' '}
+                for all your clients?
+              </p>
+              <p style={{
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: 'clamp(15px, 1.9vw, 18px)',
+                lineHeight: 1.75,
+                color: 'rgba(255,255,255,0.6)',
+                marginBottom: '40px',
+                maxWidth: '520px',
+              }}>
+                Learn how to think through complex business problems, eliminate guesswork and deliver solutions your clients can't stop talking about.
+              </p>
+            </Reveal>
+
+            <Reveal delay={140}>
+              <CTABtn text="Get the Book Now" id="order" />
+              <p style={{
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: '12px',
+                color: 'rgba(255,255,255,0.35)',
+                marginTop: '14px',
+                letterSpacing: '0.04em',
+              }}>
+                Instant digital access&nbsp;•&nbsp;Practical framework&nbsp;•&nbsp;Built for consultants
+              </p>
+            </Reveal>
+          </div>
+
+          {/* Right book */}
+          <Reveal delay={200}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <BookMockup size={280} />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
+          § 2 — THE PROBLEM
+      ════════════════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.white, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '880px', margin: '0 auto' }}>
           <Reveal>
-            {/* Eyebrow */}
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: '13px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: '16px' }}>
-              Quick Learn Plus Presents
-            </p>
-
-            {/* Red italic subhead */}
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(14px, 2vw, 17px)', fontWeight: 700, color: C.red, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '16px' }}>
-              The Practical Guide For Solving Any Business Problem
-            </p>
-
-            {/* Main title */}
-            <h1 style={{
-              fontFamily: "'Georgia', 'Times New Roman', serif",
-              fontSize: 'clamp(30px, 6vw, 54px)',
-              fontWeight: 700,
-              color: C.white,
-              lineHeight: 1.15,
-              letterSpacing: '0.02em',
-              marginBottom: '24px',
+            <Label text="The Reality" />
+            <h2 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(32px, 5.5vw, 60px)',
+              fontWeight: 400,
+              color: C.ink,
+              textTransform: 'uppercase',
+              lineHeight: 1.1,
+              marginBottom: '12px',
+              letterSpacing: '0.01em',
             }}>
-              Think Like a Consultant
-            </h1>
-
-            {/* Sub-headline */}
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(16px, 2.5vw, 20px)', lineHeight: 1.7, color: C.yellow, fontWeight: 700, marginBottom: '32px' }}>
-              How To Find Where Your Business Is Leaking Money, Fix What Matters First, And Solve Any Business Problem With A Simple 6-Step Process, Even If You Have Never Worked As A Consultant
+              Your practice is about to transform.
+            </h2>
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: 'clamp(17px, 2.2vw, 22px)',
+              fontWeight: 600,
+              color: C.purpleLight,
+              marginBottom: '48px',
+            }}>
+              Avoid continued frustration with client results.
             </p>
           </Reveal>
 
-          {/* Book cover */}
+          <Reveal delay={60}>
+            <div style={{
+              backgroundColor: C.purple,
+              padding: '32px 36px',
+              marginBottom: '56px',
+            }}>
+              <p style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: 'clamp(20px, 3vw, 30px)',
+                fontWeight: 400,
+                color: C.yellow,
+                letterSpacing: '0.02em',
+                lineHeight: 1.3,
+                margin: 0,
+              }}>
+                Every missed result costs you more than you think.
+              </p>
+            </div>
+          </Reveal>
+
           <Reveal delay={80}>
-            <div style={{ display: 'flex', justifyContent: 'center', margin: '0 0 36px' }}>
-              <div style={{ perspective: '900px', display: 'inline-block' }}>
-                <img src={consultantCover} alt="Think Like a Consultant"
-                  style={{
-                    width: 'clamp(160px, 38vw, 260px)',
-                    display: 'block',
-                    borderRadius: '2px 8px 8px 2px',
-                    boxShadow: '12px 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(204,17,17,0.18)',
-                    transform: 'rotateY(-5deg)',
-                    transformOrigin: 'left center',
-                  }}
-                />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              {[
+                'Valuable clients walk away',
+                'Hours disappear into solutions that don\'t work',
+                'Retention drops and referrals dry up',
+                'Revenue slips through your fingers',
+                'Your practice stalls while others grow',
+                'Confidence erodes with every engagement',
+                'Stress and burnout creep in',
+                'You start wondering if you\'re cut out for this',
+              ].map((item, i) => (
+                <div key={i} style={{
+                  display: 'grid',
+                  gridTemplateColumns: '48px 1fr',
+                  gap: '16px',
+                  alignItems: 'center',
+                  padding: '20px 0',
+                  borderBottom: `1px solid ${C.border}`,
+                }}>
+                  <span style={{
+                    fontFamily: "'Anton', sans-serif",
+                    fontSize: '28px',
+                    color: `rgba(45,27,105,${0.08 + i * 0.1})`,
+                    lineHeight: 1,
+                    letterSpacing: '0.01em',
+                  }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <p style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: 'clamp(16px, 2vw, 19px)',
+                    fontWeight: 500,
+                    color: C.bodyText,
+                    margin: 0,
+                    lineHeight: 1.5,
+                  }}>
+                    {item}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal delay={100}>
+            <div style={{ marginTop: '56px', textAlign: 'center' }}>
+              <p style={{
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: 'clamp(16px, 2vw, 19px)',
+                color: C.muted,
+                marginBottom: '12px',
+              }}>
+                You didn't become a consultant to feel stuck.
+              </p>
+              <h3 style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: 'clamp(28px, 4.5vw, 50px)',
+                fontWeight: 400,
+                color: C.purple,
+                textTransform: 'uppercase',
+                letterSpacing: '0.02em',
+                marginBottom: '36px',
+              }}>
+                There's a better way to think.
+              </h3>
+              <CTABtn text="Buy the Ebook Now" />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <Rule yellow />
+
+      {/* ════════════════════════════════════════════════
+          § 3 — THE TRANSFORMATION
+      ════════════════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.purple, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '72px', alignItems: 'center' }} className="pc-split-grid">
+
+          <Reveal>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <BookMockup size={260} />
+            </div>
+          </Reveal>
+
+          <Reveal delay={80}>
+            <Label text="The Transformation" light />
+            <h2 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(28px, 4.5vw, 52px)',
+              fontWeight: 400,
+              color: C.white,
+              textTransform: 'uppercase',
+              lineHeight: 1.1,
+              letterSpacing: '0.01em',
+              marginBottom: '12px',
+            }}>
+              Confidently solve any business problem.
+            </h2>
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: 'clamp(15px, 1.9vw, 18px)',
+              fontWeight: 600,
+              color: C.yellow,
+              marginBottom: '28px',
+            }}>
+              Walk Into Every Engagement Knowing Exactly What To Do.
+            </p>
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: 'clamp(15px, 1.8vw, 17px)',
+              lineHeight: 1.8,
+              color: 'rgba(255,255,255,0.7)',
+              marginBottom: '40px',
+            }}>
+              <em>Think Like a Consultant</em> gives you the mindset and method top consultants use to cut through complexity, think clearly and deliver solutions clients can't stop talking about.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              {[
+                { n: '01', t: 'GAIN CLARITY', b: 'Use a straightforward six-step process to make sense of complex problems.' },
+                { n: '02', t: 'ELIMINATE GUESSWORK', b: 'Know what questions to ask, what to analyze and what to do next.' },
+                { n: '03', t: 'BUILD YOUR REPUTATION', b: 'Become the consultant clients trust when the problem is difficult.' },
+                { n: '04', t: 'DELIVER BETTER SOLUTIONS', b: 'Turn your thinking into practical solutions clients can actually use.' },
+              ].map((item, i) => (
+                <div key={i} style={{
+                  display: 'grid', gridTemplateColumns: '48px 1fr', gap: '16px',
+                  padding: '20px 0', borderBottom: '1px solid rgba(255,255,255,0.1)',
+                  alignItems: 'flex-start',
+                }}>
+                  <span style={{ fontFamily: "'Anton', sans-serif", fontSize: '22px', color: C.yellow, lineHeight: 1 }}>{item.n}</span>
+                  <div>
+                    <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', fontWeight: 700, color: C.yellow, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '4px' }}>{item.t}</p>
+                    <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(14px, 1.6vw, 16px)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, margin: 0 }}>{item.b}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
+          § 4 — THE FRAMEWORK
+      ════════════════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.lightGrey, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '880px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="The 6-Step Framework" />
+            <h2 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(30px, 5vw, 56px)',
+              fontWeight: 400,
+              color: C.ink,
+              textTransform: 'uppercase',
+              lineHeight: 1.1,
+              letterSpacing: '0.01em',
+              marginBottom: '16px',
+            }}>
+              Stop guessing. Start thinking like a consultant.
+            </h2>
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: 'clamp(16px, 2vw, 19px)',
+              color: C.muted,
+              marginBottom: '64px',
+              maxWidth: '560px',
+            }}>
+              Great consultants don't magically know the answer. They know how to find it.
+            </p>
+          </Reveal>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            {[
+              { n: '01', t: 'DEFINE THE PROBLEM', b: 'Clarify exactly what you\'re trying to solve before reaching for any solution.' },
+              { n: '02', t: 'BREAK IT DOWN', b: 'Decompose the problem into smaller, manageable parts you can investigate independently.' },
+              { n: '03', t: 'FIND THE ROOT CAUSE', b: 'Dig beneath the symptoms to discover what is actually driving the issue.' },
+              { n: '04', t: 'ANALYZE THE EVIDENCE', b: 'Separate facts from assumptions and build your understanding on solid ground.' },
+              { n: '05', t: 'DEVELOP THE SOLUTION', b: 'Generate multiple options before committing to the most effective path forward.' },
+              { n: '06', t: 'TURN THINKING INTO ACTION', b: 'Package your recommendation so clients understand it, trust it and can act on it.' },
+            ].map((step, i) => (
+              <Reveal key={i} delay={i * 50}>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '100px 1fr',
+                  gap: '24px',
+                  padding: '36px 0',
+                  borderBottom: `1px solid ${C.border}`,
+                  alignItems: 'flex-start',
+                }}>
+                  <div>
+                    <span style={{
+                      fontFamily: "'Anton', sans-serif",
+                      fontSize: 'clamp(48px, 7vw, 80px)',
+                      fontWeight: 400,
+                      color: i % 2 === 0 ? C.yellow : `rgba(45,27,105,0.12)`,
+                      lineHeight: 1,
+                      display: 'block',
+                    }}>
+                      {step.n}
+                    </span>
+                  </div>
+                  <div style={{ paddingTop: '8px' }}>
+                    <p style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      letterSpacing: '0.16em',
+                      textTransform: 'uppercase',
+                      color: C.purple,
+                      marginBottom: '8px',
+                    }}>
+                      {step.t}
+                    </p>
+                    <p style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: 'clamp(15px, 1.8vw, 17px)',
+                      lineHeight: 1.75,
+                      color: C.bodyText,
+                      margin: 0,
+                    }}>
+                      {step.b}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
+          § 5 — EMPATHY + TESTIMONIALS
+      ════════════════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.white, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '880px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="We Understand" />
+            <h2 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(30px, 5vw, 54px)',
+              fontWeight: 400,
+              color: C.ink,
+              textTransform: 'uppercase',
+              lineHeight: 1.1,
+              letterSpacing: '0.01em',
+              marginBottom: '24px',
+            }}>
+              We know how this feels.
+            </h2>
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: 'clamp(16px, 2vw, 19px)',
+              lineHeight: 1.8,
+              color: C.bodyText,
+              marginBottom: '12px',
+              maxWidth: '620px',
+            }}>
+              You care about your clients. You put in the hours. But when the results don't match the effort, it's frustrating.
+            </p>
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: 'clamp(16px, 2vw, 19px)',
+              lineHeight: 1.8,
+              color: C.bodyText,
+              marginBottom: '56px',
+              maxWidth: '620px',
+            }}>
+              We've been there, and we wrote this book to help you fix it.
+            </p>
+          </Reveal>
+
+          {/* Testimonials */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '56px' }} className="pc-testi-grid">
+            {[
+              { quote: "I have read a lot of business books, but what I like about Think Like a Consultant is how practical it is. It gives you a simple way to look at a business problem, break it down and know what to do next.", name: "ThankGod Akpa", title: "Founder, Impakt100" },
+              { quote: "The ideas are simple, but they make you think differently. It has changed the way I approach some of the decisions I make in business.", name: "Peterson Akodi", title: "Co-Founder, SPacebox" },
+              { quote: "Sometimes the problem is not that you don't have a solution. The problem is that you have not properly understood the problem. This book gives you a practical process for thinking through difficult situations.", name: "David Utulor", title: "Director, Mc Dave Schools" },
+              { quote: "As someone who works with businesses, I found the frameworks in this book very useful. It gives you a structured way to think when things are unclear instead of just relying on experience or instinct.", name: "August Ojile", title: "CEO, Cueball Digital Agency" },
+            ].map((t, i) => (
+              <Reveal key={i} delay={i * 60}>
+                <div style={{
+                  backgroundColor: C.lightGrey,
+                  borderLeft: `4px solid ${i % 2 === 0 ? C.purple : C.yellow}`,
+                  padding: '28px 24px',
+                }}>
+                  <p style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: 'clamp(14px, 1.6vw, 16px)',
+                    lineHeight: 1.8,
+                    color: C.bodyText,
+                    fontStyle: 'italic',
+                    marginBottom: '20px',
+                  }}>
+                    "{t.quote}"
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{
+                      width: '40px', height: '40px', borderRadius: '50%',
+                      backgroundColor: i % 2 === 0 ? C.purple : C.yellow,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                    }}>
+                      <span style={{
+                        fontFamily: "'Anton', sans-serif",
+                        fontSize: '14px',
+                        color: i % 2 === 0 ? C.yellow : C.purple,
+                        lineHeight: 1,
+                      }}>
+                        {t.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
+                      </span>
+                    </div>
+                    <div>
+                      <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', fontWeight: 700, color: C.ink, margin: 0 }}>{t.name}</p>
+                      <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: C.muted, margin: 0 }}>{t.title}</p>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
+          § 6 — BEFORE / AFTER
+      ════════════════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.purple, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <Reveal>
+            <h2 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(28px, 4.5vw, 52px)',
+              fontWeight: 400,
+              color: C.white,
+              textTransform: 'uppercase',
+              lineHeight: 1.1,
+              letterSpacing: '0.01em',
+              marginBottom: '56px',
+              textAlign: 'center',
+            }}>
+              Imagine walking into your next client meeting differently.
+            </h2>
+          </Reveal>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px', backgroundColor: 'rgba(255,255,255,0.1)' }} className="pc-ba-grid">
+            {/* Before */}
+            <Reveal>
+              <div style={{ backgroundColor: C.purpleMid, padding: '40px 32px' }}>
+                <p style={{
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: '11px', fontWeight: 700,
+                  letterSpacing: '0.2em', textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.4)', marginBottom: '28px',
+                }}>
+                  Before
+                </p>
+                {[
+                  "You don't know where to start.",
+                  "You overthink the problem.",
+                  "You rely on instinct.",
+                  "You struggle to explain your recommendation.",
+                  "You worry whether your solution will work.",
+                ].map((t, i) => (
+                  <div key={i} style={{ padding: '14px 0', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                    <span style={{ color: 'rgba(255,255,255,0.2)', fontWeight: 700, flexShrink: 0, paddingTop: '2px' }}>—</span>
+                    <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(14px, 1.7vw, 16px)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, margin: 0 }}>{t}</p>
+                  </div>
+                ))}
               </div>
+            </Reveal>
+
+            {/* After */}
+            <Reveal delay={80}>
+              <div style={{ backgroundColor: C.purpleLight, padding: '40px 32px' }}>
+                <p style={{
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: '11px', fontWeight: 700,
+                  letterSpacing: '0.2em', textTransform: 'uppercase',
+                  color: C.yellow, marginBottom: '28px',
+                }}>
+                  After
+                </p>
+                {[
+                  "You know exactly where to start.",
+                  "You break complex problems into manageable parts.",
+                  "You have a repeatable process.",
+                  "You can explain your thinking clearly.",
+                  "You deliver solutions with confidence.",
+                ].map((t, i) => (
+                  <div key={i} style={{ padding: '14px 0', borderBottom: '1px solid rgba(255,255,255,0.1)', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                    <span style={{ color: C.yellow, fontWeight: 700, flexShrink: 0, paddingTop: '2px', fontSize: '14px' }}>✓</span>
+                    <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(14px, 1.7vw, 16px)', color: C.white, lineHeight: 1.6, margin: 0 }}>{t}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
+          § 7 — WHO IT'S FOR
+      ════════════════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.white, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="Is This For You?" />
+            <h2 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(28px, 4.5vw, 52px)',
+              fontWeight: 400,
+              color: C.ink,
+              textTransform: 'uppercase',
+              lineHeight: 1.1,
+              letterSpacing: '0.01em',
+              marginBottom: '48px',
+            }}>
+              This book is for you if…
+            </h2>
+          </Reveal>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            {[
+              "You're a consultant who wants to deliver better results.",
+              "You're tired of relying on guesswork.",
+              "You want clients to trust your recommendations.",
+              "You want a repeatable process for solving difficult problems.",
+              "You're building a consulting practice and want to become known for results.",
+              "You're an expert who wants to think more strategically.",
+            ].map((item, i) => (
+              <Reveal key={i} delay={i * 40}>
+                <div style={{
+                  display: 'flex', gap: '20px', alignItems: 'flex-start',
+                  padding: '22px 0', borderBottom: `1px solid ${C.border}`,
+                }}>
+                  <div style={{
+                    width: '8px', height: '8px', borderRadius: '50%',
+                    backgroundColor: C.yellow, flexShrink: 0, marginTop: '9px',
+                    boxShadow: `0 0 0 3px ${C.purple}20`,
+                  }} />
+                  <p style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: 'clamp(16px, 2vw, 19px)',
+                    lineHeight: 1.65,
+                    color: C.bodyText,
+                    margin: 0,
+                  }}>
+                    {item}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
+          § 8 — HOW IT WORKS
+      ════════════════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.lightGrey, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '880px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="Getting Started" />
+            <h2 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(28px, 4.5vw, 52px)',
+              fontWeight: 400,
+              color: C.ink,
+              textTransform: 'uppercase',
+              lineHeight: 1.1,
+              letterSpacing: '0.01em',
+              marginBottom: '56px',
+            }}>
+              3 Simple Steps to Start Thinking Like a Consultant
+            </h2>
+          </Reveal>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: C.border }} className="pc-steps-grid">
+            {[
+              { n: '01', t: 'Get the Book', b: 'Add the ebook to your cart. One click and it\'s yours.' },
+              { n: '02', t: 'Complete Checkout', b: 'Complete your secure checkout quickly and safely.' },
+              { n: '03', t: 'Start Learning', b: 'Get instant access and start applying the framework to your next client challenge.' },
+            ].map((step, i) => (
+              <Reveal key={i} delay={i * 60}>
+                <div style={{ backgroundColor: C.white, padding: '40px 28px' }}>
+                  <span style={{
+                    fontFamily: "'Anton', sans-serif",
+                    fontSize: '64px',
+                    fontWeight: 400,
+                    color: i === 1 ? C.yellow : `rgba(45,27,105,0.1)`,
+                    lineHeight: 1,
+                    display: 'block',
+                    marginBottom: '16px',
+                  }}>
+                    {step.n}
+                  </span>
+                  <p style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: '13px', fontWeight: 700,
+                    letterSpacing: '0.1em', textTransform: 'uppercase',
+                    color: C.purple, marginBottom: '10px',
+                  }}>
+                    {step.t}
+                  </p>
+                  <p style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: 'clamp(14px, 1.6vw, 16px)',
+                    lineHeight: 1.75,
+                    color: C.bodyText,
+                    margin: 0,
+                  }}>
+                    {step.b}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════
+          § 9 — FINAL SALES
+      ════════════════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.purple, padding: '100px 24px' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+          <Reveal>
+            <h2 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(28px, 5vw, 56px)',
+              fontWeight: 400,
+              color: C.white,
+              textTransform: 'uppercase',
+              lineHeight: 1.1,
+              letterSpacing: '0.01em',
+              marginBottom: '24px',
+            }}>
+              Are you tired of struggling to deliver results?
+            </h2>
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: 'clamp(16px, 2vw, 19px)',
+              lineHeight: 1.8,
+              color: 'rgba(255,255,255,0.7)',
+              marginBottom: '16px',
+              maxWidth: '620px',
+              margin: '0 auto 16px',
+            }}>
+              You're not alone. Many consultants struggle to meet client expectations, not because they lack talent, but because they lack a clear process.
+            </p>
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: 'clamp(16px, 2vw, 19px)',
+              lineHeight: 1.8,
+              color: 'rgba(255,255,255,0.7)',
+              marginBottom: '40px',
+              maxWidth: '620px',
+              margin: '0 auto 40px',
+            }}>
+              <em>Think Like a Consultant</em> simplifies how you solve business problems with a practical, easy-to-follow six-step framework. Apply it, and you'll address client issues with confidence, build stronger relationships and become known as the consultant who delivers.
+            </p>
+          </Reveal>
+
+          <Reveal delay={80}>
+            <div style={{
+              backgroundColor: 'rgba(255,255,255,0.07)',
+              border: `1px solid rgba(255,214,0,0.3)`,
+              padding: '32px',
+              marginBottom: '40px',
+              maxWidth: '600px',
+              margin: '0 auto 40px',
+            }}>
+              <p style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: 'clamp(22px, 3.5vw, 36px)',
+                fontWeight: 400,
+                color: C.yellow,
+                textTransform: 'uppercase',
+                lineHeight: 1.2,
+                marginBottom: '4px',
+                letterSpacing: '0.02em',
+              }}>
+                Your next client deserves your best thinking.
+              </p>
+              <p style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: 'clamp(20px, 3vw, 30px)',
+                fontWeight: 400,
+                color: C.white,
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
+                margin: 0,
+              }}>
+                Give it to them.
+              </p>
             </div>
           </Reveal>
 
           <Reveal delay={120}>
-            <CTABtn text="Get My Copy Now" id="order" />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── LETTER SECTION — white ── */}
-      <section style={{ backgroundColor: C.sectionBg, padding: '64px 24px' }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <Reveal>
-            <p style={{ ...P, fontWeight: 700 }}>Dear Friend,</p>
-            <p style={P}>Let me ask you a quick question.</p>
-            <p style={{ ...P, fontWeight: 600 }}>When last did something go wrong in your business and you didn't know where to start?</p>
-            <p style={P}>Sales dropping. Costs climbing. Staff not performing. Everything looks urgent, and everyone has an opinion.</p>
-            <p style={P}>So what do most people do? They guess. They copy a competitor. They throw money at the problem and hope it goes away.</p>
-            <p style={{ ...P, color: C.red, fontWeight: 700 }}>If that sounds familiar, keep reading.</p>
-            <p style={P}>My name is Lawrence. Over the last 7 years, I've worked with many businesses across Nigeria, Europe and North America.</p>
-            <p style={{ ...P, fontWeight: 600 }}>Here is what I have learned.</p>
-          </Reveal>
-
-          {/* Pull quote box */}
-          <Reveal delay={60}>
-            <div style={{ backgroundColor: C.heroBg, border: `2px solid ${C.red}`, padding: '28px 32px', margin: '28px 0' }}>
-              <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(18px, 2.8vw, 24px)', fontWeight: 700, color: C.yellow, lineHeight: 1.5, margin: 0, textAlign: 'center' }}>
-                Big companies pay consultants millions of Naira for one thing: a clear way of thinking.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={80}>
-            <p style={P}>Not magic. Not secret information. Just a method for taking a messy problem and breaking it down until the answer becomes obvious.</p>
-            <p style={{ ...P, fontWeight: 700 }}>And that method can be learned.</p>
-            <p style={{ ...P, fontWeight: 700, color: C.red }}>That is why I wrote this book.</p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── WHAT'S INSIDE — light grey ── */}
-      <section style={{ backgroundColor: C.altBg, padding: '64px 24px' }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <Reveal>
-            <SHead>What Is Inside?</SHead>
-            <p style={P}>
-              <em>Think Like a Consultant</em> is a practical guide that shows you, step by step, how to investigate a problem, find the real cause, and decide what to do about it. No jargon. No theory for theory's sake.
-            </p>
-            <p style={{ ...P, fontWeight: 700 }}>Here are some of the things you will discover:</p>
-          </Reveal>
-
-          <div style={{ marginBottom: '32px' }}>
-            {[
-              'Why the problem is almost NEVER where you think it is, and how to find where your business is really leaking money, time and resources',
-              'How to break a giant, scary problem into small questions you can actually answer, so you stop staring and start fixing',
-              'When everything looks urgent, how to know exactly which problem deserves your attention FIRST',
-              'How to test an idea before you bet the business on it. Not every good idea is a good business idea, and this can save you from an expensive mistake',
-              'How to separate facts from assumptions and opinions, so you stop making big decisions based on feelings',
-              'Why copying your competitor\'s price is dangerous, and how to think about pricing so you protect your profit',
-              'How to know if a market is worth entering, without hiring an expensive research team',
-              'How to know your strategy is working or failing without waiting until December to find out',
-              'How to get your team to understand and support your decisions, because a good decision means nothing if nobody follows it',
-              'The simple 6-step process you can use every time a difficult problem comes up, so you never have to start from zero again',
-            ].map((t, i) => <Bullet key={i} text={t} />)}
-          </div>
-        </div>
-      </section>
-
-      {/* ── RED ICEBERG BANNER ── */}
-      <RedBanner text="THIS IS JUST A TIP OF THE ICEBERG" />
-
-      {/* ── MID CTA ── */}
-      <section style={{ backgroundColor: C.sectionBg, padding: '48px 24px' }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <Reveal>
-            <CTABtn text="Yes, I Want to Think Like a Consultant" />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── MORE CONTENT — white ── */}
-      <section style={{ backgroundColor: C.altBg, padding: '48px 24px' }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <Reveal>
-            <p style={P}>
-              And lots more. The book also shows you how to generate better solutions than the first idea in your head, how to manage projects without making them complicated, how to spot outside forces that can hurt your business, and how to turn a messy situation into a clear story.
+            <CTABtn text="Get Think Like a Consultant Now" />
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: '12px',
+              color: 'rgba(255,255,255,0.3)',
+              marginTop: '14px',
+              letterSpacing: '0.06em',
+            }}>
+              Instant digital access
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* ── WHO IS THIS FOR — dark ── */}
-      <section style={{ backgroundColor: C.darkBg, padding: '64px 24px' }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <Reveal>
-            <SHead dark>Who Is This Book For?</SHead>
-          </Reveal>
-          <div>
-            {[
-              'Business owners who are tired of guessing and want a clear way to fix what is not working',
-              'Managers and team leads who want to solve problems faster and get noticed for it',
-              'Professionals who want to be the person everyone turns to when things get complicated',
-              'Aspiring consultants who want to learn how the best do it',
-            ].map((t, i) => <Bullet key={i} text={t} dark />)}
-          </div>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ── */}
-      <section style={{ backgroundColor: C.altBg, padding: '64px 24px' }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <Reveal>
-            <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-              <RedBanner text="WHAT PEOPLE ARE SAYING" />
-            </div>
-          </Reveal>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <TestiCard
-              index={0}
-              quote="I have read a lot of business books, but what I like about Think Like a Consultant is how practical it is. It gives you a simple way to look at a business problem, break it down and know what to do next."
-              name="ThankGod Akpa"
-              title="Founder, Impakt100"
-            />
-            <TestiCard
-              index={1}
-              quote="The ideas are simple, but they make you think differently. It has changed the way I approach some of the decisions I make in business."
-              name="Peterson Akodi"
-              title="Co-Founder, SPacebox"
-            />
-            <TestiCard
-              index={2}
-              quote="Sometimes the problem is not that you don't have a solution. The problem is that you have not properly understood the problem. This book gives you a practical process for thinking through difficult situations before making a decision."
-              name="David Utulor"
-              title="Director, Mc Dave Schools"
-            />
-            <TestiCard
-              index={3}
-              quote="As someone who works with businesses, I found the frameworks in this book very useful. It gives you a structured way to think when things are unclear instead of just relying on experience or instinct."
-              name="August Ojile"
-              title="CEO, Cueball Digital Agency"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* ── GUARANTEE — dark ── */}
-      <section style={{ backgroundColor: C.darkBg, padding: '64px 24px' }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <Reveal>
-            <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-              <RedBanner text='NOW LET&apos;S TALK ABOUT THE GUARANTEE' />
-            </div>
-
-            {/* Guarantee shield */}
-            <div style={{ backgroundColor: '#1A1A1A', border: `2px solid ${C.red}`, padding: '40px 32px', marginBottom: '36px', textAlign: 'center' }}>
-              <div style={{ fontSize: '56px', marginBottom: '16px', lineHeight: 1 }}>🛡</div>
-              <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(18px, 2.5vw, 22px)', fontWeight: 700, color: C.yellow, lineHeight: 1.45, marginBottom: '0' }}>
-                If You Buy This Book, Read It, And You Don't Believe It Can Help You Solve Business Problems Faster And Better, I Will Refund Your Money. And You Can Keep The Book.
-              </p>
-            </div>
-
-            <p style={{ ...PW, fontWeight: 700 }}>Yes, you read that correctly.</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '24px' }}>
-              {[
-                'No need to explain...',
-                'No need to shalaye...',
-                'I will not argue with you...',
-                'I will just return your money.',
-              ].map((line, i) => (
-                <p key={i} style={{ ...PW, padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.07)', marginBottom: 0 }}>{line}</p>
-              ))}
-            </div>
-
-            <p style={{ ...PW, fontWeight: 700, color: C.yellow }}>Why am I so confident?</p>
-            <p style={PW}>Because one problem solved properly can save your business more than you will ever pay for this book.</p>
-            <p style={PW}>The only way you lose is by doing nothing. And if you do nothing, the next problem will come, and you will face it the same way you faced the last one.</p>
-            <p style={{ ...PW, fontWeight: 700, color: C.red, fontSize: 'clamp(18px, 2.5vw, 22px)' }}>Is that what you want?</p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── FINAL CTA — light ── */}
-      <section style={{ backgroundColor: C.sectionBg, padding: '64px 24px' }}>
+      {/* ════════════════════════════════════════════════
+          § 10 — FINAL BOOK DISPLAY
+      ════════════════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.white, padding: '100px 24px' }}>
         <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
           <Reveal>
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(18px, 2.5vw, 22px)', fontWeight: 700, color: C.ink, marginBottom: '8px' }}>
-              Price:
-            </p>
-            <p style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(36px, 7vw, 56px)', fontWeight: 700, color: C.red, lineHeight: 1, marginBottom: '32px' }}>
-              ₦3,700
-            </p>
-            <CTABtn text="Send Me My Copy Now!" id="buy" />
-          </Reveal>
-
-          <Reveal delay={60}>
-            <div style={{ backgroundColor: C.altBg, border: `1px solid ${C.border}`, padding: '28px', marginTop: '40px', textAlign: 'left' }}>
-              <p style={{ ...P, marginBottom: 0 }}>
-                <strong>P.S.</strong> Consultants charge millions for a few hours of their time. This book puts their way of thinking in your hands for a fraction of that. Grab your copy, and the next time a problem lands on your desk, you will know exactly where to start.
-              </p>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
+              <BookMockup size={220} />
             </div>
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: '11px', fontWeight: 700,
+              letterSpacing: '0.2em', textTransform: 'uppercase',
+              color: C.purpleLight, marginBottom: '8px',
+            }}>
+              Think Like a Consultant
+            </p>
+            <h3 style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: 'clamp(20px, 3.5vw, 36px)',
+              fontWeight: 400,
+              color: C.ink,
+              textTransform: 'uppercase',
+              lineHeight: 1.2,
+              letterSpacing: '0.02em',
+              marginBottom: '12px',
+            }}>
+              A Practical Guide to Solving Business Problems
+            </h3>
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: 'clamp(15px, 1.8vw, 17px)',
+              color: C.muted,
+              marginBottom: '36px',
+              fontStyle: 'italic',
+            }}>
+              Think better. Solve faster. Deliver more value.
+            </p>
+            <CTABtn text="Buy the Book" />
           </Reveal>
         </div>
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{ backgroundColor: C.heroBg, padding: '28px 24px', textAlign: 'center', borderTop: `3px solid ${C.red}` }}>
-        <p style={{ fontFamily: "'Georgia', serif", fontSize: '13px', color: 'rgba(255,255,255,0.3)', margin: '0 0 8px' }}>
-          © {new Date().getFullYear()} Quick Learn Plus · Think Like a Consultant
+      <footer style={{ backgroundColor: C.ink, padding: '36px 24px', textAlign: 'center' }}>
+        <p style={{
+          fontFamily: "'Anton', sans-serif",
+          fontSize: '18px',
+          fontWeight: 400,
+          letterSpacing: '0.08em',
+          color: C.white,
+          marginBottom: '6px',
+        }}>
+          THINK LIKE A CONSULTANT
         </p>
-        <p style={{ fontFamily: "'Georgia', serif", fontSize: '11px', color: 'rgba(255,255,255,0.18)', margin: 0, maxWidth: '520px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}>
-          Results depend on your circumstances, industry and effort. No specific business outcome is guaranteed.
+        <p style={{
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: '12px',
+          color: 'rgba(255,255,255,0.3)',
+          margin: '0 0 6px',
+        }}>
+          Helping consultants think better, solve faster and deliver more value.
+        </p>
+        <p style={{
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: '11px',
+          color: 'rgba(255,255,255,0.2)',
+          margin: 0,
+        }}>
+          © {new Date().getFullYear()} Quick Learn Plus
         </p>
       </footer>
 
-      {/* ── MOBILE STICKY ── */}
-      <div className="ownerC-sticky" style={{
-        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
-        display: 'none', padding: '10px 16px',
-        backgroundColor: C.heroBg, borderTop: `2px solid ${C.red}`,
+      {/* ── STICKY MOBILE CTA ── */}
+      <div className="pc-sticky" style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 300,
+        display: 'none',
+        padding: '12px 16px',
+        backgroundColor: C.purple,
+        borderTop: `3px solid ${C.yellow}`,
         transform: sticky ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.3s ease',
       }}>
         <a href={SELAR} target="_blank" rel="noopener noreferrer"
           style={{
             display: 'block', width: '100%', textAlign: 'center',
-            backgroundColor: C.red, color: C.white,
-            fontFamily: "'Georgia', serif", fontSize: '15px', fontWeight: 700,
-            letterSpacing: '0.06em', textTransform: 'uppercase',
+            backgroundColor: C.yellow, color: C.purple,
+            fontFamily: "'Poppins', sans-serif", fontSize: '14px', fontWeight: 800,
+            letterSpacing: '0.08em', textTransform: 'uppercase',
             padding: '16px', textDecoration: 'none',
           }}
         >
-          Get Think Like a Consultant — ₦3,700
+          Get the Book Now
         </a>
       </div>
 
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        @media (max-width: 860px) {
+          .pc-hero-grid  { grid-template-columns: 1fr !important; }
+          .pc-split-grid { grid-template-columns: 1fr !important; }
+          .pc-ba-grid    { grid-template-columns: 1fr !important; }
+          .pc-testi-grid { grid-template-columns: 1fr !important; }
+          .pc-steps-grid { grid-template-columns: 1fr !important; }
+        }
         @media (max-width: 520px) {
-          .ownerC-sticky { display: block !important; }
+          .pc-sticky { display: block !important; }
         }
       `}</style>
     </div>
