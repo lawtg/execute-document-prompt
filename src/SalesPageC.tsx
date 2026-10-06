@@ -131,9 +131,7 @@ export default function SalesPageC() {
               color: C.white, letterSpacing: '0.01em',
               textTransform: 'uppercase', marginBottom: '24px',
             }}>
-              Become one of the{' '}
-              <span style={{ color: C.yellow }}>Top 1%</span>{' '}
-              Consultants in Africa.
+              BECOME ONE OF AFRICA'S MOST SOUGHT-AFTER CONSULTANTS.
             </h1>
           </Reveal>
           <Reveal delay={60}>
@@ -146,7 +144,7 @@ export default function SalesPageC() {
             }}>
               Are you struggling to deliver{' '}
               <span style={{ color: C.yellow }}>consistent solutions</span>{' '}
-              for all your clients?
+              for your clients?
             </p>
             <p style={{ ...PW, maxWidth: '600px', margin: '0 auto 40px', textAlign: 'center' }}>
               Learn how to think through complex business problems, eliminate guesswork and deliver solutions your clients can trust.
