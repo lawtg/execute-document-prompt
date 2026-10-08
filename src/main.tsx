@@ -6,6 +6,7 @@ import App from './App'
 import ThankYou from './ThankYou'
 import SalesPageB from './SalesPageB'
 import SalesPageC from './SalesPageC'
+import SalesPageScale from './SalesPageScale'
 import DFY from './DFY'
 import DFYQualification from './DFYQualification'
 import CRM from './CRM'
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/business-owner" element={<SalesPageB />} />
         <Route path="/owner" element={<SalesPageC />} />
+        <Route path="/scale" element={<SalesPageScale />} />
         <Route path="/dfy" element={<DFY />} />
         <Route path="/dfy/start" element={<DFYQualification />} />
         <Route path="/crm" element={<CRM />} />
