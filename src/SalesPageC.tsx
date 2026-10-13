@@ -356,8 +356,8 @@ export default function SalesPageC() {
       </section>
 
       {/* ── TESTIMONIALS ── */}
-      <section style={{ backgroundColor: C.white, padding: '96px 24px' }}>
-        <div style={{ maxWidth: '780px', margin: '0 auto' }}>
+      <section style={{ backgroundColor: C.white, padding: '96px 0' }}>
+        <div style={{ maxWidth: '780px', margin: '0 auto', padding: '0 24px' }}>
           <Reveal>
             <h2 style={{
               fontFamily: "'Anton', sans-serif",
@@ -368,98 +368,118 @@ export default function SalesPageC() {
             }}>
               What People Are Saying
             </h2>
-            <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', color: C.muted, marginBottom: '56px' }}>
+            <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', color: C.muted, marginBottom: '40px' }}>
               From consultants and business leaders who've read the book.
             </p>
           </Reveal>
+        </div>
 
-          {/* Featured pull quote — full width */}
-          <Reveal delay={60}>
-            <div style={{ backgroundColor: C.purple, padding: '48px 40px', marginBottom: '32px', position: 'relative' }}>
-              <span style={{ fontFamily: "'Anton', sans-serif", fontSize: '120px', color: 'rgba(255,214,0,0.15)', lineHeight: 1, position: 'absolute', top: '8px', left: '28px', userSelect: 'none' }}>"</span>
+        {/* Scrollable row — full viewport width */}
+        <div style={{
+          display: 'flex',
+          overflowX: 'auto',
+          gap: '20px',
+          padding: '8px 24px 24px',
+          scrollSnapType: 'x mandatory',
+          WebkitOverflowScrolling: 'touch',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+          className="pc-testi-scroll"
+        >
+          {[
+            {
+              photo: thankgodPhoto,
+              outcome: "Changed how he advises clients on problem diagnosis",
+              q: "I have read a lot of business books, but what I like about Think Like a Consultant is how practical it is. It gives you a simple way to look at a business problem, break it down and know what to do next.",
+              n: "ThankGod Akpa",
+              t: "Founder, Impakt100 — Business Growth Consultant",
+              accent: C.purple,
+            },
+            {
+              photo: petersonPhoto,
+              outcome: "Applied the framework the same week he read it",
+              q: "The ideas are simple, but they make you think differently. It has changed the way I approach some of the decisions I make in business.",
+              n: "Peterson Akodi",
+              t: "Co-Founder & Strategy Lead, SPacebox",
+              accent: C.yellow,
+            },
+            {
+              photo: davidPhoto,
+              outcome: "Used it to restructure how he diagnoses client problems",
+              q: "Sometimes the problem is not that you don't have a solution. The problem is that you have not properly understood the problem. This book gives you a practical process for thinking through difficult situations.",
+              n: "David Utulor",
+              t: "Director, Mc Dave Schools — 200+ staff",
+              accent: C.purple,
+            },
+            {
+              photo: augustPhoto,
+              outcome: "Now uses the framework with every client engagement",
+              q: "As someone who works with businesses, I found the frameworks in this book very useful. It gives you a structured way to think when things are unclear instead of just relying on experience or instinct.",
+              n: "August Ojile",
+              t: "CEO, Cueball Digital Agency — 8+ years consulting",
+              accent: C.yellow,
+            },
+          ].map((item, i) => (
+            <div key={i} style={{
+              flex: '0 0 320px',
+              scrollSnapAlign: 'start',
+              backgroundColor: C.lightGrey,
+              borderTop: `4px solid ${item.accent}`,
+              padding: '28px 24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+            }}>
               {/* Outcome badge */}
-              <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.purple, backgroundColor: C.yellow, display: 'inline-block', padding: '5px 12px', marginBottom: '20px', position: 'relative', zIndex: 1 }}>
-                Changed how he advises clients on problem diagnosis
+              <p style={{
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: '10px', fontWeight: 700,
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                color: item.accent === C.yellow ? C.purple : C.yellow,
+                backgroundColor: item.accent,
+                display: 'inline-block',
+                padding: '4px 10px',
+                margin: 0,
+                alignSelf: 'flex-start',
+              }}>
+                {item.outcome}
               </p>
-              <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(17px, 2.2vw, 21px)', lineHeight: 1.8, color: C.white, fontStyle: 'italic', marginBottom: '32px', position: 'relative', zIndex: 1 }}>
-                "I have read a lot of business books, but what I like about Think Like a Consultant is how practical it is. It gives you a simple way to look at a business problem, break it down and know what to do next."
+
+              {/* Quote */}
+              <p style={{
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: '15px', lineHeight: 1.85,
+                color: C.bodyText, fontStyle: 'italic',
+                margin: 0, flex: 1,
+              }}>
+                "{item.q}"
               </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <img src={thankgodPhoto} alt="ThankGod Akpa"
-                  style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', border: `3px solid ${C.yellow}`, flexShrink: 0 }} />
+
+              {/* Author */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: `1px solid ${C.border}`, paddingTop: '16px' }}>
+                <img src={item.photo} alt={item.n}
+                  style={{
+                    width: '48px', height: '48px', borderRadius: '50%',
+                    objectFit: 'cover', objectPosition: 'top',
+                    flexShrink: 0,
+                    border: `2px solid ${item.accent}`,
+                  }}
+                />
                 <div>
-                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '16px', fontWeight: 700, color: C.yellow, margin: 0 }}>ThankGod Akpa</p>
-                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.55)', margin: 0 }}>Founder, Impakt100 — Business Growth Consultant</p>
+                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', fontWeight: 700, color: C.ink, margin: 0 }}>{item.n}</p>
+                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', color: C.muted, margin: 0, lineHeight: 1.5 }}>{item.t}</p>
                 </div>
               </div>
             </div>
-          </Reveal>
+          ))}
+        </div>
 
-          {/* Two column — remaining three */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {[
-              {
-                photo: petersonPhoto,
-                outcome: "Applied the framework the same week he read it",
-                q: "The ideas are simple, but they make you think differently. It has changed the way I approach some of the decisions I make in business.",
-                n: "Peterson Akodi", t: "Co-Founder & Strategy Lead, SPacebox",
-              },
-              {
-                photo: davidPhoto,
-                outcome: "Used it to restructure how he diagnoses client problems",
-                q: "Sometimes the problem is not that you don't have a solution. The problem is that you have not properly understood the problem. This book gives you a practical process for thinking through difficult situations.",
-                n: "David Utulor", t: "Director, Mc Dave Schools — 200+ staff",
-              },
-              {
-                photo: augustPhoto,
-                outcome: "Now uses the framework with every client engagement",
-                q: "As someone who works with businesses, I found the frameworks in this book very useful. It gives you a structured way to think when things are unclear instead of just relying on experience or instinct.",
-                n: "August Ojile", t: "CEO, Cueball Digital Agency — 8+ years consulting",
-              },
-            ].map((item, i) => (
-              <Reveal key={i} delay={i * 70}>
-                <div style={{
-                  backgroundColor: C.lightGrey,
-                  padding: '32px 28px',
-                  borderTop: `3px solid ${i % 2 === 0 ? C.purple : C.yellow}`,
-                  display: 'grid',
-                  gridTemplateColumns: '1fr',
-                  gap: '20px',
-                  marginLeft: i % 2 !== 0 ? 'auto' : '0',
-                  maxWidth: i % 2 !== 0 ? '96%' : '100%',
-                }}>
-                  {/* Outcome line */}
-                  <p style={{
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: '12px', fontWeight: 700,
-                    letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: C.yellow,
-                    backgroundColor: C.purple,
-                    display: 'inline-block',
-                    padding: '5px 12px',
-                    margin: 0,
-                  }}>
-                    {item.outcome}
-                  </p>
-
-                  {/* Quote */}
-                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.85, color: C.bodyText, fontStyle: 'italic', margin: 0 }}>
-                    "{item.q}"
-                  </p>
-
-                  {/* Author */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', borderTop: `1px solid ${C.border}`, paddingTop: '18px' }}>
-                    <img src={item.photo} alt={item.n}
-                      style={{ width: '52px', height: '52px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', flexShrink: 0, border: `2px solid ${i % 2 === 0 ? C.purple : C.yellow}` }} />
-                    <div>
-                      <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '15px', fontWeight: 700, color: C.ink, margin: 0 }}>{item.n}</p>
-                      <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: C.muted, margin: 0, lineHeight: 1.5 }}>{item.t}</p>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+        {/* Scroll hint dots */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', marginTop: '16px' }}>
+          {[0,1,2,3].map(i => (
+            <div key={i} style={{ width: i === 0 ? '20px' : '6px', height: '6px', borderRadius: '3px', backgroundColor: i === 0 ? C.purple : C.border, transition: 'width 0.2s' }} />
+          ))}
         </div>
       </section>
 
@@ -553,6 +573,7 @@ export default function SalesPageC() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        .pc-testi-scroll::-webkit-scrollbar { display: none; }
         @media (max-width: 760px) {
           .pc-testi-grid { grid-template-columns: 1fr !important; }
           .pc-steps-grid { grid-template-columns: 1fr !important; }
