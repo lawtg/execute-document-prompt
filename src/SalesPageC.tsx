@@ -377,6 +377,10 @@ export default function SalesPageC() {
           <Reveal delay={60}>
             <div style={{ backgroundColor: C.purple, padding: '48px 40px', marginBottom: '32px', position: 'relative' }}>
               <span style={{ fontFamily: "'Anton', sans-serif", fontSize: '120px', color: 'rgba(255,214,0,0.15)', lineHeight: 1, position: 'absolute', top: '8px', left: '28px', userSelect: 'none' }}>"</span>
+              {/* Outcome badge */}
+              <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.purple, backgroundColor: C.yellow, display: 'inline-block', padding: '5px 12px', marginBottom: '20px', position: 'relative', zIndex: 1 }}>
+                Changed how he advises clients on problem diagnosis
+              </p>
               <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(17px, 2.2vw, 21px)', lineHeight: 1.8, color: C.white, fontStyle: 'italic', marginBottom: '32px', position: 'relative', zIndex: 1 }}>
                 "I have read a lot of business books, but what I like about Think Like a Consultant is how practical it is. It gives you a simple way to look at a business problem, break it down and know what to do next."
               </p>
@@ -385,42 +389,71 @@ export default function SalesPageC() {
                   style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', border: `3px solid ${C.yellow}`, flexShrink: 0 }} />
                 <div>
                   <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '16px', fontWeight: 700, color: C.yellow, margin: 0 }}>ThankGod Akpa</p>
-                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.55)', margin: 0 }}>Founder, Impakt100</p>
+                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.55)', margin: 0 }}>Founder, Impakt100 — Business Growth Consultant</p>
                 </div>
               </div>
             </div>
           </Reveal>
 
           {/* Two column — remaining three */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="pc-testi-grid">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {[
               {
                 photo: petersonPhoto,
+                outcome: "Applied the framework the same week he read it",
                 q: "The ideas are simple, but they make you think differently. It has changed the way I approach some of the decisions I make in business.",
-                n: "Peterson Akodi", t: "Co-Founder, SPacebox",
+                n: "Peterson Akodi", t: "Co-Founder & Strategy Lead, SPacebox",
               },
               {
                 photo: davidPhoto,
+                outcome: "Used it to restructure how he diagnoses client problems",
                 q: "Sometimes the problem is not that you don't have a solution. The problem is that you have not properly understood the problem. This book gives you a practical process for thinking through difficult situations.",
-                n: "David Utulor", t: "Director, Mc Dave Schools",
+                n: "David Utulor", t: "Director, Mc Dave Schools — 200+ staff",
               },
               {
                 photo: augustPhoto,
+                outcome: "Now uses the framework with every client engagement",
                 q: "As someone who works with businesses, I found the frameworks in this book very useful. It gives you a structured way to think when things are unclear instead of just relying on experience or instinct.",
-                n: "August Ojile", t: "CEO, Cueball Digital Agency",
+                n: "August Ojile", t: "CEO, Cueball Digital Agency — 8+ years consulting",
               },
             ].map((item, i) => (
               <Reveal key={i} delay={i * 70}>
-                <div style={{ backgroundColor: C.lightGrey, padding: '28px 24px', borderTop: `3px solid ${i === 1 ? C.yellow : C.purple}` }}>
-                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(14px, 1.6vw, 16px)', lineHeight: 1.85, color: C.bodyText, fontStyle: 'italic', marginBottom: '24px' }}>
+                <div style={{
+                  backgroundColor: C.lightGrey,
+                  padding: '32px 28px',
+                  borderTop: `3px solid ${i % 2 === 0 ? C.purple : C.yellow}`,
+                  display: 'grid',
+                  gridTemplateColumns: '1fr',
+                  gap: '20px',
+                  marginLeft: i % 2 !== 0 ? 'auto' : '0',
+                  maxWidth: i % 2 !== 0 ? '96%' : '100%',
+                }}>
+                  {/* Outcome line */}
+                  <p style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: '12px', fontWeight: 700,
+                    letterSpacing: '0.1em', textTransform: 'uppercase',
+                    color: C.yellow,
+                    backgroundColor: C.purple,
+                    display: 'inline-block',
+                    padding: '5px 12px',
+                    margin: 0,
+                  }}>
+                    {item.outcome}
+                  </p>
+
+                  {/* Quote */}
+                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.85, color: C.bodyText, fontStyle: 'italic', margin: 0 }}>
                     "{item.q}"
                   </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: `1px solid ${C.border}`, paddingTop: '16px' }}>
+
+                  {/* Author */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', borderTop: `1px solid ${C.border}`, paddingTop: '18px' }}>
                     <img src={item.photo} alt={item.n}
-                      style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', flexShrink: 0, border: `2px solid ${i === 1 ? C.yellow : C.purple}` }} />
+                      style={{ width: '52px', height: '52px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', flexShrink: 0, border: `2px solid ${i % 2 === 0 ? C.purple : C.yellow}` }} />
                     <div>
-                      <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', fontWeight: 700, color: C.ink, margin: 0 }}>{item.n}</p>
-                      <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: C.muted, margin: 0 }}>{item.t}</p>
+                      <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '15px', fontWeight: 700, color: C.ink, margin: 0 }}>{item.n}</p>
+                      <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: C.muted, margin: 0, lineHeight: 1.5 }}>{item.t}</p>
                     </div>
                   </div>
                 </div>
