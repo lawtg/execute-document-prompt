@@ -1,5 +1,9 @@
 import { useRef, useState, useEffect } from 'react'
 import consultantCover from './-like-a-consultant-cover.png'
+import thankgodPhoto  from './ThankGod-Akpa.jpeg'
+import petersonPhoto  from './Peterson-Akodi.jpeg'
+import davidPhoto     from './David-Utulor.jpeg'
+import augustPhoto    from './Yusuf Kabiru.jpeg'
 
 const C = {
   purple:     '#2D1B69',
@@ -360,29 +364,60 @@ export default function SalesPageC() {
               fontSize: 'clamp(28px, 4.5vw, 48px)',
               fontWeight: 400, color: C.ink,
               textTransform: 'uppercase', lineHeight: 1.1,
-              letterSpacing: '0.01em', marginBottom: '48px',
+              letterSpacing: '0.01em', marginBottom: '12px',
             }}>
               What People Are Saying
             </h2>
+            <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', color: C.muted, marginBottom: '56px' }}>
+              From consultants and business leaders who've read the book.
+            </p>
           </Reveal>
+
+          {/* Featured pull quote — full width */}
+          <Reveal delay={60}>
+            <div style={{ backgroundColor: C.purple, padding: '48px 40px', marginBottom: '32px', position: 'relative' }}>
+              <span style={{ fontFamily: "'Anton', sans-serif", fontSize: '120px', color: 'rgba(255,214,0,0.15)', lineHeight: 1, position: 'absolute', top: '8px', left: '28px', userSelect: 'none' }}>"</span>
+              <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(17px, 2.2vw, 21px)', lineHeight: 1.8, color: C.white, fontStyle: 'italic', marginBottom: '32px', position: 'relative', zIndex: 1 }}>
+                "I have read a lot of business books, but what I like about Think Like a Consultant is how practical it is. It gives you a simple way to look at a business problem, break it down and know what to do next."
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <img src={thankgodPhoto} alt="ThankGod Akpa"
+                  style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', border: `3px solid ${C.yellow}`, flexShrink: 0 }} />
+                <div>
+                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '16px', fontWeight: 700, color: C.yellow, margin: 0 }}>ThankGod Akpa</p>
+                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.55)', margin: 0 }}>Founder, Impakt100</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Two column — remaining three */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="pc-testi-grid">
             {[
-              { q: "I have read a lot of business books, but what I like about Think Like a Consultant is how practical it is. It gives you a simple way to look at a business problem, break it down and know what to do next.", n: "ThankGod Akpa", t: "Founder, Impakt100" },
-              { q: "The ideas are simple, but they make you think differently. It has changed the way I approach some of the decisions I make in business.", n: "Peterson Akodi", t: "Co-Founder, SPacebox" },
-              { q: "Sometimes the problem is not that you don't have a solution. The problem is that you have not properly understood the problem. This book gives you a practical process for thinking through difficult situations.", n: "David Utulor", t: "Director, Mc Dave Schools" },
-              { q: "As someone who works with businesses, I found the frameworks in this book very useful. It gives you a structured way to think when things are unclear instead of just relying on experience or instinct.", n: "August Ojile", t: "CEO, Cueball Digital Agency" },
+              {
+                photo: petersonPhoto,
+                q: "The ideas are simple, but they make you think differently. It has changed the way I approach some of the decisions I make in business.",
+                n: "Peterson Akodi", t: "Co-Founder, SPacebox",
+              },
+              {
+                photo: davidPhoto,
+                q: "Sometimes the problem is not that you don't have a solution. The problem is that you have not properly understood the problem. This book gives you a practical process for thinking through difficult situations.",
+                n: "David Utulor", t: "Director, Mc Dave Schools",
+              },
+              {
+                photo: augustPhoto,
+                q: "As someone who works with businesses, I found the frameworks in this book very useful. It gives you a structured way to think when things are unclear instead of just relying on experience or instinct.",
+                n: "August Ojile", t: "CEO, Cueball Digital Agency",
+              },
             ].map((item, i) => (
-              <Reveal key={i} delay={i * 60}>
-                <div style={{ backgroundColor: C.lightGrey, borderLeft: `4px solid ${i % 2 === 0 ? C.purple : C.yellow}`, padding: '28px 24px' }}>
-                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(14px, 1.6vw, 16px)', lineHeight: 1.8, color: C.bodyText, fontStyle: 'italic', marginBottom: '20px' }}>
+              <Reveal key={i} delay={i * 70}>
+                <div style={{ backgroundColor: C.lightGrey, padding: '28px 24px', borderTop: `3px solid ${i === 1 ? C.yellow : C.purple}` }}>
+                  <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(14px, 1.6vw, 16px)', lineHeight: 1.85, color: C.bodyText, fontStyle: 'italic', marginBottom: '24px' }}>
                     "{item.q}"
                   </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: i % 2 === 0 ? C.purple : C.yellow, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <span style={{ fontFamily: "'Anton', sans-serif", fontSize: '13px', color: i % 2 === 0 ? C.yellow : C.purple, lineHeight: 1 }}>
-                        {item.n.split(' ').map((w: string) => w[0]).join('').slice(0, 2)}
-                      </span>
-                    </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: `1px solid ${C.border}`, paddingTop: '16px' }}>
+                    <img src={item.photo} alt={item.n}
+                      style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', flexShrink: 0, border: `2px solid ${i === 1 ? C.yellow : C.purple}` }} />
                     <div>
                       <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', fontWeight: 700, color: C.ink, margin: 0 }}>{item.n}</p>
                       <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: C.muted, margin: 0 }}>{item.t}</p>
