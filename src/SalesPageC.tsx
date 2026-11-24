@@ -367,43 +367,7 @@ export default function SalesPageC() {
             ))}
           </div>
 
-          {/* Full bundle stack */}
-          <Reveal delay={260}>
-            <div style={{ marginTop: '56px', backgroundColor: '#000000', borderRadius: '4px', padding: '56px 48px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }} className="oc-stack-grid">
-              <div>
-                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.yellowBg, marginBottom: '16px' }}>The Complete Bundle</p>
-                <h3 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 3.5vw, 40px)', fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px' }}>
-                  Six books. One system. Everything you need to think, decide and act.
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '32px' }}>
-                  {[
-                    { img: tlcImage, label: 'Think Like a Consultant', val: '₦8,750' },
-                    { img: b1Image, label: 'Productivity Management Method', val: '₦5,000' },
-                    { img: b2Image, label: 'Organizational Leadership Method', val: '₦5,000' },
-                    { img: b3Image, label: 'Management Template Kit', val: '₦5,000' },
-                    { img: b4Image, label: 'Decision Criteria', val: '₦3,750' },
-                    { img: b5Image, label: "The Consultant's Mindset", val: '₦3,750' },
-                  ].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.08)', gap: '12px' }}>
-                      <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: i === 0 ? 700 : 400, color: i === 0 ? '#fff' : 'rgba(255,255,255,0.6)', margin: 0 }}>{item.label}</p>
-                      <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.3)', textDecoration: 'line-through', margin: 0, flexShrink: 0 }}>{item.val}</p>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ marginBottom: '24px' }}>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '4px' }}>Total value: <span style={{ textDecoration: 'line-through' }}>₦31,250</span></p>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '14px' }}>
-                    <span style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1 }}>₦12,500</span>
-                    <span style={{ backgroundColor: C.red, color: '#fff', fontSize: '13px', fontWeight: 800, padding: '4px 12px', borderRadius: '3px', letterSpacing: '0.04em' }}>60% OFF</span>
-                  </div>
-                </div>
-                <CTABtn text="Get the complete bundle →" />
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <img src={stackImage} alt="Six-Book Business Bundle" style={{ width: '100%', maxWidth: '400px', display: 'block', filter: 'drop-shadow(0 16px 48px rgba(0,0,0,0.5))' }} />
-              </div>
-            </div>
-          </Reveal>
+          {/* Full bundle stack — REMOVED, moved to offer section */}
         </div>
       </section>
 
@@ -509,16 +473,25 @@ export default function SalesPageC() {
 
       {/* ══ THE OFFER / PRICING ═══════════════════════════ */}
       <section style={{ backgroundColor: '#000000', padding: '96px 24px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto', textAlign: 'center' }}>
           <Reveal>
             <Label text="The Offer" light />
-            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(32px, 5.5vw, 60px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '40px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(32px, 5.5vw, 60px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '40px' }}>
               The full system plus five bonuses, one payment.
             </h2>
           </Reveal>
-          <Reveal delay={60}>
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '0', overflow: 'hidden', maxWidth: '840px' }}>
-              {/* Line items */}
+
+          {/* Bundle image — centred */}
+          <Reveal delay={40}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '48px' }}>
+              <img src={stackImage} alt="Quick Learn Plus Business Bundle"
+                style={{ width: '100%', maxWidth: '560px', display: 'block', filter: 'drop-shadow(0 16px 56px rgba(0,0,0,0.6))' }} />
+            </div>
+          </Reveal>
+
+          {/* Line items */}
+          <Reveal delay={80}>
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', overflow: 'hidden', textAlign: 'left' }}>
               <div style={{ padding: '32px 36px' }}>
                 {[
                   { label: 'Think Like a Consultant: the 6-step system, 25+ frameworks, solved case, step templates', val: '₦8,750', bold: true },
@@ -538,7 +511,7 @@ export default function SalesPageC() {
                 ))}
               </div>
 
-              {/* Price highlight */}
+              {/* Price */}
               <div style={{ backgroundColor: 'rgba(255,255,255,0.06)', padding: '24px 36px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
                 <div>
                   <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '4px' }}>Your price today</p>
