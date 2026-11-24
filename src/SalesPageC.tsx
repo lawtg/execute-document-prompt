@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import consultantCover from './-like-a-consultant-cover.png'
+import bundleImage    from './Quick Learn Plus Business Bundle.png'
 import thankgodPhoto  from './ThankGod-Akpa.jpeg'
 import petersonPhoto  from './Peterson-Akodi.jpeg'
 import davidPhoto     from './David-Utulor.jpeg'
@@ -119,20 +120,20 @@ export default function SalesPageC() {
     <div style={{ backgroundColor: C.bg, color: C.ink, fontFamily: "'Inter', system-ui, sans-serif", lineHeight: 1.65 }}>
 
       {/* ══ HERO ══════════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.navy, padding: '72px 32px 64px' }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 400px', gap: '64px', alignItems: 'center' }} className="oc-hero-grid">
+      <section style={{ backgroundColor: '#000000', padding: '80px 24px 72px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 480px', gap: '56px', alignItems: 'center' }} className="oc-hero-grid">
 
           {/* Left copy */}
           <div>
             <Reveal>
-              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', marginBottom: '20px' }}>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '20px' }}>
                 FOR OWNERS · MANAGERS · CONSULTANTS · STUDENTS
               </p>
               <h1 style={{
                 fontFamily: "'Inter', system-ui, sans-serif",
-                fontSize: 'clamp(32px, 5.5vw, 56px)',
-                fontWeight: 900, lineHeight: 1.08,
-                color: C.bg, letterSpacing: '-0.03em',
+                fontSize: 'clamp(40px, 6.5vw, 72px)',
+                fontWeight: 900, lineHeight: 1.0,
+                color: '#FFFFFF', letterSpacing: '-0.04em',
                 marginBottom: '0',
               }}>
                 Walk into any<br />
@@ -142,35 +143,34 @@ export default function SalesPageC() {
               </h1>
             </Reveal>
             <Reveal delay={80}>
-              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.65)', margin: '24px 0 8px', maxWidth: '480px' }}>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 2vw, 21px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.7)', margin: '28px 0 10px', maxWidth: '520px', fontWeight: 500 }}>
                 <em>Think Like a Consultant</em> gives you a 6-step method to find the real cause of a problem, compare your options fairly and turn the decision into a plan with owners, deadlines and numbers.
               </p>
-              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.65)', marginBottom: '32px' }}>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 2vw, 21px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.7)', marginBottom: '36px', fontWeight: 500 }}>
                 Plain language. Real examples. Templates you can use this week.
               </p>
             </Reveal>
             <Reveal delay={120}>
               <CTABtn text="Get Think Like a Consultant, ₦12,500 →" id="order" />
-              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.3)', marginTop: '12px', letterSpacing: '0.02em' }}>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: 'rgba(255,255,255,0.3)', marginTop: '14px', letterSpacing: '0.02em' }}>
                 One payment · Instant download · No subscription
               </p>
             </Reveal>
           </div>
 
-          {/* Right: book */}
+          {/* Right: bundle image */}
           <Reveal delay={140}>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <div style={{ perspective: '800px', display: 'inline-block' }}>
-                <img src={consultantCover} alt="Think Like a Consultant"
-                  style={{
-                    width: 'clamp(220px, 30vw, 340px)', display: 'block',
-                    borderRadius: '3px 8px 8px 3px',
-                    boxShadow: '12px 24px 64px rgba(0,0,0,0.6), 0 0 48px rgba(212,160,23,0.15)',
-                    transform: 'rotateY(-8deg)',
-                    transformOrigin: 'left center',
-                  }}
-                />
-              </div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <img
+                src={bundleImage}
+                alt="Quick Learn Plus Business Bundle"
+                style={{
+                  width: '100%',
+                  maxWidth: '460px',
+                  display: 'block',
+                  filter: 'drop-shadow(0 24px 64px rgba(0,0,0,0.7))',
+                }}
+              />
             </div>
           </Reveal>
         </div>
