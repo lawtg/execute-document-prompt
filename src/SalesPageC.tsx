@@ -212,7 +212,7 @@ export default function SalesPageC() {
 
           <Reveal delay={80}>
             <div style={{ marginTop: '80px', paddingTop: '64px', borderTop: `1px solid ${C.border}` }}>
-              <p style={{ fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 800, color: C.ink, lineHeight: 1.4, maxWidth: '800px', letterSpacing: '-0.02em' }}>
+              <p style={{ fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 800, color: C.ink, lineHeight: 1.4, letterSpacing: '-0.02em' }}>
                 Consultants are paid well for one thing: they replace guessing with structure. That structure is a learnable skill, and it fits in one book.
               </p>
             </div>
@@ -225,7 +225,7 @@ export default function SalesPageC() {
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
           <Reveal>
             <Eye t="The Method" light />
-            <h2 style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 900, color: C.white, letterSpacing: '-0.045em', lineHeight: 1.0, marginBottom: '20px', maxWidth: '800px' }}>
+            <h2 style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 900, color: C.white, letterSpacing: '-0.045em', lineHeight: 1.0, marginBottom: '20px' }}>
               Six steps from "something is wrong" to exactly what to do.
             </h2>
             <p style={{ fontSize: 'clamp(16px, 1.8vw, 19px)', color: 'rgba(255,255,255,0.45)', marginBottom: '72px', maxWidth: '560px', fontWeight: 400 }}>
