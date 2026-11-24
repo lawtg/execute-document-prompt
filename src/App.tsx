@@ -42,7 +42,7 @@ function FadeIn({ children, delay = 0, className = '' }: { children: React.React
 function Divider({ gold = false }: { gold?: boolean }) {
   return (
     <div className="reading-col">
-      <hr style={{ border: 'none', borderTop: `1px solid ${gold ? '#B89B5E' : '#D8D3C8'}`, margin: '0' }} />
+      <hr style={{ border: 'none', borderTop: `1px solid ${gold ? '#B89B5E' : '#2A2A2A'}`, margin: '0' }} />
     </div>
   )
 }
@@ -56,8 +56,8 @@ function CTAButton({ text, id }: { text: string; id?: string }) {
       id={id}
       style={{
         display: 'inline-block',
-        backgroundColor: '#0D2137',
-        color: '#FAF8F3',
+        backgroundColor: '#B89B5E',
+        color: '#0A0A0A',
         fontFamily: "'DM Sans', sans-serif",
         fontSize: '15px',
         fontWeight: 600,
@@ -70,11 +70,11 @@ function CTAButton({ text, id }: { text: string; id?: string }) {
         cursor: 'pointer',
       }}
       onMouseEnter={e => {
-        (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#1A3A5C'
+        (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#A08848'
         ;(e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)'
       }}
       onMouseLeave={e => {
-        (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#0D2137'
+        (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#B89B5E'
         ;(e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'
       }}
     >
@@ -318,7 +318,7 @@ export default function App() {
       </section>
 
       {/* ── WHAT IS THE BOOK ── */}
-      <section style={{ backgroundColor: '#F3F0E8', paddingTop: '80px', paddingBottom: '80px' }}>
+      <section style={{ backgroundColor: '#111111', paddingTop: '80px', paddingBottom: '80px' }}>
         <div className="reading-col">
           <FadeIn>
             <p style={{
@@ -471,7 +471,7 @@ export default function App() {
       </section>
 
       {/* ── BONUSES ── */}
-      <section style={{ backgroundColor: '#F3F0E8', paddingTop: '80px', paddingBottom: '80px' }}>
+      <section style={{ backgroundColor: '#111111', paddingTop: '80px', paddingBottom: '80px' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
           <FadeIn>
             <p style={{
@@ -503,7 +503,7 @@ export default function App() {
             {bonuses.slice(0, 2).map((bonus, i) => (
               <FadeIn key={i} delay={i * 60}>
                 <div style={{
-                  backgroundColor: '#1A1714',
+                  backgroundColor: '#141414',
                   border: '1px solid var(--border)',
                   borderRadius: '10px',
                   overflow: 'hidden',
@@ -515,7 +515,7 @@ export default function App() {
                     <span style={{
                       display: 'inline-block',
                       backgroundColor: '#B89B5E',
-                      color: '#1C1C1E',
+                      color: '#0A0A0A',
                       fontSize: '10px',
                       fontWeight: 800,
                       letterSpacing: '0.1em',
@@ -542,7 +542,7 @@ export default function App() {
             {bonuses.slice(2).map((bonus, i) => (
               <FadeIn key={i} delay={i * 60}>
                 <div style={{
-                  backgroundColor: '#1A1714',
+                  backgroundColor: '#141414',
                   border: '1px solid var(--border)',
                   borderRadius: '10px',
                   overflow: 'hidden',
@@ -554,7 +554,7 @@ export default function App() {
                     <span style={{
                       display: 'inline-block',
                       backgroundColor: '#B89B5E',
-                      color: '#1C1C1E',
+                      color: '#0A0A0A',
                       fontSize: '10px',
                       fontWeight: 800,
                       letterSpacing: '0.1em',
@@ -611,8 +611,8 @@ export default function App() {
         <div className="reading-col">
           <FadeIn>
             <div style={{
-              border: '1px solid #D8D3C8',
-              borderTop: '3px solid #0D2137',
+              border: '1px solid #2A2A2A',
+              borderTop: '3px solid #B89B5E',
               padding: '48px',
               backgroundColor: 'var(--background)',
             }}>
@@ -687,12 +687,12 @@ export default function App() {
                 </div>
                 <div style={{
                   padding: '28px',
-                  backgroundColor: 'var(--primary)',
-                  color: '#FAF8F3',
-                  border: '1px solid var(--primary)',
+                  backgroundColor: '#1A1A1A',
+                  color: '#F0EDE6',
+                  border: '1px solid #B89B5E',
                 }}>
                   <p style={{ fontSize: '15px', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#B89B5E', marginBottom: '12px' }}>With the guide</p>
-                  <p style={{ fontSize: '17px', lineHeight: 1.7, margin: 0, color: '#FAF8F3' }}>Have a practical system for breaking the problem down and figuring out what to do next.</p>
+                  <p style={{ fontSize: '17px', lineHeight: 1.7, margin: 0, color: '#F0EDE6' }}>Have a practical system for breaking the problem down and figuring out what to do next.</p>
                 </div>
               </div>
 
@@ -713,7 +713,7 @@ export default function App() {
       </section>
 
       {/* ── PRICE ── */}
-      <section style={{ backgroundColor: '#F3F0E8', paddingTop: '80px', paddingBottom: '80px' }}>
+      <section style={{ backgroundColor: '#111111', paddingTop: '80px', paddingBottom: '80px' }}>
         <div className="reading-col">
           <FadeIn>
             <p style={{
@@ -939,7 +939,7 @@ export default function App() {
       <footer style={{
         borderTop: '1px solid var(--border)',
         padding: '32px 0',
-        backgroundColor: '#F3F0E8',
+        backgroundColor: '#111111',
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', textAlign: 'center' }}>
           <p style={{
@@ -960,7 +960,7 @@ export default function App() {
         left: 0,
         right: 0,
         padding: '16px',
-        backgroundColor: '#0D2137',
+        backgroundColor: '#0A0A0A',
         borderTop: '1px solid rgba(184,155,94,0.3)',
         zIndex: 100,
         display: 'none',
@@ -978,7 +978,7 @@ export default function App() {
             width: '100%',
             textAlign: 'center',
             backgroundColor: '#B89B5E',
-            color: '#FAF8F3',
+            color: '#F0EDE6',
             fontFamily: "'DM Sans', sans-serif",
             fontSize: '14px',
             fontWeight: 600,
