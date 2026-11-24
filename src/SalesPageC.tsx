@@ -230,7 +230,7 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ THE METHOD ════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.navy, padding: '96px 24px' }}>
+      <section style={{ backgroundColor: '#000000', padding: '96px 24px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
             <Label text="The Method" light />
@@ -465,7 +465,7 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ THE OFFER / PRICING ═══════════════════════════ */}
-      <section style={{ backgroundColor: C.navy, padding: '96px 24px' }}>
+      <section style={{ backgroundColor: '#000000', padding: '96px 24px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
             <Label text="The Offer" light />
@@ -557,7 +557,7 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ FINAL CTA ═════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.navy, padding: '104px 24px', textAlign: 'center' }}>
+      <section style={{ backgroundColor: '#000000', padding: '104px 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
             <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(34px, 6vw, 60px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '20px' }}>
@@ -575,7 +575,7 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ FOOTER ════════════════════════════════════════ */}
-      <footer style={{ backgroundColor: C.navy, padding: '24px 32px', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+      <footer style={{ backgroundColor: '#000000', padding: '24px 32px', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
         <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.25)', margin: 0 }}>
           © Quick Learn Plus · Think Like a Consultant
         </p>
@@ -585,7 +585,7 @@ export default function SalesPageC() {
       <div className="oc-sticky" style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 300,
         display: 'none', padding: '12px 16px',
-        backgroundColor: C.navy, borderTop: `2px solid ${C.yellowBg}`,
+        backgroundColor: '#000000', borderTop: `2px solid ${C.yellowBg}`,
         transform: sticky ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.3s ease',
       }}>
