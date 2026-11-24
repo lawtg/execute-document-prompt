@@ -347,9 +347,9 @@ export default function SalesPageC() {
             ].map((b, i) => (
               <Reveal key={i} delay={i * 50}>
                 <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, borderRadius: '4px', overflow: 'hidden', display: 'grid', gridTemplateColumns: '240px 1fr', alignItems: 'center' }} className="oc-bonus-card">
-                  {/* Book image */}
-                  <div style={{ backgroundColor: '#F0EEF8', borderRight: `1px solid ${C.border}`, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '32px 24px', height: '100%', minHeight: '220px' }}>
-                    <img src={b.img} alt={b.t} style={{ width: '100%', maxWidth: '160px', height: 'auto', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.18))' }} />
+                  {/* Book image — full height, contained with padding */}
+                  <div style={{ backgroundColor: '#F0EEF8', borderRight: `1px solid ${C.border}`, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '24px', height: '100%', minHeight: '260px', boxSizing: 'border-box' }}>
+                    <img src={b.img} alt={b.t} style={{ width: '100%', height: '220px', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.18))' }} />
                   </div>
                   {/* Text */}
                   <div style={{ padding: '32px 36px' }}>
