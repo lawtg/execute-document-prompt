@@ -198,7 +198,7 @@ export default function SalesPageC() {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
             <Label text="The Problem" />
-            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(32px, 5.5vw, 64px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.04em', lineHeight: 1.08, marginBottom: '28px', maxWidth: '880px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(32px, 5.5vw, 64px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.04em', lineHeight: 1.08, marginBottom: '28px' }}>
               Smart people still guess, because nobody ever taught them a process for thinking through a problem.
             </h2>
           </Reveal>
