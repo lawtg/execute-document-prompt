@@ -194,35 +194,35 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ THE PROBLEM ═══════════════════════════════════ */}
-      <section style={{ backgroundColor: C.cream, padding: '80px 32px' }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <section style={{ backgroundColor: C.cream, padding: '96px 24px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
             <Label text="The Problem" />
-            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4.5vw, 44px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '24px', maxWidth: '720px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(32px, 5.5vw, 64px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.04em', lineHeight: 1.08, marginBottom: '28px', maxWidth: '880px' }}>
               Smart people still guess, because nobody ever taught them a process for thinking through a problem.
             </h2>
           </Reveal>
           <Reveal delay={60}>
-            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.8, color: C.body, marginBottom: '40px', maxWidth: '640px' }}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 2vw, 21px)', lineHeight: 1.8, color: C.body, marginBottom: '48px', maxWidth: '720px', fontWeight: 500 }}>
               Sales drop. A key hire quits. Margins shrink. The reflex is to grab the nearest fix: a discount, a new tool, a team meeting. Weeks later the symptom is back, because the cause was never found.
             </p>
           </Reveal>
           <Reveal delay={80}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '16px', marginBottom: '40px' }} className="oc-3col">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '20px', marginBottom: '48px' }} className="oc-3col">
               {[
                 { h: 'Decisions made on mood', b: 'Without fixed criteria, the loudest opinion or the latest scare wins.' },
                 { h: 'Busy, but not moving', b: 'Effort is spread across ten things, and nobody can say which one matters most.' },
                 { h: 'Good ideas that die on paper', b: "The plan never gets owners, dates or numbers, so nothing happens." },
               ].map((item, i) => (
-                <div key={i} style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '24px 20px', borderRadius: '4px' }}>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', fontWeight: 700, color: C.navy, marginBottom: '8px', lineHeight: 1.3 }}>{item.h}</p>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.body, margin: 0, lineHeight: 1.7 }}>{item.b}</p>
+                <div key={i} style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '32px 28px', borderRadius: '4px' }}>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 1.8vw, 20px)', fontWeight: 800, color: C.navy, marginBottom: '12px', lineHeight: 1.3 }}>{item.h}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.6vw, 17px)', color: C.body, margin: 0, lineHeight: 1.75, fontWeight: 500 }}>{item.b}</p>
                 </div>
               ))}
             </div>
           </Reveal>
           <Reveal delay={100}>
-            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(16px, 2vw, 18px)', fontWeight: 700, color: C.navy, lineHeight: 1.6, maxWidth: '680px' }}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(18px, 2.2vw, 24px)', fontWeight: 800, color: C.navy, lineHeight: 1.55, maxWidth: '800px' }}>
               Consultants are paid well for one thing: they replace guessing with structure. That structure is a learnable skill, and it fits in one book.
             </p>
           </Reveal>
