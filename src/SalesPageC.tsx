@@ -118,14 +118,6 @@ export default function SalesPageC() {
   return (
     <div style={{ backgroundColor: C.bg, color: C.ink, fontFamily: "'Inter', system-ui, sans-serif", lineHeight: 1.65 }}>
 
-      {/* ══ NAV ═══════════════════════════════════════════ */}
-      <nav style={{ backgroundColor: C.bg, borderBottom: `1px solid ${C.border}`, padding: '0 32px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 100 }}>
-        <span style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: 800, letterSpacing: '0.04em', color: C.navy }}>
-          QUICK <span style={{ color: C.yellow }}>LEARN PLUS</span>
-        </span>
-        <CTABtn text="Get the bundle, ₦12,500" id="nav-cta" />
-      </nav>
-
       {/* ══ HERO ══════════════════════════════════════════ */}
       <section style={{ backgroundColor: C.navy, padding: '72px 32px 64px' }}>
         <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 400px', gap: '64px', alignItems: 'center' }} className="oc-hero-grid">
