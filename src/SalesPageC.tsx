@@ -1,6 +1,13 @@
 import { useRef, useState, useEffect } from 'react'
 import consultantCover from './-like-a-consultant-cover.png'
 import bundleImage    from './Quick Learn Plus Business Bundle.png'
+import stackImage     from './Six-Book Management Collection Display.png'
+import b1Image        from './productivity_management_method.png'
+import b2Image        from './organizational_leadership_method.png'
+import b3Image        from './management_template_kit.png'
+import b4Image        from './Decision Criteria_ Premium Chess-Inspired Book Mockup.png'
+import b5Image        from './the_consultants_mindset.png'
+import tlcImage       from './think_like_a_consultant.png'
 import thankgodPhoto  from './ThankGod-Akpa.jpeg'
 import petersonPhoto  from './Peterson-Akodi.jpeg'
 import davidPhoto     from './David-Utulor.jpeg'
@@ -323,42 +330,95 @@ export default function SalesPageC() {
             <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(32px, 5.5vw, 60px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '12px' }}>
               Deciding is half the job. The bonuses cover the other half: getting it done.
             </h2>
-            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 2vw, 20px)', lineHeight: 1.8, color: C.body, marginBottom: '40px', maxWidth: '760px' }}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 2vw, 20px)', lineHeight: 1.8, color: C.body, marginBottom: '48px', maxWidth: '760px' }}>
               Each one is tied to a moment where plans usually stall.
             </p>
           </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="oc-bonus-grid">
+
+          {/* Bonus cards with mockup images */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="oc-bonus-grid">
             {[
-              { tag: 'BONUS 1 · BOOK', val: 'Worth ₦5,000', t: 'Productivity Management Method', when: 'Use it when: the plan is made but the week is chaos.', d: 'Systems to sort priorities, build routines and track output.' },
-              { tag: 'BONUS 2 · BOOK', val: 'Worth ₦5,000', t: 'Organizational Leadership Method', when: 'Use it when: you need people to follow the plan.', d: 'How to communicate decisions, delegate, give feedback and lead change.' },
-              { tag: 'BONUS 3 · TEMPLATES', val: 'Worth ₦5,000', t: 'Management Template Kit', when: 'Use it when: you want to start today, not design forms.', d: 'Editable templates for processes, KPIs and action plans.' },
-              { tag: 'BONUS 4 · BOOK', val: 'Worth ₦3,750', t: 'Decision Criteria', when: 'Use it when: you have two good options and cannot choose.', d: 'A scoring guide for feasibility, impact, effort, risk and assumptions.' },
+              { img: b1Image, tag: 'BONUS 1 · BOOK', val: 'Worth ₦5,000', t: 'Productivity Management Method', when: 'Use it when: the plan is made but the week is chaos.', d: 'Systems to sort priorities, build routines and track output.' },
+              { img: b2Image, tag: 'BONUS 2 · BOOK', val: 'Worth ₦5,000', t: 'Organizational Leadership Method', when: 'Use it when: you need people to follow the plan.', d: 'How to communicate decisions, delegate, give feedback and lead change.' },
+              { img: b3Image, tag: 'BONUS 3 · TEMPLATES', val: 'Worth ₦5,000', t: 'Management Template Kit', when: 'Use it when: you want to start today, not design forms.', d: 'Editable templates for processes, KPIs and action plans.' },
+              { img: b4Image, tag: 'BONUS 4 · BOOK', val: 'Worth ₦3,750', t: 'Decision Criteria', when: 'Use it when: you have two good options and cannot choose.', d: 'A scoring guide for feasibility, impact, effort, risk and assumptions.' },
             ].map((b, i) => (
               <Reveal key={i} delay={i * 50}>
-                <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '32px 28px', borderRadius: '4px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '8px' }}>
-                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>{b.tag}</p>
-                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: C.muted, margin: 0, whiteSpace: 'nowrap' }}>{b.val}</p>
+                <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, borderRadius: '4px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                  {/* Mockup image */}
+                  <div style={{ backgroundColor: '#F0EEF8', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '32px 24px', borderBottom: `1px solid ${C.border}` }}>
+                    <img src={b.img} alt={b.t} style={{ width: '100%', maxWidth: '220px', height: '160px', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.15))' }} />
                   </div>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '20px', fontWeight: 800, color: C.navy, marginBottom: '10px', lineHeight: 1.3 }}>{b.t}</p>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.body, margin: 0, lineHeight: 1.7 }}>
-                    <strong style={{ color: C.navy }}>{b.when}</strong> {b.d}
-                  </p>
+                  {/* Text */}
+                  <div style={{ padding: '24px 28px', flex: 1 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '8px' }}>
+                      <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>{b.tag}</p>
+                      <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: C.muted, margin: 0, whiteSpace: 'nowrap' }}>{b.val}</p>
+                    </div>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '20px', fontWeight: 800, color: C.navy, marginBottom: '10px', lineHeight: 1.3 }}>{b.t}</p>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', color: C.body, margin: 0, lineHeight: 1.7 }}>
+                      <strong style={{ color: C.navy }}>{b.when}</strong> {b.d}
+                    </p>
+                  </div>
                 </div>
               </Reveal>
             ))}
           </div>
-          {/* Bonus 5 — full width */}
-          <Reveal delay={200}>
-            <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '32px 28px', borderRadius: '4px', marginTop: '12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '8px' }}>
-                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>BONUS 5 · BOOK</p>
-                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: C.muted, margin: 0 }}>Worth ₦3,750</p>
+
+          {/* Bonus 5 — full width with image */}
+          <Reveal delay={220}>
+            <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, borderRadius: '4px', overflow: 'hidden', marginTop: '20px', display: 'grid', gridTemplateColumns: '280px 1fr', alignItems: 'center' }} className="oc-b5-grid">
+              <div style={{ backgroundColor: '#F0EEF8', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '32px 24px', borderRight: `1px solid ${C.border}`, height: '100%' }}>
+                <img src={b5Image} alt="The Consultant's Mindset" style={{ width: '100%', maxWidth: '200px', height: '160px', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.15))' }} />
               </div>
-              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '20px', fontWeight: 800, color: C.navy, marginBottom: '10px' }}>The Consultant's Mindset</p>
-              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.body, margin: 0, lineHeight: 1.7 }}>
-                <strong style={{ color: C.navy }}>Use it when: you want to sound and think like a pro.</strong> Hypothesis-led thinking, sharp questions, building client trust.
-              </p>
+              <div style={{ padding: '32px 36px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '8px' }}>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>BONUS 5 · BOOK</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: C.muted, margin: 0 }}>Worth ₦3,750</p>
+                </div>
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '20px', fontWeight: 800, color: C.navy, marginBottom: '10px' }}>The Consultant's Mindset</p>
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', color: C.body, margin: 0, lineHeight: 1.7 }}>
+                  <strong style={{ color: C.navy }}>Use it when: you want to sound and think like a pro.</strong> Hypothesis-led thinking, sharp questions, building client trust.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Full bundle stack */}
+          <Reveal delay={260}>
+            <div style={{ marginTop: '56px', backgroundColor: '#000000', borderRadius: '4px', padding: '56px 48px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }} className="oc-stack-grid">
+              <div>
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.yellowBg, marginBottom: '16px' }}>The Complete Bundle</p>
+                <h3 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 3.5vw, 40px)', fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '20px' }}>
+                  Six books. One system. Everything you need to think, decide and act.
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '32px' }}>
+                  {[
+                    { img: tlcImage, label: 'Think Like a Consultant', val: '₦8,750' },
+                    { img: b1Image, label: 'Productivity Management Method', val: '₦5,000' },
+                    { img: b2Image, label: 'Organizational Leadership Method', val: '₦5,000' },
+                    { img: b3Image, label: 'Management Template Kit', val: '₦5,000' },
+                    { img: b4Image, label: 'Decision Criteria', val: '₦3,750' },
+                    { img: b5Image, label: "The Consultant's Mindset", val: '₦3,750' },
+                  ].map((item, i) => (
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.08)', gap: '12px' }}>
+                      <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: i === 0 ? 700 : 400, color: i === 0 ? '#fff' : 'rgba(255,255,255,0.6)', margin: 0 }}>{item.label}</p>
+                      <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.3)', textDecoration: 'line-through', margin: 0, flexShrink: 0 }}>{item.val}</p>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ marginBottom: '24px' }}>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '4px' }}>Total value: <span style={{ textDecoration: 'line-through' }}>₦31,250</span></p>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '14px' }}>
+                    <span style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1 }}>₦12,500</span>
+                    <span style={{ backgroundColor: C.red, color: '#fff', fontSize: '13px', fontWeight: 800, padding: '4px 12px', borderRadius: '3px', letterSpacing: '0.04em' }}>60% OFF</span>
+                  </div>
+                </div>
+                <CTABtn text="Get the complete bundle →" />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <img src={stackImage} alt="Six-Book Business Bundle" style={{ width: '100%', maxWidth: '400px', display: 'block', filter: 'drop-shadow(0 16px 48px rgba(0,0,0,0.5))' }} />
+              </div>
             </div>
           </Reveal>
         </div>
@@ -605,6 +665,8 @@ export default function SalesPageC() {
           .oc-who-grid   { grid-template-columns: 1fr !important; }
           .oc-3col       { grid-template-columns: 1fr !important; }
           .oc-bonus-grid { grid-template-columns: 1fr !important; }
+          .oc-b5-grid    { grid-template-columns: 1fr !important; }
+          .oc-stack-grid { grid-template-columns: 1fr !important; }
           .oc-fw-row     { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 600px) {
