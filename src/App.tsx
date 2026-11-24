@@ -1,46 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import consultantCover from './-like-a-consultant-cover.png'
-
-function useInView(threshold = 0.15) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect() } },
-      { threshold }
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [threshold])
-  return { ref, visible }
-}
-
-function FadeIn({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const { ref, visible } = useInView()
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(18px)',
-        transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
-      }}
-    >
-      {children}
-    </div>
-  )
-}
-
-function Divider({ gold = false }: { gold?: boolean }) {
-  return (
-    <div className="reading-col">
-      <hr style={{ border: 'none', borderTop: `1px solid ${gold ? '#B89B5E' : '#D8D3C8'}`, margin: '0' }} />
-    </div>
-  )
-}
 
 function CTAButton({ text, id }: { text: string; id?: string }) {
   return (
@@ -51,25 +10,25 @@ function CTAButton({ text, id }: { text: string; id?: string }) {
       id={id}
       style={{
         display: 'inline-block',
-        backgroundColor: '#0D2137',
-        color: '#FAF8F3',
+        backgroundColor: '#B89B5E',
+        color: '#0A0A0A',
         fontFamily: "'DM Sans', sans-serif",
-        fontSize: '15px',
-        fontWeight: 600,
-        letterSpacing: '0.06em',
+        fontSize: '14px',
+        fontWeight: 700,
+        letterSpacing: '0.08em',
         textTransform: 'uppercase',
-        padding: '18px 48px',
-        borderRadius: '3px',
+        padding: '16px 40px',
+        borderRadius: '4px',
         textDecoration: 'none',
-        transition: 'background-color 0.2s ease, transform 0.15s ease',
+        transition: 'opacity 0.2s ease, transform 0.15s ease',
         cursor: 'pointer',
       }}
       onMouseEnter={e => {
-        (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#1A3A5C'
+        (e.currentTarget as HTMLAnchorElement).style.opacity = '0.88'
         ;(e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)'
       }}
       onMouseLeave={e => {
-        (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#0D2137'
+        (e.currentTarget as HTMLAnchorElement).style.opacity = '1'
         ;(e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'
       }}
     >
@@ -78,897 +37,476 @@ function CTAButton({ text, id }: { text: string; id?: string }) {
   )
 }
 
-const benefits = [
-  'Discover what consultants actually get paid for — and why having knowledge isn\'t enough to make a business owner see you as worth paying for.',
-  'The one skill that can make you more valuable as a consultant than knowing dozens of business frameworks. Learn why the way you think about a problem can matter more than how many frameworks you know.',
-  'How to break down a complicated business problem into smaller pieces without getting overwhelmed. So instead of staring at one giant problem, you\'ll know exactly where to start.',
-  'How to turn a messy business situation into a clear story before recommending a solution. Learn how to separate what is happening, what changed, and what question actually needs to be answered.',
-  'The simple 6-step process you can use to approach almost any business problem. So you don\'t have to sit in front of a client wondering, "Where do I even begin?"',
-  'How to quickly understand what is really happening inside a business — without relying entirely on guesswork or assumptions.',
-  'How to identify the external forces that could affect your client\'s business — including changes in the economy, technology, regulations, society and competition.',
-  'How to determine how attractive or difficult an industry really is before telling a client what they should do.',
-  'How to estimate the size of a business opportunity without needing an expensive research team. This can help you answer the question every serious business owner wants answered: "Is this opportunity actually big enough to pursue?"',
-  'How to find where a business is actually creating value — and where that value is being lost.',
-  'Why the problem your client brings to you is often NOT the real problem — and how to dig deeper until you find what is actually causing it.',
-  'How to find the 20% of causes responsible for 80% of your client\'s biggest headaches. So you can focus your recommendations on what can make the biggest difference.',
-  'How to uncover where a business is leaking money, time and resources — even when the problem isn\'t immediately obvious.',
-  'How to map the way work actually moves through a business and identify where things are getting stuck.',
-  'How to stop solving isolated symptoms and start seeing the entire business as a connected system.',
-  'How to generate multiple possible solutions instead of presenting your client with the first idea that comes to mind.',
-  'How to help a business decide where to compete and how to win — without making strategy sound unnecessarily complicated.',
-  'What to do when everything looks urgent and your client wants everything fixed at once. Learn how to identify what should actually come first.',
-  'How to think through what could go wrong BEFORE recommending a strategy — so your client isn\'t discovering the risks after money has already been spent.',
-  'How to test an idea before your client bets the entire business on it.',
-  'How to tell whether a business model actually makes sense — before recommending that the business invest more money into it.',
-  'How to think beyond the immediate quarter without losing sight of the bigger picture.',
-  'Why pricing may be one of the fastest ways to change a business\'s performance — and how to think about it strategically.',
-  'How to see the problems that can appear when a business starts growing before those problems become expensive emergencies.',
-  'How to help a business lead its people through change without losing the people it needs to make the change happen.',
-  'How to turn a brilliant recommendation into something people actually execute. Because a recommendation that never gets implemented doesn\'t create business value.',
-  'How to manage projects without drowning yourself — or your client — in unnecessary processes.',
-  'How to get people to support your recommendation even when they weren\'t part of the original decision-making process.',
-  'How to know whether your recommendation is actually working — using simple ways to track progress instead of relying on feelings.',
-  'How to help businesses continuously improve without needing to hire a consultant every time they want to solve a problem.',
-  'The quick-reference checklist you can use whenever a new business problem lands on your desk.',
+function FAQItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div
+      style={{
+        borderBottom: '1px solid #2A2A2A',
+        cursor: 'pointer',
+      }}
+      onClick={() => setOpen(o => !o)}
+    >
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '20px 0',
+        gap: '16px',
+      }}>
+        <span style={{ fontSize: '15px', fontWeight: 500, color: '#F0EDE6', lineHeight: 1.5 }}>{q}</span>
+        <span style={{
+          color: '#B89B5E',
+          fontSize: '20px',
+          lineHeight: 1,
+          flexShrink: 0,
+          transform: open ? 'rotate(45deg)' : 'rotate(0)',
+          transition: 'transform 0.2s ease',
+        }}>+</span>
+      </div>
+      {open && (
+        <p style={{ fontSize: '14px', lineHeight: 1.75, color: '#888480', margin: '0 0 20px 0', paddingRight: '32px' }}>
+          {a}
+        </p>
+      )}
+    </div>
+  )
+}
+
+const steps = [
+  {
+    num: '01',
+    title: 'Define the Problem',
+    desc: 'Separate what is happening, what changed, and what question actually needs answering.',
+  },
+  {
+    num: '02',
+    title: 'Diagnose Root Causes',
+    desc: 'Break the situation into pieces. Find the 20% causing 80% of the pain.',
+  },
+  {
+    num: '03',
+    title: 'Generate Options',
+    desc: 'Build multiple possible solutions instead of presenting the first idea that comes to mind.',
+  },
+  {
+    num: '04',
+    title: 'Evaluate & Prioritize',
+    desc: 'Assess what should come first, what could go wrong, and how to test before committing.',
+  },
+  {
+    num: '05',
+    title: 'Recommend & Implement',
+    desc: 'Turn your recommendation into something people actually execute.',
+  },
+]
+
+const whatYouLearn = [
+  'The one skill that makes you more valuable than knowing dozens of frameworks',
+  'How to break down complex business problems without getting overwhelmed',
+  'A 6-step system you can apply to almost any business problem',
+  'How to identify what\'s really happening inside a business — fast',
+  'How to map external forces affecting your client\'s industry',
+  'How to estimate market opportunity without an expensive research team',
+  'Why your client\'s stated problem is often NOT the real problem',
+  'How to find where a business is leaking money, time, and resources',
+  'How to generate multiple solutions instead of defaulting to your first idea',
+  'How to think through risk before recommending a strategy',
+  'How to turn a recommendation into something people actually implement',
+  'How to measure whether your recommendation is working',
 ]
 
 const bonuses = [
   {
-    num: '01',
-    title: 'The Consultant\'s Quick-Reference Cheat Sheet',
+    title: 'Quick-Reference Cheat Sheet',
     value: '₦5,000',
-    desc: 'You shouldn\'t have to read through an entire book every time a new business problem comes your way. This quick-reference sheet gives you the key questions and frameworks you need to quickly determine where to start, what to investigate, and what to do next. Keep it beside you whenever you\'re working with a client.',
+    desc: 'Key questions and frameworks to quickly determine where to start and what to do next.',
   },
   {
-    num: '02',
-    title: 'The Business Problem Diagnosis Worksheet',
+    title: 'Problem Diagnosis Worksheet',
     value: '₦7,500',
-    desc: 'Sometimes the hardest part of consulting isn\'t solving the problem — it\'s figuring out what the problem actually is. This practical worksheet helps you work through a business problem step by step, ask better questions, separate symptoms from root causes, and organize your thinking before jumping to a recommendation. So you can spend less time guessing and more time diagnosing.',
+    desc: 'Step-by-step worksheet to separate symptoms from root causes before jumping to solutions.',
   },
   {
-    num: '03',
-    title: 'The Consultant\'s Problem-Solving Checklist',
+    title: 'Problem-Solving Checklist',
     value: '₦5,000',
-    desc: 'Before you present your recommendation to a client, run through this checklist. Have you defined the problem correctly? Have you identified the root cause? Have you considered alternative explanations? Have you generated more than one possible solution? This checklist helps you catch the gaps that can turn an otherwise good recommendation into a weak one.',
+    desc: 'Run through this before every client presentation to catch gaps before they weaken your work.',
   },
   {
-    num: '04',
-    title: '3 Complete Business Problem Walkthroughs',
+    title: '3 Complete Business Walkthroughs',
     value: '₦10,000',
-    desc: 'Don\'t just learn the theory — see how the thinking works. You\'ll get three complete examples showing how the problem-solving system can be applied from the initial problem all the way to the final recommendation. This gives you something you can study when you\'re faced with a real client problem.',
+    desc: 'See how the full system applies from initial problem to final recommendation.',
   },
   {
-    num: '05',
-    title: 'The Consultant\'s Framework Selection Guide',
+    title: 'Framework Selection Guide',
     value: '₦5,000',
-    desc: 'One of the biggest mistakes new consultants make is trying to use every framework they know on every problem. This guide helps you understand which type of thinking tool to reach for depending on the problem you\'re trying to solve. Because the goal isn\'t to impress your client with frameworks — the goal is to solve the problem.',
+    desc: 'Know which thinking tool to reach for depending on the problem you\'re solving.',
+  },
+]
+
+const faqs = [
+  {
+    q: 'Who is this guide for?',
+    a: 'It\'s for consultants, aspiring consultants, and business owners in Nigeria who want to approach business problems more systematically — not just rely on instinct.',
+  },
+  {
+    q: 'Is this a physical book or a digital download?',
+    a: 'It\'s a digital guide. After payment you\'ll be redirected to your download page immediately.',
+  },
+  {
+    q: 'What if I already know some frameworks?',
+    a: 'The guide isn\'t about memorizing frameworks — it\'s about developing a way of thinking. Even if you know SWOT or Porter\'s Five Forces, the system here shows you how to actually apply structured thinking from problem to recommendation.',
+  },
+  {
+    q: 'What is the refund policy?',
+    a: 'Go through the material. If within 7 days you feel you didn\'t get the practical value you expected, contact us and we\'ll refund you — no arguments.',
+  },
+  {
+    q: 'How is this different from other consulting books?',
+    a: 'Most books teach you what frameworks exist. This guide teaches you how to think — how to move from a messy client situation to a clear, defensible recommendation using a repeatable process.',
   },
 ]
 
 export default function App() {
-  const [showStickyMobile, setShowStickyMobile] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowStickyMobile(window.scrollY > 600)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
-    <div style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)', minHeight: '100vh' }}>
+    <div style={{ backgroundColor: '#0A0A0A', color: '#F0EDE6', minHeight: '100vh', fontFamily: "'DM Sans', sans-serif" }}>
 
       {/* ── NAV ── */}
-      <nav style={{
-        borderBottom: '1px solid var(--border)',
-        padding: '20px 0',
-        backgroundColor: 'var(--background)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
-          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--muted-foreground)' }}>
+      <nav style={{ borderBottom: '1px solid #1E1E1E', padding: '16px 0' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#888480' }}>
             Quick Learn Plus
           </span>
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '13px', fontStyle: 'italic', color: 'var(--foreground)' }}>
-            Think Like a Consultant
-          </span>
+          <CTAButton text="Get It Now — ₦7,500" />
         </div>
       </nav>
 
       {/* ── HERO ── */}
-      <section style={{ paddingTop: '100px', paddingBottom: '80px' }}>
-        <div className="reading-col">
-          <div style={{ opacity: 1 }}>
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: 'var(--muted-foreground)',
-              marginBottom: '48px',
-            }}>
-              Quick Learn Plus
+      <section style={{ padding: '80px 1.5rem 64px', maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '64px', alignItems: 'center' }}>
+          <div>
+            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#B89B5E', marginBottom: '24px' }}>
+              Quick Learn Plus · Digital Guide
             </p>
-
             <h1 style={{
               fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(36px, 5vw, 58px)',
+              fontSize: 'clamp(36px, 5vw, 60px)',
               fontWeight: 700,
-              lineHeight: 1.2,
+              lineHeight: 1.15,
               letterSpacing: '-0.01em',
-              color: 'var(--foreground)',
-              marginBottom: '40px',
-              maxWidth: '640px',
+              marginBottom: '32px',
             }}>
-              To Every Consultant in Nigeria Who Wants to Genuinely Help Businesses Solve Problems — and Charge Premium Without Feeling Guilty
+              Stop guessing.<br />
+              <span style={{ color: '#B89B5E' }}>Think like a<br />consultant.</span>
             </h1>
 
-            <p style={{ fontSize: '17px', color: 'var(--muted-foreground)', marginBottom: '48px', fontStyle: 'italic', fontFamily: "'Playfair Display', serif" }}>
-              Dear Consultant,
+            <p style={{ fontSize: '17px', lineHeight: 1.75, color: '#888480', marginBottom: '16px', maxWidth: '480px' }}>
+              A practical system for breaking down any business problem — from diagnosis to recommendation — without relying on instinct or guesswork.
             </p>
 
-            <div style={{ fontSize: '19px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <p>Let me start with a simple question:</p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 40px 0', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {[
+                '31 problem-solving frameworks explained simply',
+                '5 practical bonus tools included free',
+                '3 complete business problem walkthroughs',
+              ].map((item, i) => (
+                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '15px', color: '#C8C4BD' }}>
+                  <span style={{ color: '#B89B5E', fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
 
-              <p style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 'clamp(22px, 3vw, 28px)',
-                fontWeight: 600,
-                lineHeight: 1.4,
-                borderLeft: '3px solid #B89B5E',
-                paddingLeft: '24px',
-                color: 'var(--foreground)',
-                margin: '16px 0',
-              }}>
-                Are you genuinely passionate about helping businesses and organizations solve real problems?
-              </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
+              <CTAButton text="Get the Guide Now →" id="order" />
+              <span style={{ fontSize: '13px', color: '#888480' }}>₦7,500 · Instant download · 7-day guarantee</span>
+            </div>
+          </div>
 
-              <p>Not just carrying the title "Consultant."</p>
-              <p>Not just giving opinions.</p>
-              <p>Not just telling business owners what you think they should do.</p>
-              <p>But actually being able to sit with a difficult business problem, break it down, find what is really causing it, and recommend a solution the business can act on.</p>
-              <p>If your answer is yes, then you may have just found one of the most useful resources you'll come across today.</p>
-              <p>But if you simply like the title "Consultant" more than the responsibility that comes with it, you can stop reading here.</p>
-              <p style={{ fontWeight: 600 }}>Because this is for the consultant who wants to become genuinely valuable.</p>
-
-              <p>The consultant who wants clients to look at their recommendations and say:</p>
-
-              <blockquote style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 'clamp(20px, 2.5vw, 24px)',
-                fontStyle: 'italic',
-                lineHeight: 1.5,
-                color: 'var(--primary)',
-                margin: '24px 0',
-                padding: '0 0 0 24px',
-                borderLeft: '2px solid #B89B5E',
-              }}>
-                "This makes sense. Now we know what to do."
-              </blockquote>
-
-              <p>And eventually:</p>
-
-              <blockquote style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 'clamp(20px, 2.5vw, 24px)',
-                fontStyle: 'italic',
-                lineHeight: 1.5,
-                color: 'var(--primary)',
-                margin: '24px 0',
-                padding: '0 0 0 24px',
-                borderLeft: '2px solid #B89B5E',
-              }}>
-                "This person is worth paying for."
-              </blockquote>
+          {/* Book cover */}
+          <div style={{ flexShrink: 0 }}>
+            <div style={{ position: 'relative', perspective: '800px', display: 'inline-block' }}>
+              <img
+                src={consultantCover}
+                alt="Think Like a Consultant — book cover"
+                style={{
+                  width: '220px',
+                  display: 'block',
+                  borderRadius: '3px 8px 8px 3px',
+                  boxShadow: '12px 20px 60px rgba(0,0,0,0.8), 2px 4px 16px rgba(0,0,0,0.5)',
+                  transform: 'rotateY(-8deg)',
+                  transformOrigin: 'left center',
+                }}
+              />
             </div>
           </div>
         </div>
       </section>
 
-      <Divider />
-
-      {/* ── WHY QUICK LEARN PLUS ── */}
-      <section style={{ paddingTop: '80px', paddingBottom: '80px' }}>
-        <div className="reading-col">
-          <FadeIn>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(26px, 3.5vw, 36px)',
-              fontWeight: 700,
-              lineHeight: 1.3,
-              marginBottom: '40px',
-            }}>
-              Why Are We So Confident This Guide Can Help You?
-            </h2>
-
-            <div style={{ fontSize: '19px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <p>At Quick Learn Plus, our mission is simple:</p>
-
-              <p style={{
-                fontFamily: "'Playfair Display', serif",
-                fontStyle: 'italic',
-                fontSize: '22px',
-                lineHeight: 1.5,
-                color: 'var(--primary)',
-                margin: '8px 0',
+      {/* ── PROBLEM STATEMENT ── */}
+      <section style={{ borderTop: '1px solid #1E1E1E', borderBottom: '1px solid #1E1E1E', padding: '64px 1.5rem', textAlign: 'center' }}>
+        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <h2 style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: 'clamp(26px, 3.5vw, 38px)',
+            fontWeight: 700,
+            lineHeight: 1.3,
+            marginBottom: '20px',
+          }}>
+            Business problems rarely come with instructions.
+          </h2>
+          <p style={{ fontSize: '16px', color: '#888480', lineHeight: 1.75, marginBottom: '48px' }}>
+            When a business owner brings you a problem, you can't just Google the answer. You need a structured way to think through it — or you're guessing.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: '#1E1E1E' }}>
+            {[
+              { label: 'Without structure', text: 'You react to symptoms, miss root causes, and hope your recommendation sticks.' },
+              { label: 'With frameworks alone', text: 'You have tools but no system for which to use, when, and in what order.' },
+              { label: 'With this guide', text: 'You move from messy situation to clear recommendation using a repeatable process.' },
+            ].map((col, i) => (
+              <div key={i} style={{
+                backgroundColor: i === 2 ? '#141400' : '#0D0D0D',
+                padding: '32px 24px',
+                borderTop: `2px solid ${i === 2 ? '#B89B5E' : '#1E1E1E'}`,
               }}>
-                Take complex business knowledge and turn it into practical ideas that people can actually use.
-              </p>
-
-              <p>We bring together business concepts, frameworks, experiences, and practical lessons and distill them into simple tools you can understand and apply.</p>
-              <p>So you are not simply taking one person's opinion and hoping it works. You're learning practical ways of thinking that have been used across different areas of business and problem-solving.</p>
-              <p>And recently, we put these ideas into a book created for people like you.</p>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ── WHAT IS THE BOOK ── */}
-      <section style={{ backgroundColor: '#F3F0E8', paddingTop: '80px', paddingBottom: '80px' }}>
-        <div className="reading-col">
-          <FadeIn>
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: '#B89B5E',
-              marginBottom: '24px',
-            }}>
-              The Guide
-            </p>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(28px, 4vw, 44px)',
-              fontWeight: 700,
-              lineHeight: 1.25,
-              marginBottom: '40px',
-            }}>
-              A Practical Guide to Solving Business Problems Without Guesswork
-            </h2>
-
-            <div style={{ fontSize: '19px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <p>We created a book that teaches consultants and business owners how to approach business problems systematically.</p>
-              <p>How to move beyond:</p>
-              <p style={{ paddingLeft: '24px', borderLeft: '2px solid var(--border)', fontStyle: 'italic', color: 'var(--muted-foreground)' }}>
-                "I think this is the problem."
-              </p>
-              <p>To:</p>
-              <p style={{
-                paddingLeft: '24px',
-                borderLeft: '3px solid #B89B5E',
-                fontFamily: "'Playfair Display', serif",
-                fontSize: '20px',
-                lineHeight: 1.6,
-                fontWeight: 600,
-              }}>
-                "Here is what is actually happening, here is why it is happening, and here is what we should do about it."
-              </p>
-            </div>
-
-            {/* Book Mockup */}
-            <div style={{ marginTop: '64px', display: 'flex', justifyContent: 'center' }}>
-              <FadeIn delay={100}>
-                <div style={{
-                  position: 'relative',
-                  perspective: '800px',
-                  display: 'inline-block',
-                }}>
-                  <img
-                    src={consultantCover}
-                    alt="Think Like a Consultant — book cover"
-                    style={{
-                      width: '260px',
-                      display: 'block',
-                      borderRadius: '3px 8px 8px 3px',
-                      boxShadow: '8px 16px 40px rgba(0,0,0,0.25), 2px 4px 12px rgba(0,0,0,0.15)',
-                      transform: 'rotateY(-8deg)',
-                      transformOrigin: 'left center',
-                    }}
-                  />
-                </div>
-              </FadeIn>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* ── WHAT YOU'LL DISCOVER ── */}
-      <section style={{ paddingTop: '80px', paddingBottom: '80px' }}>
-        <div className="reading-col">
-          <FadeIn>
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: '#B89B5E',
-              marginBottom: '24px',
-            }}>
-              Inside the Guide
-            </p>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(28px, 3.5vw, 40px)',
-              fontWeight: 700,
-              lineHeight: 1.3,
-              marginBottom: '16px',
-            }}>
-              Here's What You'll Discover Inside This Guide...
-            </h2>
-            <p style={{ fontSize: '18px', color: 'var(--muted-foreground)', marginBottom: '56px' }}>
-              A complete system for thinking through, diagnosing, and solving any business problem — with clarity and confidence.
-            </p>
-          </FadeIn>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-            {benefits.map((benefit, i) => (
-              <FadeIn key={i} delay={Math.min(i * 20, 200)}>
-                <div style={{
-                  display: 'flex',
-                  gap: '24px',
-                  padding: '28px 0',
-                  borderBottom: '1px solid var(--border)',
-                  alignItems: 'flex-start',
-                }}>
-                  <span style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: '13px',
-                    fontWeight: 700,
-                    color: '#B89B5E',
-                    minWidth: '32px',
-                    paddingTop: '3px',
-                    letterSpacing: '0.04em',
-                  }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <p style={{ fontSize: '17px', lineHeight: 1.75, margin: 0 }}>
-                    {benefit}
-                  </p>
-                </div>
-              </FadeIn>
+                <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: i === 2 ? '#B89B5E' : '#888480', marginBottom: '12px' }}>{col.label}</p>
+                <p style={{ fontSize: '14px', lineHeight: 1.7, color: i === 2 ? '#C8C4BD' : '#666260', margin: 0 }}>{col.text}</p>
+              </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <FadeIn>
-            <div style={{ marginTop: '56px', display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '18px', lineHeight: 1.8 }}>
-              <p>And then you'll see the entire system applied from beginning to end to three real business problems, so you can see how the thinking works in practice — not just read about it in theory.</p>
-              <p>You'll also discover when you should use the full problem-solving process — and when a simple shortcut is enough.</p>
-              <p>Plus, the common traps that even trained consultants fall into — so you can recognize them before they weaken your recommendations.</p>
-              <p>And finally...</p>
-              <p style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: '22px',
-                fontWeight: 600,
-                lineHeight: 1.5,
-                color: 'var(--primary)',
-                margin: '16px 0',
-              }}>
-                You'll have a repeatable way to approach whatever business problem comes next.
-              </p>
-              <p>Because the goal isn't for you to memorize a collection of frameworks. The goal is for you to develop a way of thinking that helps you walk into a business problem and know what to do next.</p>
+      {/* ── PROCESS STEPS ── */}
+      <section style={{ padding: '80px 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#B89B5E', marginBottom: '12px' }}>The System</p>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, lineHeight: 1.3 }}>
+            One clear process, from start to finish.
+          </h2>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1px', backgroundColor: '#1E1E1E' }} className="steps-grid">
+          {steps.map((step, i) => (
+            <div key={i} style={{ backgroundColor: '#0D0D0D', padding: '28px 20px' }}>
+              <span style={{ display: 'block', fontFamily: "'Playfair Display', serif", fontSize: '28px', fontWeight: 700, color: '#2A2A2A', marginBottom: '12px', lineHeight: 1 }}>{step.num}</span>
+              <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#F0EDE6', marginBottom: '10px', lineHeight: 1.4 }}>{step.title}</h3>
+              <p style={{ fontSize: '13px', lineHeight: 1.65, color: '#888480', margin: 0 }}>{step.desc}</p>
             </div>
-          </FadeIn>
+          ))}
+        </div>
+        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+          <CTAButton text="Get the Guide Now →" />
+        </div>
+      </section>
+
+      {/* ── WHAT YOU'LL LEARN ── */}
+      <section style={{ backgroundColor: '#0D0D0D', padding: '80px 1.5rem', borderTop: '1px solid #1E1E1E', borderBottom: '1px solid #1E1E1E' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#B89B5E', marginBottom: '12px' }}>Inside the Guide</p>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, lineHeight: 1.3 }}>
+              A complete system, not a handful of tips.
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: '#1E1E1E' }} className="learn-grid">
+            {whatYouLearn.map((item, i) => (
+              <div key={i} style={{ backgroundColor: '#0A0A0A', padding: '20px 24px', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                <span style={{ color: '#B89B5E', fontWeight: 700, fontSize: '14px', flexShrink: 0, marginTop: '2px' }}>✓</span>
+                <span style={{ fontSize: '14px', lineHeight: 1.65, color: '#C8C4BD' }}>{item}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ── BONUSES ── */}
-      <section style={{ backgroundColor: '#F3F0E8', paddingTop: '80px', paddingBottom: '80px' }}>
-        <div className="reading-col">
-          <FadeIn>
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: '#B89B5E',
-              marginBottom: '24px',
+      <section style={{ padding: '80px 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#B89B5E', marginBottom: '12px' }}>Included Free</p>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, lineHeight: 1.3 }}>
+            Five extra tools to take action.
+          </h2>
+          <p style={{ fontSize: '15px', color: '#888480', marginTop: '12px' }}>Everything you need to stop reading and start applying.</p>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="bonus-grid">
+          {bonuses.map((bonus, i) => (
+            <div key={i} style={{
+              backgroundColor: '#111',
+              border: '1px solid #1E1E1E',
+              borderRadius: '6px',
+              padding: '28px 24px',
+              ...(i >= 3 ? {} : {}),
             }}>
-              Included Free
-            </p>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(28px, 3.5vw, 40px)',
-              fontWeight: 700,
-              lineHeight: 1.3,
-              marginBottom: '16px',
-            }}>
-              But Wait... There's More.
-            </h2>
-            <p style={{ fontSize: '18px', lineHeight: 1.8, marginBottom: '56px' }}>
-              If you're serious about becoming better at solving business problems, I don't want to just give you the guide and leave you to figure out the rest yourself. That's why I'm adding these bonuses to your download.
-            </p>
-          </FadeIn>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px', gap: '8px' }}>
+                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '16px', fontWeight: 700, lineHeight: 1.4, margin: 0 }}>{bonus.title}</h3>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: '#B89B5E', letterSpacing: '0.04em', whiteSpace: 'nowrap', flexShrink: 0 }}>+{bonus.value}</span>
+              </div>
+              <p style={{ fontSize: '13px', lineHeight: 1.7, color: '#888480', margin: 0 }}>{bonus.desc}</p>
+            </div>
+          ))}
+          {/* Filler card for grid alignment */}
+          <div style={{
+            backgroundColor: '#0D0D0D',
+            border: '1px dashed #2A2A2A',
+            borderRadius: '6px',
+            padding: '28px 24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <p style={{ fontSize: '13px', color: '#444', textAlign: 'center', margin: 0, lineHeight: 1.6 }}>Total bonus value:<br /><span style={{ fontFamily: "'Playfair Display', serif", fontSize: '22px', fontWeight: 700, color: '#B89B5E' }}>₦32,500</span><br /><span style={{ color: '#555' }}>All included free</span></p>
+          </div>
+        </div>
+      </section>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-            {bonuses.map((bonus, i) => (
-              <FadeIn key={i} delay={i * 60}>
-                <div style={{
-                  padding: '40px 0',
-                  borderBottom: '1px solid var(--border)',
-                  display: 'grid',
-                  gridTemplateColumns: '48px 1fr',
-                  gap: '24px',
-                  alignItems: 'flex-start',
-                }}>
-                  <span style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: '28px',
-                    fontWeight: 700,
-                    color: 'rgba(13,33,55,0.18)',
-                    lineHeight: 1,
-                    paddingTop: '4px',
-                  }}>
-                    {bonus.num}
-                  </span>
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '12px', flexWrap: 'wrap' }}>
-                      <h3 style={{
-                        fontFamily: "'Playfair Display', serif",
-                        fontSize: '20px',
-                        fontWeight: 700,
-                        lineHeight: 1.3,
-                        margin: 0,
-                      }}>
-                        {bonus.title}
-                      </h3>
-                      <span style={{
-                        fontFamily: "'DM Sans', sans-serif",
-                        fontSize: '12px',
-                        fontWeight: 600,
-                        color: '#B89B5E',
-                        letterSpacing: '0.06em',
-                        whiteSpace: 'nowrap',
-                      }}>
-                        Value: {bonus.value}
-                      </span>
-                    </div>
-                    <p style={{ fontSize: '17px', lineHeight: 1.8, margin: 0, color: 'var(--muted-foreground)' }}>
-                      {bonus.desc}
-                    </p>
-                  </div>
-                </div>
-              </FadeIn>
-            ))}
+      {/* ── WHO IS IT FOR ── */}
+      <section style={{ backgroundColor: '#0D0D0D', borderTop: '1px solid #1E1E1E', borderBottom: '1px solid #1E1E1E', padding: '80px 1.5rem' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#B89B5E', marginBottom: '12px' }}>Fit Check</p>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, lineHeight: 1.3 }}>Who is it for?</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }} className="who-grid">
+            <div>
+              <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#B89B5E', marginBottom: '20px' }}>This is for you if…</p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {[
+                  'You\'re a consultant who wants to charge premium — and genuinely earn it',
+                  'You feel unsure where to start when a business problem lands on your desk',
+                  'You know some frameworks but struggle to apply them coherently',
+                  'You want clients to say "this makes sense" instead of nodding politely',
+                  'You\'re building a consulting practice and want a repeatable process',
+                ].map((item, i) => (
+                  <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '14px', color: '#C8C4BD', lineHeight: 1.6 }}>
+                    <span style={{ color: '#B89B5E', fontWeight: 700, flexShrink: 0 }}>✓</span>{item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#555', marginBottom: '20px' }}>This is NOT for you if…</p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {[
+                  'You just want a fancy title without the responsibility that comes with it',
+                  'You\'re looking for shortcuts that skip the actual thinking',
+                  'You\'re not willing to apply what you learn with real clients',
+                  'You already have a proven system you\'re happy with',
+                ].map((item, i) => (
+                  <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '14px', color: '#666260', lineHeight: 1.6 }}>
+                    <span style={{ color: '#444', fontWeight: 700, flexShrink: 0 }}>✕</span>{item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRICING ── */}
+      <section style={{ padding: '80px 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#B89B5E', marginBottom: '12px' }}>Pricing</p>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, lineHeight: 1.3 }}>
+            One payment. The complete package.
+          </h2>
+        </div>
+
+        <div style={{
+          backgroundColor: '#111',
+          border: '1px solid #2A2A2A',
+          borderRadius: '8px',
+          padding: '48px',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '48px',
+          alignItems: 'start',
+        }} className="pricing-inner">
+          {/* Left — what's included */}
+          <div>
+            <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#888480', marginBottom: '20px' }}>What's included</p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {[
+                'Think Like a Consultant — the complete guide',
+                '31 problem-solving frameworks, explained simply',
+                '3 full business problem walkthroughs',
+                'Quick-Reference Cheat Sheet (₦5,000 value)',
+                'Problem Diagnosis Worksheet (₦7,500 value)',
+                'Problem-Solving Checklist (₦5,000 value)',
+                'Framework Selection Guide (₦5,000 value)',
+                '3 Complete Business Walkthroughs (₦10,000 value)',
+              ].map((item, i) => (
+                <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '14px', color: '#C8C4BD', lineHeight: 1.6 }}>
+                  <span style={{ color: '#B89B5E', fontWeight: 700, flexShrink: 0 }}>✓</span>{item}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <FadeIn>
-            <div style={{ marginTop: '56px', display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '18px', lineHeight: 1.8 }}>
-              <h3 style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: '24px',
-                fontWeight: 700,
-                letterSpacing: '0.04em',
-                color: 'var(--foreground)',
-              }}>
-                THAT'S NOT ALL...
-              </h3>
-              <p>You're not just getting a book. You're getting a practical problem-solving toolkit you can return to whenever you encounter a difficult business problem.</p>
-              <p style={{ fontWeight: 600 }}>And the best part? These bonuses are included FREE with your guide.</p>
-              <p>So you can start applying what you've learned instead of simply reading it and forgetting it.</p>
-              <p style={{
-                fontFamily: "'Playfair Display', serif",
-                fontStyle: 'italic',
-                fontSize: '20px',
-                lineHeight: 1.6,
-                color: 'var(--primary)',
-              }}>
-                Your next business problem could be the first one you solve differently.
-              </p>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ── GUARANTEE ── */}
-      <section style={{ paddingTop: '80px', paddingBottom: '80px' }}>
-        <div className="reading-col">
-          <FadeIn>
-            <div style={{
-              border: '1px solid #D8D3C8',
-              borderTop: '3px solid #0D2137',
-              padding: '48px',
-              backgroundColor: 'var(--background)',
-            }}>
-              <p style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: '11px',
-                fontWeight: 600,
-                letterSpacing: '0.16em',
-                textTransform: 'uppercase',
-                color: '#B89B5E',
-                marginBottom: '20px',
-              }}>
-                Our Promise
-              </p>
-              <h2 style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 'clamp(24px, 3vw, 34px)',
-                fontWeight: 700,
-                lineHeight: 1.3,
-                marginBottom: '28px',
-              }}>
-                Read It. Apply It. If You Don't Find It Valuable, Ask for Your Money Back.
-              </h2>
-              <div style={{ fontSize: '18px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <p>I'm confident that <em style={{ fontFamily: "'Playfair Display', serif" }}>Think Like a Consultant</em> can give you practical ways to approach business problems more systematically.</p>
-                <p>But I don't want you to feel like you're taking a blind risk.</p>
-                <p>Go through the guide. Study the frameworks. Work through the examples. Use the tools.</p>
-                <p style={{ fontWeight: 600 }}>If you genuinely go through the material and feel that you didn't get the practical value you expected from it, simply let us know within 7 days of your purchase. We'll give you your money back. No long arguments. No trying to convince you.</p>
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* ── URGENCY ── */}
-      <section style={{ paddingTop: '80px', paddingBottom: '80px' }}>
-        <div className="reading-col">
-          <FadeIn>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(28px, 3.5vw, 40px)',
-              fontWeight: 700,
-              lineHeight: 1.3,
-              marginBottom: '40px',
-            }}>
-              Don't Put This Off Until Later.
-            </h2>
-
-            <div style={{ fontSize: '19px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <p>Let's be honest.</p>
-              <p>You've probably read enough business books, watched enough videos, and saved enough resources to know that "I'll do it later" can easily become "I never did it."</p>
-              <p>And that's exactly what I don't want to happen with this guide.</p>
-              <p>Because the next time a business owner comes to you with a problem... you have two choices.</p>
-
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '24px',
-                margin: '16px 0',
-              }}
-                className="choice-grid"
-              >
-                <div style={{
-                  padding: '28px',
-                  backgroundColor: 'var(--muted)',
-                  border: '1px solid var(--border)',
-                }}>
-                  <p style={{ fontSize: '15px', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--muted-foreground)', marginBottom: '12px' }}>Without the guide</p>
-                  <p style={{ fontSize: '17px', lineHeight: 1.7, margin: 0 }}>Continue relying on instinct, experience, and whatever comes to mind in the moment...</p>
-                </div>
-                <div style={{
-                  padding: '28px',
-                  backgroundColor: 'var(--primary)',
-                  color: '#FAF8F3',
-                  border: '1px solid var(--primary)',
-                }}>
-                  <p style={{ fontSize: '15px', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#B89B5E', marginBottom: '12px' }}>With the guide</p>
-                  <p style={{ fontSize: '17px', lineHeight: 1.7, margin: 0, color: '#FAF8F3' }}>Have a practical system for breaking the problem down and figuring out what to do next.</p>
-                </div>
-              </div>
-
-              <p>That's why if you've been thinking, "I'll get the guide later" — I'd encourage you not to.</p>
-              <p>Because you might never come across this page again.</p>
-              <p style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: '22px',
-                fontWeight: 600,
-                lineHeight: 1.5,
-                color: 'var(--primary)',
-              }}>
-                The question isn't whether you'll face another business problem. You will. The question is whether you'll be better prepared when it comes.
-              </p>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ── PRICE ── */}
-      <section style={{ backgroundColor: '#F3F0E8', paddingTop: '80px', paddingBottom: '80px' }}>
-        <div className="reading-col">
-          <FadeIn>
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: '#B89B5E',
-              marginBottom: '24px',
-            }}>
-              Investment
-            </p>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(26px, 3.5vw, 38px)',
-              fontWeight: 700,
-              lineHeight: 1.3,
-              marginBottom: '40px',
-            }}>
-              So, How Much Would All of This Cost You?
-            </h2>
-
-            <div style={{ fontSize: '18px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '56px' }}>
-              <p>Think about what it could cost a business when you give the wrong advice. A business owner could spend months chasing the wrong problem. Thousands of naira could be wasted on the wrong marketing strategy. And sometimes, a consultant can lose the confidence of a client simply because the recommendation wasn't properly thought through.</p>
-              <p>The ability to think through business problems systematically is valuable. And that's exactly what you're getting here.</p>
-
-              <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {[
-                  'The complete Think Like a Consultant guide',
-                  'The practical problem-solving frameworks',
-                  'The quick-reference tools',
-                  'The business problem walkthroughs',
-                  'All five bonuses',
-                  'A system you can return to whenever a new business problem lands on your desk',
-                ].map((item, i) => (
-                  <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                    <span style={{ color: '#B89B5E', fontWeight: 700, fontSize: '16px', paddingTop: '3px', flexShrink: 0 }}>✓</span>
-                    <span style={{ fontSize: '17px' }}>{item}</span>
-                  </div>
-                ))}
-              </div>
-
-              <p>If you were to pay separately for professional training on all these areas, the cost could quickly run into tens or even hundreds of thousands of naira. But you don't have to.</p>
-            </div>
-
-            <div style={{
-              textAlign: 'center',
-              padding: '56px 40px',
-              backgroundColor: 'var(--background)',
-              border: '1px solid var(--border)',
-              marginBottom: '48px',
-            }}>
-              <p style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: '13px',
-                fontWeight: 600,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--muted-foreground)',
-                marginBottom: '16px',
-              }}>
-                You Can Get Everything Today For Just
-              </p>
-              <div style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 'clamp(56px, 8vw, 80px)',
-                fontWeight: 700,
-                color: 'var(--primary)',
-                lineHeight: 1,
-                marginBottom: '16px',
-              }}>
+          {/* Right — price + CTA */}
+          <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '24px' }}>
+            <div>
+              <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#888480', marginBottom: '8px' }}>Total value: <span style={{ color: '#555', textDecoration: 'line-through' }}>₦40,000+</span></p>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(56px, 8vw, 80px)', fontWeight: 700, color: '#F0EDE6', lineHeight: 1 }}>
                 ₦7,500
               </div>
-              <p style={{
-                fontSize: '15px',
-                color: 'var(--muted-foreground)',
-                marginBottom: '40px',
-                maxWidth: '400px',
-                margin: '0 auto 40px',
-                lineHeight: 1.6,
-              }}>
-                You're not buying another book you'll read once and forget. You're investing in a practical system you can keep coming back to.
-              </p>
-              <CTAButton text="Get Think Like a Consultant Now" id="order" />
             </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ── HOW TO ORDER ── */}
-      <section style={{ paddingTop: '80px', paddingBottom: '80px' }}>
-        <div className="reading-col">
-          <FadeIn>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(24px, 3vw, 34px)',
-              fontWeight: 700,
-              lineHeight: 1.3,
-              marginBottom: '48px',
-              textAlign: 'center',
-            }}>
-              Here's How To Get It
-            </h2>
-
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '1px',
-              backgroundColor: 'var(--border)',
-              marginBottom: '48px',
-            }}>
-              {[
-                { step: 'STEP 1', action: 'Click the button below and place your order.' },
-                { step: 'STEP 2', action: 'Complete your payment using the available payment option, you will be redirected to your download page.' },
-                { step: 'STEP 3', action: 'Get instant access to your guide and bonuses.' },
-              ].map((s, i) => (
-                <div key={i} style={{
-                  backgroundColor: 'var(--background)',
-                  padding: '36px 28px',
-                  textAlign: 'center',
-                }}>
-                  <p style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    letterSpacing: '0.14em',
-                    color: '#B89B5E',
-                    marginBottom: '16px',
-                  }}>
-                    {s.step}
-                  </p>
-                  <p style={{ fontSize: '16px', lineHeight: 1.7, margin: 0 }}>{s.action}</p>
-                </div>
-              ))}
-            </div>
-
-            <p style={{ fontSize: '18px', lineHeight: 1.8, textAlign: 'center', color: 'var(--muted-foreground)', marginBottom: '40px' }}>
-              That's it. You can start learning and applying the system immediately.
+            <CTAButton text="Get This Consulting Package →" id="buy" />
+            <p style={{ fontSize: '12px', color: '#555', lineHeight: 1.6, maxWidth: '260px' }}>
+              Instant download · Secure payment · 7-day money-back guarantee
             </p>
-            <div style={{ textAlign: 'center' }}>
-              <CTAButton text="Get Think Like a Consultant Now" />
-            </div>
-          </FadeIn>
+          </div>
         </div>
       </section>
 
-      <Divider />
-
-      {/* ── FINAL CLOSE ── */}
-      <section style={{ paddingTop: '100px', paddingBottom: '100px' }}>
-        <div className="reading-col">
-          <FadeIn>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(28px, 4vw, 46px)',
-              fontWeight: 700,
-              lineHeight: 1.25,
-              marginBottom: '48px',
-              maxWidth: '580px',
-            }}>
-              One More Thing...
-            </h2>
-
-            <div style={{ fontSize: '19px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <p>You started reading this because you want to become better at helping businesses solve real problems. Don't lose sight of that.</p>
-              <p>The goal isn't to become the consultant who has the fanciest title. It's not to impress clients by throwing complicated business terminology around. And it's certainly not about having an answer for everything.</p>
-              <p style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 'clamp(20px, 2.5vw, 26px)',
-                fontWeight: 600,
-                lineHeight: 1.5,
-                color: 'var(--primary)',
-                margin: '16px 0',
-              }}>
-                It's about becoming the person who can walk into a difficult business situation, make sense of what is happening, identify what really matters, and help the business decide what to do next.
-              </p>
-              <p>That's what this guide is designed to help you develop.</p>
-              <p>So if that's the kind of consultant you want to become...</p>
-              <p style={{ fontWeight: 600, fontSize: '20px' }}>Get your copy of Think Like a Consultant today.</p>
-            </div>
-
-            <div style={{ marginTop: '56px', textAlign: 'center' }}>
-              <CTAButton text="Yes, I Want to Think Like a Consultant" />
-            </div>
-          </FadeIn>
+      {/* ── FAQ ── */}
+      <section style={{ backgroundColor: '#0D0D0D', borderTop: '1px solid #1E1E1E', padding: '80px 1.5rem' }}>
+        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#B89B5E', marginBottom: '12px' }}>Before you buy</p>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px, 3vw, 34px)', fontWeight: 700, lineHeight: 1.3 }}>Questions before buying</h2>
+          </div>
+          <div>
+            {faqs.map((faq, i) => (
+              <FAQItem key={i} q={faq.q} a={faq.a} />
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── P.S. ── */}
-      <section style={{ paddingBottom: '100px' }}>
-        <div className="reading-col">
-          <Divider />
-          <FadeIn>
-            <div style={{ paddingTop: '48px', maxWidth: '600px' }}>
-              <p style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: '22px',
-                fontStyle: 'italic',
-                fontWeight: 700,
-                color: 'var(--foreground)',
-                marginBottom: '20px',
-              }}>
-                P.S.
-              </p>
-              <div style={{ fontSize: '17px', lineHeight: 1.85, display: 'flex', flexDirection: 'column', gap: '20px', color: 'var(--muted-foreground)' }}>
-                <p>If you skipped straight to the bottom of this page, let me make this very simple.</p>
-                <p><em style={{ fontFamily: "'Playfair Display', serif", color: 'var(--foreground)' }}>Think Like a Consultant</em> is designed to help you stop approaching business problems with guesswork and start approaching them with a repeatable way of thinking.</p>
-                <p>You'll learn how to break problems apart, find root causes, generate options, prioritize what matters, think through risks, and turn recommendations into action. Plus, you'll get the additional tools and bonuses included with the offer.</p>
-                <p>And with the money back guarantee, you don't have to make the decision blindly.</p>
-                <p style={{ color: 'var(--foreground)', fontWeight: 500 }}>If becoming better at solving real business problems is important to you, this is your opportunity to start.</p>
-                <p>Click the button below and get your copy now.</p>
-              </div>
-              <div style={{ marginTop: '36px' }}>
-                <CTAButton text="Get My Copy Now" />
-              </div>
-            </div>
-          </FadeIn>
+      {/* ── FINAL CTA ── */}
+      <section style={{ padding: '80px 1.5rem', textAlign: 'center' }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 700, lineHeight: 1.25, marginBottom: '20px' }}>
+            From confusion to a clear action plan.
+          </h2>
+          <p style={{ fontSize: '16px', color: '#888480', lineHeight: 1.75, marginBottom: '36px' }}>
+            The next time a business problem lands on your desk, you'll know exactly what to do — step by step.
+          </p>
+          <CTAButton text="Get Think Like a Consultant Now →" />
+          <p style={{ fontSize: '12px', color: '#444', marginTop: '16px' }}>₦7,500 · Instant download · 7-day guarantee</p>
         </div>
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{
-        borderTop: '1px solid var(--border)',
-        padding: '32px 0',
-        backgroundColor: '#F3F0E8',
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', textAlign: 'center' }}>
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: '12px',
-            color: 'var(--muted-foreground)',
-            letterSpacing: '0.06em',
-          }}>
-            © {new Date().getFullYear()} Quick Learn Plus · Think Like a Consultant
-          </p>
-        </div>
+      <footer style={{ borderTop: '1px solid #1E1E1E', padding: '24px 1.5rem', textAlign: 'center' }}>
+        <p style={{ fontSize: '12px', color: '#444', letterSpacing: '0.06em' }}>
+          © {new Date().getFullYear()} Quick Learn Plus · Think Like a Consultant
+        </p>
       </footer>
 
-      {/* ── MOBILE STICKY CTA ── */}
-      <div style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        padding: '16px',
-        backgroundColor: '#0D2137',
-        borderTop: '1px solid rgba(184,155,94,0.3)',
-        zIndex: 100,
-        display: 'none',
-        transition: 'transform 0.3s ease',
-        transform: showStickyMobile ? 'translateY(0)' : 'translateY(100%)',
-      }}
-        className="mobile-sticky"
-      >
-        <a
-          href="https://selar.com/978m069577"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'block',
-            width: '100%',
-            textAlign: 'center',
-            backgroundColor: '#B89B5E',
-            color: '#FAF8F3',
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: '14px',
-            fontWeight: 600,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            padding: '16px',
-            textDecoration: 'none',
-            borderRadius: '2px',
-          }}
-        >
-          Get Think Like a Consultant — ₦7,500
-        </a>
-      </div>
-
       <style>{`
-        @media (max-width: 640px) {
-          .choice-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .mobile-sticky {
-            display: block !important;
-          }
+        @media (max-width: 768px) {
+          .steps-grid { grid-template-columns: 1fr 1fr !important; }
+          .learn-grid { grid-template-columns: 1fr 1fr !important; }
+          .bonus-grid { grid-template-columns: 1fr 1fr !important; }
+          .pricing-inner { grid-template-columns: 1fr !important; }
         }
-        @media (max-width: 480px) {
-          [style*="grid-template-columns: repeat(3, 1fr)"] {
-            grid-template-columns: 1fr !important;
-          }
+        @media (max-width: 540px) {
+          .steps-grid { grid-template-columns: 1fr !important; }
+          .learn-grid { grid-template-columns: 1fr !important; }
+          .bonus-grid { grid-template-columns: 1fr !important; }
+          .who-grid { grid-template-columns: 1fr !important; }
+          [style*="gridTemplateColumns: '1fr auto'"] { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>
