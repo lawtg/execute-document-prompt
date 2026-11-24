@@ -1,5 +1,10 @@
 import { useState } from 'react'
 import consultantCover from './-like-a-consultant-cover.png'
+import productivityImg from './productivity_management_method.png'
+import leadershipImg from './organizational_leadership_method.png'
+import consultantsMindsetImg from './the_consultants_mindset.png'
+import templateKitImg from './management_template_kit.png'
+import bundleImg from './Quick Learn Plus Business Bundle.png'
 
 function CTAButton({ text, id }: { text: string; id?: string }) {
   return (
@@ -118,29 +123,69 @@ const whatYouLearn = [
 
 const bonuses = [
   {
-    title: 'Quick-Reference Cheat Sheet',
+    num: 1,
+    label: 'Extra Guide',
+    title: 'The Consultant\'s Mindset',
     value: '₦5,000',
-    desc: 'Key questions and frameworks to quickly determine where to start and what to do next.',
+    img: consultantsMindsetImg,
+    desc: 'The mental shifts that separate consultants who get hired again from those who don\'t.',
+    bullets: [
+      'How to position yourself as a problem-solver, not an opinion-giver',
+      'The confidence framework for charging what you\'re worth',
+      'Common mindset traps that keep consultants stuck',
+    ],
   },
   {
-    title: 'Problem Diagnosis Worksheet',
+    num: 2,
+    label: 'Productivity Guide',
+    title: 'Productivity Management Method',
     value: '₦7,500',
-    desc: 'Step-by-step worksheet to separate symptoms from root causes before jumping to solutions.',
+    img: productivityImg,
+    desc: 'Systems and metrics for organizing priorities, workflows and execution — the next step after deciding.',
+    bullets: [
+      'Prioritization and time management',
+      'Workflows, habits and routines',
+      'Metrics for personal and team output',
+    ],
   },
   {
-    title: 'Problem-Solving Checklist',
+    num: 3,
+    label: 'Leadership Guide',
+    title: 'Organizational Leadership Method',
+    value: '₦7,500',
+    img: leadershipImg,
+    desc: 'The people side of every plan: leading teams, communicating decisions and managing change.',
+    bullets: [
+      'Leadership styles and team motivation',
+      'Communication, delegation and feedback',
+      'Culture and change management',
+    ],
+  },
+  {
+    num: 4,
+    label: 'Toolkit',
+    title: 'Management Template Kit',
     value: '₦5,000',
-    desc: 'Run through this before every client presentation to catch gaps before they weaken your work.',
+    img: templateKitImg,
+    desc: 'Ready-to-use templates so you spend less time building structure and more time solving problems.',
+    bullets: [
+      'Problem diagnosis worksheet',
+      'Quick-reference cheat sheet',
+      'Framework selection guide & checklist',
+    ],
   },
   {
-    title: '3 Complete Business Walkthroughs',
+    num: 5,
+    label: 'Full Bundle',
+    title: 'Quick Learn Plus Business Bundle',
     value: '₦10,000',
-    desc: 'See how the full system applies from initial problem to final recommendation.',
-  },
-  {
-    title: 'Framework Selection Guide',
-    value: '₦5,000',
-    desc: 'Know which thinking tool to reach for depending on the problem you\'re solving.',
+    img: bundleImg,
+    desc: 'Three complete business problem walkthroughs — see the full system applied from first conversation to final recommendation.',
+    bullets: [
+      'Real-world problem walkthroughs end to end',
+      'See every framework applied in context',
+      'Study material for your next client engagement',
+    ],
   },
 ]
 
@@ -321,41 +366,144 @@ export default function App() {
 
       {/* ── BONUSES ── */}
       <section style={{ padding: '80px 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '56px' }}>
           <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#B89B5E', marginBottom: '12px' }}>Included Free</p>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, lineHeight: 1.3 }}>
-            Five extra tools to take action.
+            Five extra guides and tools to take action.
           </h2>
           <p style={{ fontSize: '15px', color: '#888480', marginTop: '12px' }}>Everything you need to stop reading and start applying.</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="bonus-grid">
-          {bonuses.map((bonus, i) => (
+
+        {/* Row 1: 2 large cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }} className="bonus-row-2">
+          {bonuses.slice(0, 2).map((bonus, i) => (
             <div key={i} style={{
               backgroundColor: '#111',
-              border: '1px solid #1E1E1E',
-              borderRadius: '6px',
-              padding: '28px 24px',
-              ...(i >= 3 ? {} : {}),
+              border: '1px solid #252525',
+              borderRadius: '10px',
+              overflow: 'hidden',
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px', gap: '8px' }}>
-                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '16px', fontWeight: 700, lineHeight: 1.4, margin: 0 }}>{bonus.title}</h3>
-                <span style={{ fontSize: '11px', fontWeight: 700, color: '#B89B5E', letterSpacing: '0.04em', whiteSpace: 'nowrap', flexShrink: 0 }}>+{bonus.value}</span>
+              {/* Image */}
+              <div style={{
+                backgroundColor: '#0D0D0D',
+                height: '260px',
+                overflow: 'hidden',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <img
+                  src={bonus.img}
+                  alt={bonus.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
               </div>
-              <p style={{ fontSize: '13px', lineHeight: 1.7, color: '#888480', margin: 0 }}>{bonus.desc}</p>
+              {/* Content */}
+              <div style={{ padding: '24px 28px 32px' }}>
+                <span style={{
+                  display: 'inline-block',
+                  backgroundColor: '#B89B5E',
+                  color: '#0A0A0A',
+                  fontSize: '10px',
+                  fontWeight: 800,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  padding: '4px 10px',
+                  borderRadius: '3px',
+                  marginBottom: '16px',
+                }}>
+                  Bonus {bonus.num} · {bonus.label}
+                </span>
+                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '20px', fontWeight: 700, lineHeight: 1.3, marginBottom: '10px', color: '#F0EDE6' }}>
+                  {bonus.title}
+                </h3>
+                <p style={{ fontSize: '14px', lineHeight: 1.7, color: '#888480', marginBottom: '16px' }}>
+                  {bonus.desc}
+                </p>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {bonus.bullets.map((b, j) => (
+                    <li key={j} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start', fontSize: '13px', color: '#C8C4BD', lineHeight: 1.5 }}>
+                      <span style={{ color: '#B89B5E', fontWeight: 700, flexShrink: 0 }}>✓</span>{b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           ))}
-          {/* Filler card for grid alignment */}
-          <div style={{
-            backgroundColor: '#0D0D0D',
-            border: '1px dashed #2A2A2A',
-            borderRadius: '6px',
-            padding: '28px 24px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <p style={{ fontSize: '13px', color: '#444', textAlign: 'center', margin: 0, lineHeight: 1.6 }}>Total bonus value:<br /><span style={{ fontFamily: "'Playfair Display', serif", fontSize: '22px', fontWeight: 700, color: '#B89B5E' }}>₦32,500</span><br /><span style={{ color: '#555' }}>All included free</span></p>
-          </div>
+        </div>
+
+        {/* Row 2: 3 smaller cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }} className="bonus-row-3">
+          {bonuses.slice(2).map((bonus, i) => (
+            <div key={i} style={{
+              backgroundColor: '#111',
+              border: '1px solid #252525',
+              borderRadius: '10px',
+              overflow: 'hidden',
+            }}>
+              {/* Image */}
+              <div style={{
+                backgroundColor: '#0D0D0D',
+                height: '180px',
+                overflow: 'hidden',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <img
+                  src={bonus.img}
+                  alt={bonus.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+              {/* Content */}
+              <div style={{ padding: '20px 22px 26px' }}>
+                <span style={{
+                  display: 'inline-block',
+                  backgroundColor: '#B89B5E',
+                  color: '#0A0A0A',
+                  fontSize: '10px',
+                  fontWeight: 800,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  padding: '4px 10px',
+                  borderRadius: '3px',
+                  marginBottom: '14px',
+                }}>
+                  Bonus {bonus.num} · {bonus.label}
+                </span>
+                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '17px', fontWeight: 700, lineHeight: 1.3, marginBottom: '8px', color: '#F0EDE6' }}>
+                  {bonus.title}
+                </h3>
+                <p style={{ fontSize: '13px', lineHeight: 1.65, color: '#888480', marginBottom: '14px' }}>
+                  {bonus.desc}
+                </p>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                  {bonus.bullets.map((b, j) => (
+                    <li key={j} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start', fontSize: '12px', color: '#C8C4BD', lineHeight: 1.5 }}>
+                      <span style={{ color: '#B89B5E', fontWeight: 700, flexShrink: 0 }}>✓</span>{b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Total value strip */}
+        <div style={{
+          marginTop: '24px',
+          border: '1px dashed #2A2A2A',
+          borderRadius: '8px',
+          padding: '20px 32px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '16px',
+          flexWrap: 'wrap',
+        }}>
+          <p style={{ fontSize: '14px', color: '#888480', margin: 0 }}>Total bonus value: <span style={{ color: '#555', textDecoration: 'line-through' }}>₦35,000</span></p>
+          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '20px', fontWeight: 700, color: '#B89B5E', margin: 0 }}>All included free with your guide</p>
         </div>
       </section>
 
@@ -498,13 +646,14 @@ export default function App() {
         @media (max-width: 768px) {
           .steps-grid { grid-template-columns: 1fr 1fr !important; }
           .learn-grid { grid-template-columns: 1fr 1fr !important; }
-          .bonus-grid { grid-template-columns: 1fr 1fr !important; }
+          .bonus-row-2 { grid-template-columns: 1fr !important; }
+          .bonus-row-3 { grid-template-columns: 1fr 1fr !important; }
           .pricing-inner { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 540px) {
           .steps-grid { grid-template-columns: 1fr !important; }
           .learn-grid { grid-template-columns: 1fr !important; }
-          .bonus-grid { grid-template-columns: 1fr !important; }
+          .bonus-row-3 { grid-template-columns: 1fr !important; }
           .who-grid { grid-template-columns: 1fr !important; }
           [style*="gridTemplateColumns: '1fr auto'"] { grid-template-columns: 1fr !important; }
         }
