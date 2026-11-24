@@ -14,20 +14,20 @@
 }
 
 :root {
-  --background: #0A0A0A;
-  --foreground: #F0EDE6;
-  --card: #141414;
-  --card-foreground: #F0EDE6;
-  --primary: #F0EDE6;
-  --primary-foreground: #0A0A0A;
-  --secondary: #1A1A1A;
-  --secondary-foreground: #F0EDE6;
-  --muted: #1A1A1A;
-  --muted-foreground: #888480;
+  --background: #FAF8F3;
+  --foreground: #1C1C1E;
+  --card: #F3F0E8;
+  --card-foreground: #1C1C1E;
+  --primary: #0D2137;
+  --primary-foreground: #FAF8F3;
+  --secondary: #F3F0E8;
+  --secondary-foreground: #1C1C1E;
+  --muted: #EDE9DF;
+  --muted-foreground: #6B6760;
   --accent: #B89B5E;
-  --accent-foreground: #0A0A0A;
-  --border: #2A2A2A;
-  --ring: #B89B5E;
+  --accent-foreground: #FAF8F3;
+  --border: #D8D3C8;
+  --ring: #0D2137;
   --radius: 3px;
 }
 
@@ -45,21 +45,26 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 1.7;
+  font-size: 18px;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--border);
-  border-radius: 2px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+body:hover ::-webkit-scrollbar-thumb {
+  opacity: 1;
 }
 
 .font-serif {
@@ -67,7 +72,7 @@ body {
 }
 
 .reading-col {
-  max-width: 700px;
+  max-width: 720px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1.5rem;
