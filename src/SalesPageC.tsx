@@ -186,10 +186,10 @@ export default function SalesPageC() {
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
           <Reveal>
             <Eye t="The Problem" />
-            <h2 style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 900, color: C.ink, letterSpacing: '-0.045em', lineHeight: 1.0, marginBottom: '32px', maxWidth: '900px' }}>
+            <h2 style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 900, color: C.ink, letterSpacing: '-0.045em', lineHeight: 1.0, marginBottom: '32px' }}>
               Smart people still guess, because nobody ever taught them a process.
             </h2>
-            <p style={{ fontSize: 'clamp(17px, 1.8vw, 20px)', lineHeight: 1.8, color: C.muted, marginBottom: '64px', maxWidth: '640px', fontWeight: 400 }}>
+            <p style={{ fontSize: 'clamp(17px, 1.8vw, 20px)', lineHeight: 1.8, color: C.muted, marginBottom: '64px', maxWidth: '840px', fontWeight: 400 }}>
               Sales drop. A key hire quits. Margins shrink. The reflex is to grab the nearest fix. Weeks later the symptom is back, because the cause was never found.
             </p>
           </Reveal>
