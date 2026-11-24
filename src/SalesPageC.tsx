@@ -5,31 +5,28 @@ import petersonPhoto  from './Peterson-Akodi.jpeg'
 import davidPhoto     from './David-Utulor.jpeg'
 import augustPhoto    from './Yusuf Kabiru.jpeg'
 
-/* ─── Tokens ─────────────────────────────────────────── */
+/* ─── Tokens — exact from PDF design ─────────────────── */
 const C = {
-  dark:    '#0F0E17',
-  darkAlt: '#1A1929',
-  navy:    '#12112A',
-  white:   '#FFFFFF',
-  offWhite:'#F7F7F9',
-  grey:    '#F0EFF5',
-  yellow:  '#FFD600',
-  yellowHover: '#E6C000',
-  ink:     '#0F0E17',
+  navy:    '#0D1B3E',   /* deep navy — primary dark */
+  navyAlt: '#122144',   /* slightly lighter navy for cards */
+  bg:      '#FFFFFF',
+  cream:   '#F5F3EE',   /* warm off-white sections */
+  ink:     '#0D1B3E',
   body:    '#3D3B52',
   muted:   '#7B79A0',
-  border:  '#E2E0EF',
-  green:   '#1A7A4A',
-  red:     '#D93A3A',
-  purple:  '#2D1B69',  // kept for testimonials
-  purpleLight: '#4E3894',
-  lightGrey: '#F4F3FC',
+  border:  '#E4E3EF',
+  yellow:  '#D4A017',   /* warm gold/amber — exact from PDF */
+  yellowBg:'#F5C842',   /* lighter yellow for btn bg */
+  red:     '#CC2200',
+  green:   '#1A6B4A',
+  tagBg:   '#EEF0FF',
+  tagInk:  '#2D2A6E',
 }
 
 const SELAR = 'https://selar.com/978m069577'
 
-/* ─── helpers ─────────────────────────────────────────── */
-function useInView(t = 0.08) {
+/* ─── Helpers ─────────────────────────────────────────── */
+function useInView(t = 0.07) {
   const ref = useRef<HTMLDivElement>(null)
   const [vis, setVis] = useState(false)
   useEffect(() => {
@@ -47,68 +44,64 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   return (
     <div ref={ref} style={{
       opacity: vis ? 1 : 0,
-      transform: vis ? 'none' : 'translateY(20px)',
-      transition: `opacity .6s ease ${delay}ms, transform .6s ease ${delay}ms`,
+      transform: vis ? 'none' : 'translateY(16px)',
+      transition: `opacity .55s ease ${delay}ms, transform .55s ease ${delay}ms`,
     }}>
       {children}
     </div>
   )
 }
 
-/* ─── CTA ─────────────────────────────────────────────── */
+/* ─── CTA button — gold from PDF ─────────────────────── */
 function CTABtn({ text, id, full }: { text: string; id?: string; full?: boolean }) {
   return (
     <a href={SELAR} target="_blank" rel="noopener noreferrer" id={id}
       style={{
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        backgroundColor: C.yellow, color: C.ink,
+        backgroundColor: C.yellowBg, color: C.navy,
         fontFamily: "'Inter', system-ui, sans-serif",
-        fontSize: '16px', fontWeight: 800,
-        letterSpacing: '0.02em',
-        padding: '18px 40px', textDecoration: 'none',
-        transition: 'background-color 0.15s, transform 0.1s',
+        fontSize: '16px', fontWeight: 700, letterSpacing: '0.01em',
+        padding: '18px 36px', textDecoration: 'none',
+        transition: 'opacity 0.15s, transform 0.1s',
         cursor: 'pointer', lineHeight: 1.2,
         width: full ? '100%' : 'auto',
         boxSizing: 'border-box' as const,
+        borderRadius: '6px',
+        gap: '8px',
       }}
-      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = C.yellowHover; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)' }}
-      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = C.yellow; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)' }}
+      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.9'; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)' }}
+      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1'; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)' }}
     >
       {text}
     </a>
   )
 }
 
-/* ─── Book mockup ─────────────────────────────────────── */
-function BookMockup({ size = 220 }: { size?: number }) {
+/* ─── Section label — small amber uppercase ──────────── */
+function Label({ text, light }: { text: string; light?: boolean }) {
   return (
-    <div style={{ perspective: '800px', display: 'inline-block' }}>
-      <img src={consultantCover} alt="Think Like a Consultant"
-        style={{
-          width: `${size}px`, display: 'block',
-          borderRadius: '3px 8px 8px 3px',
-          boxShadow: `8px 16px 48px rgba(0,0,0,0.5), 0 0 32px rgba(255,214,0,0.1)`,
-          transform: 'rotateY(-8deg)',
-          transformOrigin: 'left center',
-        }}
-      />
-    </div>
+    <p style={{
+      fontFamily: "'Inter', system-ui, sans-serif",
+      fontSize: '12px', fontWeight: 700,
+      letterSpacing: '0.16em', textTransform: 'uppercase',
+      color: light ? C.yellowBg : C.yellow,
+      marginBottom: '16px',
+    }}>
+      {text}
+    </p>
   )
 }
 
-/* ─── Section rule ────────────────────────────────────── */
-function Rule() { return <div style={{ height: '1px', backgroundColor: C.border }} /> }
-
-/* ─── FAQ accordion ──────────────────────────────────── */
+/* ─── FAQ ─────────────────────────────────────────────── */
 function FAQ({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
   return (
     <div style={{ borderBottom: `1px solid ${C.border}`, cursor: 'pointer' }} onClick={() => setOpen(o => !o)}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 0', gap: '12px' }}>
-        <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', fontWeight: 600, color: C.ink, margin: 0, lineHeight: 1.4 }}>{q}</p>
-        <span style={{ color: C.yellow, fontSize: '20px', fontWeight: 300, flexShrink: 0, transition: 'transform 0.2s', transform: open ? 'rotate(45deg)' : 'none', lineHeight: 1, backgroundColor: C.dark, width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</span>
+        <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', fontWeight: 700, color: C.ink, margin: 0, lineHeight: 1.4 }}>{q}</p>
+        <span style={{ color: C.muted, fontSize: '20px', flexShrink: 0, transition: 'transform 0.2s', transform: open ? 'rotate(45deg)' : 'none', lineHeight: 1 }}>+</span>
       </div>
-      {open && <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', lineHeight: 1.8, color: C.body, paddingBottom: '18px', margin: 0 }}>{a}</p>}
+      {open && <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', lineHeight: 1.8, color: C.body, paddingBottom: '18px', margin: 0 }}>{a}</p>}
     </div>
   )
 }
@@ -117,374 +110,453 @@ function FAQ({ q, a }: { q: string; a: string }) {
 export default function SalesPageC() {
   const [sticky, setSticky] = useState(false)
   useEffect(() => {
-    const fn = () => setSticky(window.scrollY > 600)
+    const fn = () => setSticky(window.scrollY > 500)
     window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
   return (
-    <div style={{ backgroundColor: C.offWhite, color: C.ink, fontFamily: "'Inter', system-ui, sans-serif", lineHeight: 1.6 }}>
+    <div style={{ backgroundColor: C.bg, color: C.ink, fontFamily: "'Inter', system-ui, sans-serif", lineHeight: 1.65 }}>
+
+      {/* ══ NAV ═══════════════════════════════════════════ */}
+      <nav style={{ backgroundColor: C.bg, borderBottom: `1px solid ${C.border}`, padding: '0 32px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 100 }}>
+        <span style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: 800, letterSpacing: '0.04em', color: C.navy }}>
+          QUICK <span style={{ color: C.yellow }}>LEARN PLUS</span>
+        </span>
+        <CTABtn text="Get the bundle, ₦12,500" id="nav-cta" />
+      </nav>
 
       {/* ══ HERO ══════════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.dark, padding: '56px 24px 48px' }}>
-        <div style={{ maxWidth: '1060px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr auto', gap: '56px', alignItems: 'center' }} className="oc-hero-grid">
+      <section style={{ backgroundColor: C.navy, padding: '72px 32px 64px' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 400px', gap: '64px', alignItems: 'center' }} className="oc-hero-grid">
 
+          {/* Left copy */}
           <div>
             <Reveal>
-              <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '14px' }}>
-                Think Like a Consultant
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', marginBottom: '20px' }}>
+                FOR OWNERS · MANAGERS · CONSULTANTS · STUDENTS
               </p>
-              <h1 style={{ fontSize: 'clamp(28px, 5vw, 52px)', fontWeight: 900, lineHeight: 1.1, color: C.white, marginBottom: '16px', letterSpacing: '-0.02em' }}>
-                Walk into any business problem and know exactly{' '}
-                <span style={{ color: C.yellow }}>where to start.</span>
+              <h1 style={{
+                fontFamily: "'Inter', system-ui, sans-serif",
+                fontSize: 'clamp(32px, 5.5vw, 56px)',
+                fontWeight: 900, lineHeight: 1.08,
+                color: C.bg, letterSpacing: '-0.03em',
+                marginBottom: '0',
+              }}>
+                Walk into any<br />
+                business problem<br />
+                and know exactly<br />
+                <span style={{ color: C.yellowBg }}>where to start.</span>
               </h1>
-              <p style={{ fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.65)', marginBottom: '28px', maxWidth: '520px' }}>
-                A practical guide that shows consultants, advisors and business owners how to think through any business problem — with clarity, structure and confidence.
-              </p>
             </Reveal>
             <Reveal delay={80}>
-              <CTABtn text="Get Instant Access →" id="order" />
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.65)', margin: '24px 0 8px', maxWidth: '480px' }}>
+                <em>Think Like a Consultant</em> gives you a 6-step method to find the real cause of a problem, compare your options fairly and turn the decision into a plan with owners, deadlines and numbers.
+              </p>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.65)', marginBottom: '32px' }}>
+                Plain language. Real examples. Templates you can use this week.
+              </p>
+            </Reveal>
+            <Reveal delay={120}>
+              <CTABtn text="Get Think Like a Consultant, ₦12,500 →" id="order" />
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.3)', marginTop: '12px', letterSpacing: '0.02em' }}>
+                One payment · Instant download · No subscription
+              </p>
             </Reveal>
           </div>
 
-          <Reveal delay={120}>
-            <BookMockup size={200} />
+          {/* Right: book */}
+          <Reveal delay={140}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ perspective: '800px', display: 'inline-block' }}>
+                <img src={consultantCover} alt="Think Like a Consultant"
+                  style={{
+                    width: 'clamp(220px, 30vw, 340px)', display: 'block',
+                    borderRadius: '3px 8px 8px 3px',
+                    boxShadow: '12px 24px 64px rgba(0,0,0,0.6), 0 0 48px rgba(212,160,23,0.15)',
+                    transform: 'rotateY(-8deg)',
+                    transformOrigin: 'left center',
+                  }}
+                />
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ══ STATS BAR ══════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.darkAlt, borderBottom: `1px solid rgba(255,255,255,0.06)` }}>
-        <div style={{ maxWidth: '1060px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }} className="oc-stats-grid">
+      {/* ══ STATS STRIP ═══════════════════════════════════ */}
+      <section style={{ backgroundColor: C.yellow, borderBottom: `1px solid rgba(0,0,0,0.1)` }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }} className="oc-stats-grid">
           {[
-            { n: '6', l: 'Steps' },
-            { n: '20+', l: 'Frameworks' },
-            { n: '5', l: 'Bonuses' },
-            { n: '10', l: 'Days to apply' },
+            { n: '6 steps', l: 'from problem to plan' },
+            { n: '25+ frameworks', l: 'explained with examples' },
+            { n: '5 bonuses', l: 'included at no extra cost' },
+            { n: '30 days', l: 'money-back guarantee' },
           ].map((s, i) => (
-            <div key={i} style={{ padding: '20px 24px', textAlign: 'center', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
-              <p style={{ fontSize: '24px', fontWeight: 900, color: C.yellow, margin: 0, lineHeight: 1 }}>{s.n}</p>
-              <p style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.4)', margin: '4px 0 0', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{s.l}</p>
+            <div key={i} style={{ padding: '20px 24px', borderRight: i < 3 ? '1px solid rgba(0,0,0,0.12)' : 'none' }}>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(16px, 2vw, 20px)', fontWeight: 900, color: C.navy, margin: '0 0 3px', letterSpacing: '-0.02em' }}>{s.n}</p>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: 'rgba(13,27,62,0.65)', margin: 0, letterSpacing: '0.01em' }}>{s.l}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ══ PROBLEM ════════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.white, padding: '72px 24px' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+      {/* ══ THE PROBLEM ═══════════════════════════════════ */}
+      <section style={{ backgroundColor: C.cream, padding: '80px 32px' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
           <Reveal>
-            <div style={{ backgroundColor: C.grey, padding: '32px 36px', marginBottom: '40px', borderLeft: `4px solid ${C.yellow}` }}>
-              <p style={{ fontSize: 'clamp(17px, 2.5vw, 22px)', fontWeight: 700, color: C.ink, lineHeight: 1.4, margin: 0 }}>
-                Smart people still guess, because nobody ever taught them a process for thinking through a problem.
+            <Label text="The Problem" />
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4.5vw, 44px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '24px', maxWidth: '720px' }}>
+              Smart people still guess, because nobody ever taught them a process for thinking through a problem.
+            </h2>
+          </Reveal>
+          <Reveal delay={60}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.8, color: C.body, marginBottom: '40px', maxWidth: '640px' }}>
+              Sales drop. A key hire quits. Margins shrink. The reflex is to grab the nearest fix: a discount, a new tool, a team meeting. Weeks later the symptom is back, because the cause was never found.
+            </p>
+          </Reveal>
+          <Reveal delay={80}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '16px', marginBottom: '40px' }} className="oc-3col">
+              {[
+                { h: 'Decisions made on mood', b: 'Without fixed criteria, the loudest opinion or the latest scare wins.' },
+                { h: 'Busy, but not moving', b: 'Effort is spread across ten things, and nobody can say which one matters most.' },
+                { h: 'Good ideas that die on paper', b: "The plan never gets owners, dates or numbers, so nothing happens." },
+              ].map((item, i) => (
+                <div key={i} style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '24px 20px', borderRadius: '4px' }}>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', fontWeight: 700, color: C.navy, marginBottom: '8px', lineHeight: 1.3 }}>{item.h}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.body, margin: 0, lineHeight: 1.7 }}>{item.b}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+          <Reveal delay={100}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(16px, 2vw, 18px)', fontWeight: 700, color: C.navy, lineHeight: 1.6, maxWidth: '680px' }}>
+              Consultants are paid well for one thing: they replace guessing with structure. That structure is a learnable skill, and it fits in one book.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ══ THE METHOD ════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.navy, padding: '80px 32px' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="The Method" light />
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4.5vw, 44px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '16px', maxWidth: '720px' }}>
+              Six steps take you from "something is wrong" to "here is exactly what to do."
+            </h2>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(14px, 1.6vw, 16px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.55)', marginBottom: '48px', maxWidth: '580px' }}>
+              Each step has its own tool in the book and its own clear output, so you always know whether you are done.
+            </p>
+          </Reveal>
+
+          {/* 2×3 step cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '40px' }} className="oc-steps-grid">
+            {[
+              { n: '1', t: 'Define', d: 'Turn a vague worry into one precise sentence: "I don\'t yet know ___, which is stopping me from ___."', tool: 'Tool: the Fog Audit. You leave with a problem you can actually solve.' },
+              { n: '2', t: 'Structure', d: 'Break the problem into pieces with no overlaps and no gaps.', tool: 'Tool: MECE. You leave with a clean map of what to check.' },
+              { n: '3', t: 'Prioritize', d: 'Find the few causes that explain most of the damage.', tool: 'Tool: the 80/20 Rule. You leave with a short list of where to dig first.' },
+              { n: '4', t: 'Analyze', d: 'Trace the symptom to a root cause using evidence, not assumption.', tool: 'Tools: KPI trees and the Five Whys. You leave with the real cause.' },
+              { n: '5', t: 'Synthesize', d: 'Pull your findings into one clear story and a recommendation.', tool: 'Tool: Situation, Complication, Question, Answer. You leave with a case others can follow.' },
+              { n: '6', t: 'Communicate and act', d: 'Turn the decision into tasks, owners, deadlines and a definition of done.', tool: 'Tool: the Action Plan Builder. You leave with a plan someone can start on Monday.' },
+            ].map((step, i) => (
+              <Reveal key={i} delay={i * 40}>
+                <div style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '24px 22px', borderRadius: '4px' }}>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '28px', fontWeight: 900, color: C.yellowBg, lineHeight: 1, marginBottom: '10px', letterSpacing: '-0.03em' }}>{step.n}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', fontWeight: 800, color: C.bg, marginBottom: '8px' }}>{step.t}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, marginBottom: '12px' }}>{step.d}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: C.yellowBg, fontWeight: 600, margin: 0, lineHeight: 1.5 }}>{step.tool}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={80}>
+            <CTABtn text="Start with step one today →" />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ══ INSIDE THE BOOK ═══════════════════════════════ */}
+      <section style={{ backgroundColor: C.cream, padding: '80px 32px' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="Inside the Book" />
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4.5vw, 44px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '16px' }}>
+              A working system, not a collection of tips.
+            </h2>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.8, color: C.body, marginBottom: '40px', maxWidth: '580px' }}>
+              Every framework is explained in plain words, drawn as a visual and applied to one running business case, so you see it used before you try it.
+            </p>
+          </Reveal>
+
+          {/* Framework table */}
+          <Reveal delay={60}>
+            <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, borderRadius: '4px', overflow: 'hidden', marginBottom: '24px' }}>
+              {[
+                { step: 'Frame', tools: 'Problem statement, OKRs, KPIs', output: 'A clear problem and a success measure' },
+                { step: 'Break down', tools: 'MECE, issue trees, Pyramid Principle', output: 'A structured map of the problem' },
+                { step: 'Focus', tools: "80/20 Rule, SWOT, PESTLE, Porter's Five Forces, TAM · SAM · SOM", output: 'A ranked list of where to look' },
+                { step: 'Test', tools: 'Root Cause Analysis, Process Mapping, Value Chain', output: 'The evidenced root cause' },
+                { step: 'Decide', tools: 'BCG Matrix, Ansoff Matrix, Pricing Strategy, decision criteria', output: 'One recommended option' },
+                { step: 'Plan', tools: 'Kanban, Gantt, Stakeholder Mapping', output: 'Actions, owners, deadlines, KPIs' },
+              ].map((row, i) => (
+                <div key={i} style={{ display: 'grid', gridTemplateColumns: '110px 1fr 1fr', borderBottom: i < 5 ? `1px solid ${C.border}` : 'none', alignItems: 'center' }} className="oc-fw-row">
+                  <div style={{ padding: '14px 20px', borderRight: `1px solid ${C.border}` }}>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: 800, color: C.navy, margin: 0 }}>{row.step}</p>
+                  </div>
+                  <div style={{ padding: '14px 20px', borderRight: `1px solid ${C.border}` }}>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: C.body, margin: 0, lineHeight: 1.5 }}>{row.tools}</p>
+                  </div>
+                  <div style={{ padding: '14px 20px' }}>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', fontWeight: 700, color: C.navy, margin: 0 }}>{row.output}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+          <Reveal delay={80}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', color: C.body, lineHeight: 1.7 }}>
+              <strong style={{ color: C.navy }}>Also included:</strong> a fully solved business case from first question to final recommendation, and fill-in templates for every step.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ══ BONUSES ═══════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.cream, padding: '80px 32px', borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="5 Bonuses Included" />
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4.5vw, 44px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '12px' }}>
+              Deciding is half the job. The bonuses cover the other half: getting it done.
+            </h2>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.8, color: C.body, marginBottom: '40px', maxWidth: '560px' }}>
+              Each one is tied to a moment where plans usually stall.
+            </p>
+          </Reveal>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }} className="oc-bonus-grid">
+            {[
+              { tag: 'BONUS 1 · BOOK', val: 'Worth ₦5,000', t: 'Productivity Management Method', when: 'Use it when: the plan is made but the week is chaos.', d: 'Systems to sort priorities, build routines and track output.' },
+              { tag: 'BONUS 2 · BOOK', val: 'Worth ₦5,000', t: 'Organizational Leadership Method', when: 'Use it when: you need people to follow the plan.', d: 'How to communicate decisions, delegate, give feedback and lead change.' },
+              { tag: 'BONUS 3 · TEMPLATES', val: 'Worth ₦5,000', t: 'Management Template Kit', when: 'Use it when: you want to start today, not design forms.', d: 'Editable templates for processes, KPIs and action plans.' },
+              { tag: 'BONUS 4 · BOOK', val: 'Worth ₦3,750', t: 'Decision Criteria', when: 'Use it when: you have two good options and cannot choose.', d: 'A scoring guide for feasibility, impact, effort, risk and assumptions.' },
+            ].map((b, i) => (
+              <Reveal key={i} delay={i * 50}>
+                <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '24px 22px', borderRadius: '4px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '8px' }}>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>{b.tag}</p>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: C.muted, margin: 0, whiteSpace: 'nowrap' }}>{b.val}</p>
+                  </div>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', fontWeight: 800, color: C.navy, marginBottom: '8px', lineHeight: 1.3 }}>{b.t}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.body, margin: 0, lineHeight: 1.7 }}>
+                    <strong style={{ color: C.navy }}>{b.when}</strong> {b.d}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          {/* Bonus 5 — full width */}
+          <Reveal delay={200}>
+            <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '24px 22px', borderRadius: '4px', marginTop: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '8px' }}>
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>BONUS 5 · BOOK</p>
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: C.muted, margin: 0 }}>Worth ₦3,750</p>
+              </div>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', fontWeight: 800, color: C.navy, marginBottom: '8px' }}>The Consultant's Mindset</p>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.body, margin: 0, lineHeight: 1.7 }}>
+                <strong style={{ color: C.navy }}>Use it when: you want to sound and think like a pro.</strong> Hypothesis-led thinking, sharp questions, building client trust.
               </p>
             </div>
           </Reveal>
-          <Reveal delay={60}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1px', backgroundColor: C.border, marginBottom: '40px' }} className="oc-3col">
-              {[
-                { h: 'Business stalls or shrinks', b: 'Because problems get treated but never solved.' },
-                { h: 'They keep left-turning', b: 'Applying the wrong solution to the wrong problem.' },
-                { h: 'Confidence gets shaken', b: 'Without a process, every problem feels like a crisis.' },
-              ].map((item, i) => (
-                <div key={i} style={{ backgroundColor: C.white, padding: '24px 20px' }}>
-                  <p style={{ fontSize: '14px', fontWeight: 700, color: C.ink, marginBottom: '8px', lineHeight: 1.3 }}>{item.h}</p>
-                  <p style={{ fontSize: '13px', color: C.body, margin: 0, lineHeight: 1.65 }}>{item.b}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-          <Reveal delay={80}>
-            <p style={{ fontSize: 'clamp(18px, 2.5vw, 24px)', fontWeight: 800, color: C.ink, lineHeight: 1.4, marginBottom: '8px' }}>
-              Six steps take you from "something is wrong" to "here is exactly what to do."
-            </p>
-            <p style={{ fontSize: '15px', color: C.body, margin: 0 }}>
-              Think Like a Consultant is a practical guide built around a repeatable problem-solving process you can apply immediately.
-            </p>
-          </Reveal>
         </div>
       </section>
 
-      <Rule />
-
-      {/* ══ 6-STEP PROCESS ═════════════════════════════════ */}
-      <section style={{ backgroundColor: C.white, padding: '72px 24px' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+      {/* ══ TESTIMONIALS ══════════════════════════════════ */}
+      <section style={{ backgroundColor: C.bg, padding: '80px 0', borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto', padding: '0 32px', marginBottom: '32px' }}>
           <Reveal>
-            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.muted, marginBottom: '12px' }}>The Method</p>
-            <h2 style={{ fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 900, color: C.ink, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '40px' }}>
-              A six-step process that works on any problem.
-            </h2>
-          </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', backgroundColor: C.border }} className="oc-steps-grid">
-            {[
-              { n: '01', t: 'Define', b: 'Clarify what the problem actually is before you try to solve it.' },
-              { n: '02', t: 'Structure', b: 'Break the problem into smaller parts that don\'t overlap.' },
-              { n: '03', t: 'Prioritise', b: 'Identify which parts matter most and deserve your attention first.' },
-              { n: '04', t: 'Analyse', b: 'Gather evidence. Separate facts from assumptions.' },
-              { n: '05', t: 'Synthesise', b: 'Find the pattern. What is the data actually telling you?' },
-              { n: '06', t: 'Communicate and act', b: 'Turn your thinking into a clear recommendation people can follow.' },
-            ].map((s, i) => (
-              <Reveal key={i} delay={i * 40}>
-                <div style={{ backgroundColor: C.white, padding: '24px 22px', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                  <span style={{ fontSize: '24px', fontWeight: 900, color: C.yellow, lineHeight: 1, flexShrink: 0, fontFamily: "'Inter', system-ui, sans-serif" }}>{s.n}</span>
-                  <div>
-                    <p style={{ fontSize: '14px', fontWeight: 800, color: C.ink, marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.t}</p>
-                    <p style={{ fontSize: '13px', color: C.body, margin: 0, lineHeight: 1.65 }}>{s.b}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal delay={80}>
-            <div style={{ marginTop: '32px', textAlign: 'center' }}>
-              <CTABtn text="Get the Book →" />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ══ COMPARISON TABLE ════════════════════════════════ */}
-      <section style={{ backgroundColor: C.grey, padding: '72px 24px' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-          <Reveal>
-            <h2 style={{ fontSize: 'clamp(20px, 3vw, 30px)', fontWeight: 900, color: C.ink, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '8px' }}>
-              A working system, not a collection of tips.
-            </h2>
-            <p style={{ fontSize: '15px', color: C.body, marginBottom: '32px' }}>Most business books give you ideas. This one gives you a process.</p>
-          </Reveal>
-          <Reveal delay={60}>
-            <div style={{ backgroundColor: C.white, border: `1px solid ${C.border}` }}>
-              {/* Header row */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', backgroundColor: C.dark }}>
-                <div style={{ padding: '14px 20px' }} />
-                <div style={{ padding: '14px 20px', borderLeft: '1px solid rgba(255,255,255,0.08)' }}>
-                  <p style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Without a method</p>
-                </div>
-                <div style={{ padding: '14px 20px', borderLeft: '1px solid rgba(255,255,255,0.08)', backgroundColor: C.yellow }}>
-                  <p style={{ fontSize: '12px', fontWeight: 700, color: C.ink, textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>With this book</p>
-                </div>
-              </div>
-              {[
-                { label: 'Start', without: 'Stare at the problem', with: 'Know exactly where to begin' },
-                { label: 'Root cause', without: 'Treat symptoms', with: 'Find what\'s actually driving it' },
-                { label: 'Solutions', without: 'Go with your gut', with: 'Generate and compare options' },
-                { label: 'Decisions', without: 'Based on opinion', with: 'Based on evidence' },
-                { label: 'Advice', without: 'Hard to explain', with: 'Clear and actionable' },
-              ].map((row, i) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderTop: `1px solid ${C.border}` }}>
-                  <div style={{ padding: '14px 20px' }}>
-                    <p style={{ fontSize: '13px', fontWeight: 700, color: C.ink, margin: 0 }}>{row.label}</p>
-                  </div>
-                  <div style={{ padding: '14px 20px', borderLeft: `1px solid ${C.border}` }}>
-                    <p style={{ fontSize: '13px', color: C.muted, margin: 0 }}>{row.without}</p>
-                  </div>
-                  <div style={{ padding: '14px 20px', borderLeft: `1px solid ${C.border}`, backgroundColor: '#FFFDF0' }}>
-                    <p style={{ fontSize: '13px', fontWeight: 600, color: C.green, margin: 0 }}>✓ {row.with}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ══ WHO IT'S FOR ════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.white, padding: '72px 24px' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-          <Reveal>
-            <h2 style={{ fontSize: 'clamp(20px, 3vw, 30px)', fontWeight: 900, color: C.ink, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '32px' }}>
-              Who it is for
-            </h2>
-          </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', backgroundColor: C.border }} className="oc-who-grid">
-            {[
-              { h: 'It is a good fit if you need:', items: ["You advise clients on business challenges", "You manage teams and make high-stakes decisions", "You want a repeatable way to approach any problem", "You're tired of relying on instinct alone"] },
-              { h: 'It is not for you if:', items: ["You're looking for quick tips and life hacks", "You want someone to solve the problem for you", "You aren't willing to apply a process", "You prefer theory over practical frameworks"] },
-            ].map((col, i) => (
-              <Reveal key={i} delay={i * 60}>
-                <div style={{ backgroundColor: C.white, padding: '28px 24px' }}>
-                  <p style={{ fontSize: '13px', fontWeight: 700, color: i === 0 ? C.green : C.red, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '16px' }}>{col.h}</p>
-                  {col.items.map((item, j) => (
-                    <div key={j} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', padding: '10px 0', borderBottom: `1px solid ${C.border}` }}>
-                      <span style={{ color: i === 0 ? C.green : C.red, fontWeight: 700, flexShrink: 0, fontSize: '14px', paddingTop: '1px' }}>{i === 0 ? '✓' : '✗'}</span>
-                      <p style={{ fontSize: '14px', color: C.body, margin: 0, lineHeight: 1.55 }}>{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══ BONUSES ════════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.dark, padding: '72px 24px' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-          <Reveal>
-            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: '8px' }}>Included free</p>
-            <h2 style={{ fontSize: 'clamp(20px, 3vw, 32px)', fontWeight: 900, color: C.white, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '8px' }}>
-              Deciding is half the job. The bonuses cover the other half: getting it done.
-            </h2>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.45)', marginBottom: '36px' }}>Five practical tools included with every purchase.</p>
-          </Reveal>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
-            {[
-              { n: '01', t: 'Practically Designed Problem Solver', v: '₦45,000', d: 'A step-by-step worksheet to work through any business problem from start to recommendation.' },
-              { n: '02', t: 'Argument-Proof Decision Maker', v: '₦30,000', d: 'A tool to pressure-test your decisions so you can defend them clearly and confidently.' },
-              { n: '03', t: 'Business Problem Diagnosis Worksheet', v: '₦25,000', d: 'Quickly identify the real root cause instead of treating surface symptoms.' },
-              { n: '04', t: 'Strategy Implementation Planner', v: '₦20,000', d: 'Turn your recommendation into an actionable plan your client can actually execute.' },
-              { n: "05", t: "The Consultant's Problem-Solving Checklist", v: '₦15,000', d: 'A quick-reference checklist to run through before presenting any recommendation.' },
-            ].map((b, i) => (
-              <Reveal key={i} delay={i * 50}>
-                <div style={{ backgroundColor: C.darkAlt, padding: '20px 24px', display: 'grid', gridTemplateColumns: '32px 1fr auto', gap: '16px', alignItems: 'flex-start' }}>
-                  <span style={{ fontSize: '18px', fontWeight: 900, color: C.yellow, lineHeight: 1 }}>{b.n}</span>
-                  <div>
-                    <p style={{ fontSize: '14px', fontWeight: 700, color: C.white, marginBottom: '4px' }}>{b.t}</p>
-                    <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', margin: 0, lineHeight: 1.6 }}>{b.d}</p>
-                  </div>
-                  <span style={{ fontSize: '13px', fontWeight: 700, color: C.yellow, whiteSpace: 'nowrap', paddingTop: '2px' }}>{b.v}</span>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══ TESTIMONIALS ════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.white, padding: '72px 0' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto', padding: '0 24px' }}>
-          <Reveal>
-            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.muted, marginBottom: '8px' }}>What readers say</p>
-            <h2 style={{ fontSize: 'clamp(20px, 3vw, 30px)', fontWeight: 900, color: C.ink, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '32px' }}>
-              From the people who've used it.
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15 }}>
+              What readers say
             </h2>
           </Reveal>
         </div>
 
-        {/* Scrollable row */}
+        {/* Scrolling row */}
         <div style={{
           display: 'flex', overflowX: 'auto', gap: '16px',
-          padding: '4px 24px 20px',
+          padding: '4px 32px 20px',
           scrollSnapType: 'x mandatory',
           WebkitOverflowScrolling: 'touch',
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
         }} className="oc-testi-scroll">
           {[
-            { photo: thankgodPhoto, outcome: "Changed how he advises clients", q: "I have read a lot of business books, but what I like about Think Like a Consultant is how practical it is. It gives you a simple way to look at a business problem, break it down and know what to do next.", n: "ThankGod Akpa", t: "Founder, Impakt100" },
-            { photo: petersonPhoto, outcome: "Applied the framework immediately", q: "The ideas are simple, but they make you think differently. It has changed the way I approach some of the decisions I make in business.", n: "Peterson Akodi", t: "Co-Founder, SPacebox" },
-            { photo: davidPhoto, outcome: "Restructured how he diagnoses problems", q: "Sometimes the problem is not that you don't have a solution. The problem is that you have not properly understood the problem. This book gives you a practical process for thinking through difficult situations.", n: "David Utulor", t: "Director, Mc Dave Schools" },
-            { photo: augustPhoto, outcome: "Now uses it with every client", q: "As someone who works with businesses, I found the frameworks in this book very useful. It gives you a structured way to think when things are unclear instead of just relying on experience or instinct.", n: "August Ojile", t: "CEO, Cueball Digital Agency" },
+            { photo: thankgodPhoto, outcome: 'Changed how he advises clients', q: 'I have read a lot of business books, but what I like about Think Like a Consultant is how practical it is. It gives you a simple way to look at a business problem, break it down and know what to do next.', n: 'ThankGod Akpa', t: 'Founder · Impakt100' },
+            { photo: petersonPhoto, outcome: 'Applied the framework immediately', q: 'The ideas are simple, but they make you think differently. It has changed the way I approach some of the decisions I make in business.', n: 'Peterson Akodi', t: 'Co-Founder · SPacebox' },
+            { photo: davidPhoto, outcome: 'Restructured how he diagnoses problems', q: "Sometimes the problem is not that you don't have a solution. The problem is that you have not properly understood the problem. This book gives you a practical process for thinking through difficult situations.", n: 'David Utulor', t: 'Director · Mc Dave Schools' },
+            { photo: augustPhoto, outcome: 'Now uses it with every client', q: 'As someone who works with businesses, I found the frameworks in this book very useful. It gives you a structured way to think when things are unclear instead of just relying on experience or instinct.', n: 'August Ojile', t: 'CEO · Cueball Digital Agency' },
           ].map((item, i) => (
             <div key={i} style={{
               flex: '0 0 300px', scrollSnapAlign: 'start',
-              backgroundColor: C.grey,
-              borderTop: `3px solid ${i % 2 === 0 ? C.dark : C.yellow}`,
+              backgroundColor: C.cream,
+              border: `1px solid ${C.border}`,
+              borderRadius: '4px',
               padding: '24px 20px',
               display: 'flex', flexDirection: 'column', gap: '14px',
             }}>
-              <p style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: i % 2 === 0 ? C.white : C.ink, backgroundColor: i % 2 === 0 ? C.dark : C.yellow, display: 'inline-block', padding: '4px 10px', margin: 0, alignSelf: 'flex-start' }}>
-                {item.outcome}
-              </p>
-              <p style={{ fontSize: '14px', lineHeight: 1.8, color: C.body, fontStyle: 'italic', margin: 0, flex: 1 }}>"{item.q}"</p>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>{item.outcome}</p>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', lineHeight: 1.8, color: C.body, margin: 0, flex: 1 }}>"{item.q}"</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', borderTop: `1px solid ${C.border}`, paddingTop: '14px' }}>
-                <img src={item.photo} alt={item.n} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', flexShrink: 0, border: `2px solid ${i % 2 === 0 ? C.dark : C.yellow}` }} />
+                <img src={item.photo} alt={item.n} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', flexShrink: 0 }} />
                 <div>
-                  <p style={{ fontSize: '13px', fontWeight: 700, color: C.ink, margin: 0 }}>{item.n}</p>
-                  <p style={{ fontSize: '11px', color: C.muted, margin: 0 }}>{item.t}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', fontWeight: 700, color: C.navy, margin: 0 }}>{item.n}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', color: C.muted, margin: 0 }}>{item.t}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '5px', paddingTop: '8px' }}>
-          {[0,1,2,3].map(i => <div key={i} style={{ width: i === 0 ? '18px' : '6px', height: '6px', borderRadius: '3px', backgroundColor: i === 0 ? C.dark : C.border }} />)}
+          {[0,1,2,3].map(i => <div key={i} style={{ width: i === 0 ? '18px' : '6px', height: '5px', borderRadius: '3px', backgroundColor: i === 0 ? C.navy : C.border }} />)}
         </div>
       </section>
 
-      {/* ══ PRICING ════════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.dark, padding: '72px 24px' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+      {/* ══ WHO IT'S FOR ══════════════════════════════════ */}
+      <section style={{ backgroundColor: C.cream, padding: '80px 32px', borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
           <Reveal>
-            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: '8px' }}>Pricing</p>
-            <h2 style={{ fontSize: 'clamp(20px, 3vw, 32px)', fontWeight: 900, color: C.white, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '32px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '12px' }}>
+              Who it is for
+            </h2>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.8, color: C.body, marginBottom: '32px' }}>
+              This book suits people who own a problem and want a repeatable way to solve it.
+            </p>
+          </Reveal>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }} className="oc-who-grid">
+            <Reveal>
+              <div style={{ backgroundColor: C.bg, border: `2px solid ${C.yellow}`, padding: '28px 24px', borderRadius: '4px' }}>
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', fontWeight: 800, color: C.navy, marginBottom: '20px' }}>It is a good fit if you are</p>
+                {[
+                  'A business owner who wants fixed criteria for big decisions',
+                  'A manager or team lead who must organise a messy problem and knows where to begin',
+                  'A consultant or freelancer who wants a structure for client projects',
+                  'A business student who wants consulting tools explained without jargon',
+                ].map((item, i) => (
+                  <div key={i} style={{ padding: '10px 0', borderBottom: i < 3 ? `1px solid ${C.border}` : 'none', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <span style={{ color: C.yellow, fontWeight: 900, flexShrink: 0, fontSize: '14px', paddingTop: '1px' }}>·</span>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.body, margin: 0, lineHeight: 1.6 }}>{item}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+            <Reveal delay={60}>
+              <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '28px 24px', borderRadius: '4px' }}>
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', fontWeight: 800, color: C.navy, marginBottom: '20px' }}>It is not for you if you want</p>
+                {[
+                  'A magic formula that works without any thinking or effort',
+                  'A shortcut around learning the process',
+                  'To keep improvising every problem from zero',
+                ].map((item, i) => (
+                  <div key={i} style={{ padding: '10px 0', borderBottom: i < 2 ? `1px solid ${C.border}` : 'none', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <span style={{ color: C.muted, fontWeight: 900, flexShrink: 0, fontSize: '14px', paddingTop: '1px' }}>·</span>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.muted, margin: 0, lineHeight: 1.6 }}>{item}</p>
+                  </div>
+                ))}
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: 700, color: C.navy, marginTop: '16px', lineHeight: 1.5, margin: '16px 0 0' }}>
+                  The method is simple, but it only pays off when you apply it to a real problem.
+                </p>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ THE OFFER / PRICING ═══════════════════════════ */}
+      <section style={{ backgroundColor: C.navy, padding: '80px 32px' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+          <Reveal>
+            <Label text="The Offer" light />
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4.5vw, 44px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '40px' }}>
               The full system plus five bonuses, one payment.
             </h2>
           </Reveal>
           <Reveal delay={60}>
-            <div style={{ backgroundColor: C.darkAlt, border: `1px solid rgba(255,255,255,0.08)`, padding: '28px' }}>
-              {/* What's included */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '28px' }}>
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '0', overflow: 'hidden', maxWidth: '680px' }}>
+              {/* Line items */}
+              <div style={{ padding: '24px 28px' }}>
                 {[
-                  ['Think Like a Consultant (ebook)', '₦15,000'],
-                  ['Practically Designed Problem Solver', '₦45,000'],
-                  ['Argument-Proof Decision Maker', '₦30,000'],
-                  ['Business Problem Diagnosis Worksheet', '₦25,000'],
-                  ['Strategy Implementation Planner', '₦20,000'],
-                  ["The Consultant's Problem-Solving Checklist", '₦15,000'],
-                ].map(([label, val], i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                    <p style={{ fontSize: '14px', color: i === 0 ? C.white : 'rgba(255,255,255,0.55)', fontWeight: i === 0 ? 700 : 400, margin: 0 }}>{label}</p>
-                    <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.35)', margin: 0, textDecoration: 'line-through' }}>{val}</p>
+                  { label: 'Think Like a Consultant: the 6-step system, 25+ frameworks, solved case, step templates', val: '₦8,750', bold: true },
+                  { label: 'Bonus 1: Productivity Management Method', val: '₦5,000' },
+                  { label: 'Bonus 2: Organizational Leadership Method', val: '₦5,000' },
+                  { label: 'Bonus 3: Management Template Kit', val: '₦5,000' },
+                  { label: 'Bonus 4: Decision Criteria', val: '₦3,750' },
+                  { label: "Bonus 5: The Consultant's Mindset", val: '₦3,750' },
+                  { label: 'Total value', val: '₦31,250', total: true },
+                ].map((row, i) => (
+                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px 0', borderBottom: i < 6 ? '1px solid rgba(255,255,255,0.07)' : 'none', gap: '12px' }}>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: row.total ? '15px' : '14px', fontWeight: row.bold || row.total ? 700 : 400, color: row.total ? C.bg : 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.4 }}>
+                      {row.bold ? <em>{row.label}</em> : row.label}
+                    </p>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: row.total ? 700 : 400, color: row.total ? C.bg : 'rgba(255,255,255,0.4)', margin: 0, flexShrink: 0 }}>{row.val}</p>
                   </div>
                 ))}
               </div>
 
-              {/* Price */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '24px' }}>
+              {/* Price highlight */}
+              <div style={{ backgroundColor: 'rgba(255,255,255,0.06)', padding: '20px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
                 <div>
-                  <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '4px' }}>Total value: <span style={{ textDecoration: 'line-through' }}>₦150,000</span></p>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px' }}>
-                    <span style={{ fontSize: 'clamp(36px, 6vw, 52px)', fontWeight: 900, color: C.white, lineHeight: 1, letterSpacing: '-0.03em' }}>₦12,500</span>
-                    <span style={{ backgroundColor: C.red, color: C.white, fontSize: '12px', fontWeight: 700, padding: '4px 10px', letterSpacing: '0.06em' }}>60% OFF</span>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '4px' }}>Your price today</p>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '14px' }}>
+                    <span style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(36px, 6vw, 52px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1 }}>₦12,500</span>
+                    <span style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', color: 'rgba(255,255,255,0.3)', textDecoration: 'line-through' }}>₦31,250</span>
                   </div>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginTop: '4px' }}>60% off · you save ₦18,750</p>
+                </div>
+                <div style={{ backgroundColor: C.red, color: '#fff', fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: 800, padding: '12px 20px', borderRadius: '4px', letterSpacing: '0.04em' }}>
+                  60% OFF
                 </div>
               </div>
 
-              <CTABtn text="Get Instant Access → ₦12,500" full />
-              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginTop: '10px', textAlign: 'center', letterSpacing: '0.04em' }}>
-                Instant digital access · Secure checkout via Selar · Pay once, keep forever
-              </p>
+              {/* CTA */}
+              <div style={{ padding: '20px 28px' }}>
+                <CTABtn text="Get the book + 5 bonuses for ₦12,500 →" full />
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginTop: '10px', textAlign: 'center', letterSpacing: '0.02em' }}>
+                  One payment · Instant download · No subscription · The ₦12,500 launch price ends soon.
+                </p>
+              </div>
+
+              {/* Guarantee */}
+              <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: '20px 28px' }}>
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: 700, color: C.bg, marginBottom: '8px' }}>The "one real problem" guarantee</p>
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.75 }}>
+                  Download it and run steps 1 to 3 on a real problem you are facing right now. If you do not finish with a clearer problem and a sharper list of priorities, email us within 30 days and we will refund every cent. No forms, no interrogation. You keep the files.
+                </p>
+              </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ══ GUARANTEE ══════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.white, padding: '72px 24px' }}>
+      {/* ══ FAQ ═══════════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.bg, padding: '80px 32px', borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: '720px', margin: '0 auto' }}>
           <Reveal>
-            <div style={{ border: `1px solid ${C.border}`, borderTop: `4px solid ${C.yellow}`, padding: '36px 32px' }}>
-              <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.muted, marginBottom: '12px' }}>The "no method" problem guarantee</p>
-              <h3 style={{ fontSize: 'clamp(18px, 2.5vw, 24px)', fontWeight: 800, color: C.ink, letterSpacing: '-0.01em', lineHeight: 1.3, marginBottom: '16px' }}>
-                If the method doesn't work for you, you don't pay for it.
-              </h3>
-              <p style={{ fontSize: '15px', lineHeight: 1.8, color: C.body, margin: 0 }}>
-                Go through the book. Apply the six-step process to a real problem. If it doesn't give you more clarity than what you had before, contact us within 7 days and we'll refund your money in full. No forms. No arguments.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ══ PRE-BUY FAQ ════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.grey, padding: '72px 24px' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-          <Reveal>
-            <h2 style={{ fontSize: 'clamp(18px, 2.5vw, 26px)', fontWeight: 900, color: C.ink, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '8px' }}>Questions before you buy</h2>
-            <p style={{ fontSize: '14px', color: C.muted, marginBottom: '32px' }}>The most common questions we get.</p>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '32px' }}>
+              Questions before you buy
+            </h2>
           </Reveal>
           <div style={{ borderTop: `1px solid ${C.border}` }}>
             {[
-              { q: 'Is this for beginners?', a: 'Yes. No prior consulting experience needed. The book starts from first principles and builds up to a full problem-solving system.' },
-              { q: 'How is this different from other business books?', a: 'Most business books give you frameworks to remember. This one gives you a process to follow. The difference is you can apply this immediately, to any problem, without memorising anything.' },
-              { q: 'How long does it take to read?', a: 'Most people finish it in a weekend. Each chapter is short and practical. You can start applying it the same day you read it.' },
-              { q: 'Is this only useful for consultants?', a: 'No. Anyone who makes business decisions — founders, managers, advisors, team leads — will find the process directly applicable.' },
-              { q: 'What format do I get?', a: 'You get instant access to a digital PDF. You can read it on any device, print it out or save it for reference.' },
-              { q: 'What if I don\'t like it?', a: 'You\'re covered by a 7-day money-back guarantee. Apply the method to one real problem. If it doesn\'t help, we\'ll refund you in full.' },
+              { q: 'What exactly do I receive, and in what format?', a: 'The main book plus five bonuses, delivered as a digital download. Templates are editable.' },
+              { q: 'How do I get it?', a: 'Immediately after payment, by download link and email. Nothing is shipped.' },
+              { q: 'I have no consulting background. Will I keep up?', a: 'Yes. Every framework is explained in plain words and shown on one business case. No prior knowledge is needed.' },
+              { q: 'Will it work for my kind of business?', a: 'The method is about how you think, so it applies to any business, team or project. The steps are the same everywhere.' },
+              { q: 'Is this a subscription?', a: 'No. You pay once, and the files are yours for good.' },
+              { q: 'How long will it take me to read?', a: 'Most readers apply steps 1 to 3 to a live problem on the first day.' },
+              { q: 'What if it is not for me?', a: 'Email us within 30 days for a full refund. See the guarantee above.' },
             ].map((f, i) => (
-              <Reveal key={i} delay={i * 25}>
+              <Reveal key={i} delay={i * 20}>
                 <FAQ q={f.q} a={f.a} />
               </Reveal>
             ))}
@@ -492,42 +564,42 @@ export default function SalesPageC() {
         </div>
       </section>
 
-      {/* ══ FINAL CTA ══════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.dark, padding: '80px 24px' }}>
-        <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center' }}>
+      {/* ══ FINAL CTA ═════════════════════════════════════ */}
+      <section style={{ backgroundColor: C.navy, padding: '88px 32px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '640px', margin: '0 auto' }}>
           <Reveal>
-            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: '16px' }}>Think Like a Consultant</p>
-            <h2 style={{ fontSize: 'clamp(24px, 5vw, 46px)', fontWeight: 900, color: C.white, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '16px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(26px, 5vw, 48px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '20px' }}>
               Your next problem is coming whether you have a method or not.
             </h2>
-            <p style={{ fontSize: 'clamp(14px, 1.8vw, 17px)', color: 'rgba(255,255,255,0.55)', marginBottom: '36px', maxWidth: '480px', margin: '0 auto 36px' }}>
-              Get the book. Learn the process. Walk into every engagement knowing exactly where to start.
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.8, color: 'rgba(255,255,255,0.55)', marginBottom: '36px' }}>
+              You can meet it with a hunch and a meeting, or with a structure that gets you from confusion to a plan in six steps.
             </p>
-            <CTABtn text="Get Instant Access → ₦12,500" />
-            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.25)', marginTop: '14px', letterSpacing: '0.04em' }}>
-              Instant digital access · 7-day money-back guarantee
+            <CTABtn text="Get Think Like a Consultant + 5 bonuses, ₦12,500 →" />
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.3)', marginTop: '28px', lineHeight: 1.7 }}>
+              <strong style={{ color: 'rgba(255,255,255,0.4)' }}>P.S.</strong> You risk nothing. Run steps 1 to 3 on one real problem, and if it does not sharpen your thinking, you get a full refund within 30 days. The cost of another month of guessing is almost certainly higher than ₦12,500.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* ══ FOOTER ═════════════════════════════════════════ */}
-      <footer style={{ backgroundColor: '#080810', padding: '28px 24px', textAlign: 'center' }}>
-        <p style={{ fontSize: '13px', fontWeight: 700, color: 'rgba(255,255,255,0.3)', margin: '0 0 4px' }}>THINK LIKE A CONSULTANT</p>
-        <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.15)', margin: 0 }}>© {new Date().getFullYear()} Quick Learn Plus · All rights reserved</p>
+      {/* ══ FOOTER ════════════════════════════════════════ */}
+      <footer style={{ backgroundColor: C.navy, padding: '24px 32px', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+        <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.25)', margin: 0 }}>
+          © Quick Learn Plus · Think Like a Consultant
+        </p>
       </footer>
 
-      {/* ══ STICKY MOBILE ══════════════════════════════════ */}
+      {/* ══ STICKY MOBILE ═════════════════════════════════= */}
       <div className="oc-sticky" style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 300,
         display: 'none', padding: '12px 16px',
-        backgroundColor: C.dark, borderTop: `2px solid ${C.yellow}`,
+        backgroundColor: C.navy, borderTop: `2px solid ${C.yellowBg}`,
         transform: sticky ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.3s ease',
       }}>
         <a href={SELAR} target="_blank" rel="noopener noreferrer"
-          style={{ display: 'block', width: '100%', textAlign: 'center', backgroundColor: C.yellow, color: C.ink, fontSize: '14px', fontWeight: 800, letterSpacing: '0.04em', padding: '16px', textDecoration: 'none' }}>
-          Get Instant Access → ₦12,500
+          style={{ display: 'block', width: '100%', textAlign: 'center', backgroundColor: C.yellowBg, color: C.navy, fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: 800, padding: '15px', textDecoration: 'none', borderRadius: '4px' }}>
+          Get the bundle → ₦12,500
         </a>
       </div>
 
@@ -535,11 +607,13 @@ export default function SalesPageC() {
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         .oc-testi-scroll::-webkit-scrollbar { display: none; }
-        @media (max-width: 760px) {
+        @media (max-width: 800px) {
           .oc-hero-grid  { grid-template-columns: 1fr !important; }
           .oc-steps-grid { grid-template-columns: 1fr !important; }
           .oc-who-grid   { grid-template-columns: 1fr !important; }
           .oc-3col       { grid-template-columns: 1fr !important; }
+          .oc-bonus-grid { grid-template-columns: 1fr !important; }
+          .oc-fw-row     { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 600px) {
           .oc-stats-grid { grid-template-columns: 1fr 1fr !important; }
