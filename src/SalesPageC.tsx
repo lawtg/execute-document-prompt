@@ -345,9 +345,9 @@ export default function SalesPageC() {
             ].map((b, i) => (
               <Reveal key={i} delay={i * 50}>
                 <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, borderRadius: '4px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                  {/* Mockup image */}
-                  <div style={{ backgroundColor: '#F0EEF8', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '32px 24px', borderBottom: `1px solid ${C.border}` }}>
-                    <img src={b.img} alt={b.t} style={{ width: '100%', maxWidth: '220px', height: '160px', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.15))' }} />
+                  {/* Mockup image — full width, tall */}
+                  <div style={{ width: '100%', height: '280px', backgroundColor: '#F0EEF8', borderBottom: `1px solid ${C.border}`, overflow: 'hidden' }}>
+                    <img src={b.img} alt={b.t} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
                   </div>
                   {/* Text */}
                   <div style={{ padding: '24px 28px', flex: 1 }}>
@@ -368,8 +368,8 @@ export default function SalesPageC() {
           {/* Bonus 5 — full width with image */}
           <Reveal delay={220}>
             <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, borderRadius: '4px', overflow: 'hidden', marginTop: '20px', display: 'grid', gridTemplateColumns: '280px 1fr', alignItems: 'center' }} className="oc-b5-grid">
-              <div style={{ backgroundColor: '#F0EEF8', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '32px 24px', borderRight: `1px solid ${C.border}`, height: '100%' }}>
-                <img src={b5Image} alt="The Consultant's Mindset" style={{ width: '100%', maxWidth: '200px', height: '160px', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.15))' }} />
+              <div style={{ backgroundColor: '#F0EEF8', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRight: `1px solid ${C.border}`, height: '100%', overflow: 'hidden', minHeight: '260px' }}>
+                <img src={b5Image} alt="The Consultant's Mindset" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
               </div>
               <div style={{ padding: '32px 36px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '8px' }}>
