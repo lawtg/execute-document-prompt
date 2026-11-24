@@ -178,16 +178,16 @@ export default function SalesPageC() {
 
       {/* ══ STATS STRIP ═══════════════════════════════════ */}
       <section style={{ backgroundColor: C.yellow, borderBottom: `1px solid rgba(0,0,0,0.1)` }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }} className="oc-stats-grid">
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }} className="oc-stats-grid">
           {[
             { n: '6 steps', l: 'from problem to plan' },
             { n: '25+ frameworks', l: 'explained with examples' },
             { n: '5 bonuses', l: 'included at no extra cost' },
             { n: '30 days', l: 'money-back guarantee' },
           ].map((s, i) => (
-            <div key={i} style={{ padding: '20px 24px', borderRight: i < 3 ? '1px solid rgba(0,0,0,0.12)' : 'none' }}>
-              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(16px, 2vw, 20px)', fontWeight: 900, color: C.navy, margin: '0 0 3px', letterSpacing: '-0.02em' }}>{s.n}</p>
-              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: 'rgba(13,27,62,0.65)', margin: 0, letterSpacing: '0.01em' }}>{s.l}</p>
+            <div key={i} style={{ padding: '32px 32px', borderRight: i < 3 ? '1px solid rgba(0,0,0,0.12)' : 'none' }}>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 900, color: C.navy, margin: '0 0 6px', letterSpacing: '-0.03em', lineHeight: 1 }}>{s.n}</p>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(14px, 1.5vw, 16px)', fontWeight: 600, color: 'rgba(13,27,62,0.6)', margin: 0, letterSpacing: '0.01em' }}>{s.l}</p>
             </div>
           ))}
         </div>
