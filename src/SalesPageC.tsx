@@ -336,27 +336,29 @@ export default function SalesPageC() {
           </Reveal>
 
           {/* Bonus cards with mockup images */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="oc-bonus-grid">
+          {/* All 5 bonus cards — image left, text right */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {[
               { img: b1Image, tag: 'BONUS 1 · BOOK', val: 'Worth ₦5,000', t: 'Productivity Management Method', when: 'Use it when: the plan is made but the week is chaos.', d: 'Systems to sort priorities, build routines and track output.' },
               { img: b2Image, tag: 'BONUS 2 · BOOK', val: 'Worth ₦5,000', t: 'Organizational Leadership Method', when: 'Use it when: you need people to follow the plan.', d: 'How to communicate decisions, delegate, give feedback and lead change.' },
               { img: b3Image, tag: 'BONUS 3 · TEMPLATES', val: 'Worth ₦5,000', t: 'Management Template Kit', when: 'Use it when: you want to start today, not design forms.', d: 'Editable templates for processes, KPIs and action plans.' },
               { img: b4Image, tag: 'BONUS 4 · BOOK', val: 'Worth ₦3,750', t: 'Decision Criteria', when: 'Use it when: you have two good options and cannot choose.', d: 'A scoring guide for feasibility, impact, effort, risk and assumptions.' },
+              { img: b5Image, tag: 'BONUS 5 · BOOK', val: 'Worth ₦3,750', t: "The Consultant's Mindset", when: 'Use it when: you want to sound and think like a pro.', d: 'Hypothesis-led thinking, sharp questions, building client trust.' },
             ].map((b, i) => (
               <Reveal key={i} delay={i * 50}>
-                <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, borderRadius: '4px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                  {/* Mockup image — full width, tall */}
-                  <div style={{ width: '100%', height: '280px', backgroundColor: '#F0EEF8', borderBottom: `1px solid ${C.border}`, overflow: 'hidden' }}>
-                    <img src={b.img} alt={b.t} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
+                <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, borderRadius: '4px', overflow: 'hidden', display: 'grid', gridTemplateColumns: '240px 1fr', alignItems: 'center' }} className="oc-bonus-card">
+                  {/* Book image */}
+                  <div style={{ backgroundColor: '#F0EEF8', borderRight: `1px solid ${C.border}`, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '32px 24px', height: '100%', minHeight: '220px' }}>
+                    <img src={b.img} alt={b.t} style={{ width: '100%', maxWidth: '160px', height: 'auto', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.18))' }} />
                   </div>
                   {/* Text */}
-                  <div style={{ padding: '24px 28px', flex: 1 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '8px' }}>
+                  <div style={{ padding: '32px 36px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px', gap: '8px' }}>
                       <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>{b.tag}</p>
-                      <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: C.muted, margin: 0, whiteSpace: 'nowrap' }}>{b.val}</p>
+                      <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: C.muted, margin: 0, whiteSpace: 'nowrap' }}>{b.val}</p>
                     </div>
-                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '20px', fontWeight: 800, color: C.navy, marginBottom: '10px', lineHeight: 1.3 }}>{b.t}</p>
-                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', color: C.body, margin: 0, lineHeight: 1.7 }}>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '22px', fontWeight: 800, color: C.navy, marginBottom: '12px', lineHeight: 1.3 }}>{b.t}</p>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', color: C.body, margin: 0, lineHeight: 1.75 }}>
                       <strong style={{ color: C.navy }}>{b.when}</strong> {b.d}
                     </p>
                   </div>
@@ -364,25 +366,6 @@ export default function SalesPageC() {
               </Reveal>
             ))}
           </div>
-
-          {/* Bonus 5 — full width with image */}
-          <Reveal delay={220}>
-            <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, borderRadius: '4px', overflow: 'hidden', marginTop: '20px', display: 'grid', gridTemplateColumns: '280px 1fr', alignItems: 'center' }} className="oc-b5-grid">
-              <div style={{ backgroundColor: '#F0EEF8', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRight: `1px solid ${C.border}`, height: '100%', overflow: 'hidden', minHeight: '260px' }}>
-                <img src={b5Image} alt="The Consultant's Mindset" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
-              </div>
-              <div style={{ padding: '32px 36px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '8px' }}>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>BONUS 5 · BOOK</p>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: C.muted, margin: 0 }}>Worth ₦3,750</p>
-                </div>
-                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '20px', fontWeight: 800, color: C.navy, marginBottom: '10px' }}>The Consultant's Mindset</p>
-                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', color: C.body, margin: 0, lineHeight: 1.7 }}>
-                  <strong style={{ color: C.navy }}>Use it when: you want to sound and think like a pro.</strong> Hypothesis-led thinking, sharp questions, building client trust.
-                </p>
-              </div>
-            </div>
-          </Reveal>
 
           {/* Full bundle stack */}
           <Reveal delay={260}>
@@ -667,6 +650,7 @@ export default function SalesPageC() {
           .oc-bonus-grid { grid-template-columns: 1fr !important; }
           .oc-b5-grid    { grid-template-columns: 1fr !important; }
           .oc-stack-grid { grid-template-columns: 1fr !important; }
+          .oc-bonus-card { grid-template-columns: 1fr !important; }
           .oc-fw-row     { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 600px) {
