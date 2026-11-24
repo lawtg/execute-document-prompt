@@ -99,7 +99,7 @@ function FAQ({ q, a }: { q: string; a: string }) {
   return (
     <div style={{ borderBottom: `1px solid ${C.border}`, cursor: 'pointer' }} onClick={() => setOpen(o => !o)}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 0', gap: '12px' }}>
-        <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', fontWeight: 700, color: C.ink, margin: 0, lineHeight: 1.4 }}>{q}</p>
+        <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '17px', fontWeight: 700, color: C.ink, margin: 0, lineHeight: 1.4 }}>{q}</p>
         <span style={{ color: C.muted, fontSize: '20px', flexShrink: 0, transition: 'transform 0.2s', transform: open ? 'rotate(45deg)' : 'none', lineHeight: 1 }}>+</span>
       </div>
       {open && <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', lineHeight: 1.8, color: C.body, paddingBottom: '18px', margin: 0 }}>{a}</p>}
@@ -203,7 +203,7 @@ export default function SalesPageC() {
             </h2>
           </Reveal>
           <Reveal delay={60}>
-            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 2vw, 21px)', lineHeight: 1.8, color: C.body, marginBottom: '48px', maxWidth: '720px', fontWeight: 500 }}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 2vw, 21px)', lineHeight: 1.8, color: C.body, marginBottom: '48px', maxWidth: '1200px', fontWeight: 500 }}>
               Sales drop. A key hire quits. Margins shrink. The reflex is to grab the nearest fix: a discount, a new tool, a team meeting. Weeks later the symptom is back, because the cause was never found.
             </p>
           </Reveal>
@@ -230,20 +230,20 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ THE METHOD ════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.navy, padding: '80px 32px' }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <section style={{ backgroundColor: C.navy, padding: '96px 24px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
             <Label text="The Method" light />
-            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4.5vw, 44px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '16px', maxWidth: '720px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(32px, 5.5vw, 60px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '16px', maxWidth: '1200px' }}>
               Six steps take you from "something is wrong" to "here is exactly what to do."
             </h2>
-            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(14px, 1.6vw, 16px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.55)', marginBottom: '48px', maxWidth: '580px' }}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(16px, 1.8vw, 18px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.55)', marginBottom: '48px', maxWidth: '760px' }}>
               Each step has its own tool in the book and its own clear output, so you always know whether you are done.
             </p>
           </Reveal>
 
           {/* 2×3 step cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '40px' }} className="oc-steps-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '48px' }} className="oc-steps-grid">
             {[
               { n: '1', t: 'Define', d: 'Turn a vague worry into one precise sentence: "I don\'t yet know ___, which is stopping me from ___."', tool: 'Tool: the Fog Audit. You leave with a problem you can actually solve.' },
               { n: '2', t: 'Structure', d: 'Break the problem into pieces with no overlaps and no gaps.', tool: 'Tool: MECE. You leave with a clean map of what to check.' },
@@ -253,11 +253,11 @@ export default function SalesPageC() {
               { n: '6', t: 'Communicate and act', d: 'Turn the decision into tasks, owners, deadlines and a definition of done.', tool: 'Tool: the Action Plan Builder. You leave with a plan someone can start on Monday.' },
             ].map((step, i) => (
               <Reveal key={i} delay={i * 40}>
-                <div style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '24px 22px', borderRadius: '4px' }}>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '28px', fontWeight: 900, color: C.yellowBg, lineHeight: 1, marginBottom: '10px', letterSpacing: '-0.03em' }}>{step.n}</p>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', fontWeight: 800, color: C.bg, marginBottom: '8px' }}>{step.t}</p>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, marginBottom: '12px' }}>{step.d}</p>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: C.yellowBg, fontWeight: 600, margin: 0, lineHeight: 1.5 }}>{step.tool}</p>
+                <div style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '32px 28px', borderRadius: '4px' }}>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '40px', fontWeight: 900, color: C.yellowBg, lineHeight: 1, marginBottom: '10px', letterSpacing: '-0.03em' }}>{step.n}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '20px', fontWeight: 800, color: C.bg, marginBottom: '8px' }}>{step.t}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, marginBottom: '12px' }}>{step.d}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', color: C.yellowBg, fontWeight: 700, margin: 0, lineHeight: 1.5 }}>{step.tool}</p>
                 </div>
               </Reveal>
             ))}
@@ -270,14 +270,14 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ INSIDE THE BOOK ═══════════════════════════════ */}
-      <section style={{ backgroundColor: C.cream, padding: '80px 32px' }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <section style={{ backgroundColor: C.cream, padding: '96px 24px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
             <Label text="Inside the Book" />
-            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4.5vw, 44px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '16px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(32px, 5.5vw, 60px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '16px' }}>
               A working system, not a collection of tips.
             </h2>
-            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.8, color: C.body, marginBottom: '40px', maxWidth: '580px' }}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 2vw, 20px)', lineHeight: 1.8, color: C.body, marginBottom: '40px', maxWidth: '760px' }}>
               Every framework is explained in plain words, drawn as a visual and applied to one running business case, so you see it used before you try it.
             </p>
           </Reveal>
@@ -294,14 +294,14 @@ export default function SalesPageC() {
                 { step: 'Plan', tools: 'Kanban, Gantt, Stakeholder Mapping', output: 'Actions, owners, deadlines, KPIs' },
               ].map((row, i) => (
                 <div key={i} style={{ display: 'grid', gridTemplateColumns: '110px 1fr 1fr', borderBottom: i < 5 ? `1px solid ${C.border}` : 'none', alignItems: 'center' }} className="oc-fw-row">
-                  <div style={{ padding: '14px 20px', borderRight: `1px solid ${C.border}` }}>
-                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: 800, color: C.navy, margin: 0 }}>{row.step}</p>
+                  <div style={{ padding: '18px 24px', borderRight: `1px solid ${C.border}` }}>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', fontWeight: 800, color: C.navy, margin: 0 }}>{row.step}</p>
                   </div>
-                  <div style={{ padding: '14px 20px', borderRight: `1px solid ${C.border}` }}>
-                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: C.body, margin: 0, lineHeight: 1.5 }}>{row.tools}</p>
+                  <div style={{ padding: '18px 24px', borderRight: `1px solid ${C.border}` }}>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', color: C.body, margin: 0, lineHeight: 1.5 }}>{row.tools}</p>
                   </div>
                   <div style={{ padding: '14px 20px' }}>
-                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', fontWeight: 700, color: C.navy, margin: 0 }}>{row.output}</p>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', fontWeight: 700, color: C.navy, margin: 0 }}>{row.output}</p>
                   </div>
                 </div>
               ))}
@@ -316,18 +316,18 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ BONUSES ═══════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.cream, padding: '80px 32px', borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <section style={{ backgroundColor: C.cream, padding: '96px 24px', borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
             <Label text="5 Bonuses Included" />
-            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4.5vw, 44px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '12px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(32px, 5.5vw, 60px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '12px' }}>
               Deciding is half the job. The bonuses cover the other half: getting it done.
             </h2>
-            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.8, color: C.body, marginBottom: '40px', maxWidth: '560px' }}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 2vw, 20px)', lineHeight: 1.8, color: C.body, marginBottom: '40px', maxWidth: '760px' }}>
               Each one is tied to a moment where plans usually stall.
             </p>
           </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }} className="oc-bonus-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="oc-bonus-grid">
             {[
               { tag: 'BONUS 1 · BOOK', val: 'Worth ₦5,000', t: 'Productivity Management Method', when: 'Use it when: the plan is made but the week is chaos.', d: 'Systems to sort priorities, build routines and track output.' },
               { tag: 'BONUS 2 · BOOK', val: 'Worth ₦5,000', t: 'Organizational Leadership Method', when: 'Use it when: you need people to follow the plan.', d: 'How to communicate decisions, delegate, give feedback and lead change.' },
@@ -335,12 +335,12 @@ export default function SalesPageC() {
               { tag: 'BONUS 4 · BOOK', val: 'Worth ₦3,750', t: 'Decision Criteria', when: 'Use it when: you have two good options and cannot choose.', d: 'A scoring guide for feasibility, impact, effort, risk and assumptions.' },
             ].map((b, i) => (
               <Reveal key={i} delay={i * 50}>
-                <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '24px 22px', borderRadius: '4px' }}>
+                <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '32px 28px', borderRadius: '4px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '8px' }}>
                     <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>{b.tag}</p>
                     <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: C.muted, margin: 0, whiteSpace: 'nowrap' }}>{b.val}</p>
                   </div>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', fontWeight: 800, color: C.navy, marginBottom: '8px', lineHeight: 1.3 }}>{b.t}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '20px', fontWeight: 800, color: C.navy, marginBottom: '10px', lineHeight: 1.3 }}>{b.t}</p>
                   <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.body, margin: 0, lineHeight: 1.7 }}>
                     <strong style={{ color: C.navy }}>{b.when}</strong> {b.d}
                   </p>
@@ -350,12 +350,12 @@ export default function SalesPageC() {
           </div>
           {/* Bonus 5 — full width */}
           <Reveal delay={200}>
-            <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '24px 22px', borderRadius: '4px', marginTop: '12px' }}>
+            <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '32px 28px', borderRadius: '4px', marginTop: '12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '8px' }}>
                 <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>BONUS 5 · BOOK</p>
                 <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: C.muted, margin: 0 }}>Worth ₦3,750</p>
               </div>
-              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', fontWeight: 800, color: C.navy, marginBottom: '8px' }}>The Consultant's Mindset</p>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '20px', fontWeight: 800, color: C.navy, marginBottom: '10px' }}>The Consultant's Mindset</p>
               <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.body, margin: 0, lineHeight: 1.7 }}>
                 <strong style={{ color: C.navy }}>Use it when: you want to sound and think like a pro.</strong> Hypothesis-led thinking, sharp questions, building client trust.
               </p>
@@ -365,10 +365,10 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ TESTIMONIALS ══════════════════════════════════ */}
-      <section style={{ backgroundColor: C.bg, padding: '80px 0', borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto', padding: '0 32px', marginBottom: '32px' }}>
+      <section style={{ backgroundColor: C.bg, padding: '96px 0', borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 32px', marginBottom: '32px' }}>
           <Reveal>
-            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15 }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(30px, 5vw, 54px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15 }}>
               What readers say
             </h2>
           </Reveal>
@@ -390,7 +390,7 @@ export default function SalesPageC() {
             { photo: augustPhoto, outcome: 'Now uses it with every client', q: 'As someone who works with businesses, I found the frameworks in this book very useful. It gives you a structured way to think when things are unclear instead of just relying on experience or instinct.', n: 'August Ojile', t: 'CEO · Cueball Digital Agency' },
           ].map((item, i) => (
             <div key={i} style={{
-              flex: '0 0 300px', scrollSnapAlign: 'start',
+              flex: '0 0 360px', scrollSnapAlign: 'start',
               backgroundColor: C.cream,
               border: `1px solid ${C.border}`,
               borderRadius: '4px',
@@ -398,12 +398,12 @@ export default function SalesPageC() {
               display: 'flex', flexDirection: 'column', gap: '14px',
             }}>
               <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.yellow, margin: 0 }}>{item.outcome}</p>
-              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', lineHeight: 1.8, color: C.body, margin: 0, flex: 1 }}>"{item.q}"</p>
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', lineHeight: 1.85, color: C.body, margin: 0, flex: 1 }}>"{item.q}"</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', borderTop: `1px solid ${C.border}`, paddingTop: '14px' }}>
-                <img src={item.photo} alt={item.n} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', flexShrink: 0 }} />
+                <img src={item.photo} alt={item.n} style={{ width: '52px', height: '52px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top', flexShrink: 0 }} />
                 <div>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', fontWeight: 700, color: C.navy, margin: 0 }}>{item.n}</p>
-                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '11px', color: C.muted, margin: 0 }}>{item.t}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '15px', fontWeight: 700, color: C.navy, margin: 0 }}>{item.n}</p>
+                  <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: C.muted, margin: 0 }}>{item.t}</p>
                 </div>
               </div>
             </div>
@@ -415,20 +415,20 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ WHO IT'S FOR ══════════════════════════════════ */}
-      <section style={{ backgroundColor: C.cream, padding: '80px 32px', borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <section style={{ backgroundColor: C.cream, padding: '96px 24px', borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
-            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '12px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(30px, 5vw, 54px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '12px' }}>
               Who it is for
             </h2>
-            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.8, color: C.body, marginBottom: '32px' }}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 2vw, 20px)', lineHeight: 1.8, color: C.body, marginBottom: '32px' }}>
               This book suits people who own a problem and want a repeatable way to solve it.
             </p>
           </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }} className="oc-who-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="oc-who-grid">
             <Reveal>
               <div style={{ backgroundColor: C.bg, border: `2px solid ${C.yellow}`, padding: '28px 24px', borderRadius: '4px' }}>
-                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', fontWeight: 800, color: C.navy, marginBottom: '20px' }}>It is a good fit if you are</p>
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '20px', fontWeight: 800, color: C.navy, marginBottom: '20px' }}>It is a good fit if you are</p>
                 {[
                   'A business owner who wants fixed criteria for big decisions',
                   'A manager or team lead who must organise a messy problem and knows where to begin',
@@ -437,14 +437,14 @@ export default function SalesPageC() {
                 ].map((item, i) => (
                   <div key={i} style={{ padding: '10px 0', borderBottom: i < 3 ? `1px solid ${C.border}` : 'none', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                     <span style={{ color: C.yellow, fontWeight: 900, flexShrink: 0, fontSize: '14px', paddingTop: '1px' }}>·</span>
-                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.body, margin: 0, lineHeight: 1.6 }}>{item}</p>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', color: C.body, margin: 0, lineHeight: 1.7 }}>{item}</p>
                   </div>
                 ))}
               </div>
             </Reveal>
             <Reveal delay={60}>
               <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, padding: '28px 24px', borderRadius: '4px' }}>
-                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', fontWeight: 800, color: C.navy, marginBottom: '20px' }}>It is not for you if you want</p>
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '20px', fontWeight: 800, color: C.navy, marginBottom: '20px' }}>It is not for you if you want</p>
                 {[
                   'A magic formula that works without any thinking or effort',
                   'A shortcut around learning the process',
@@ -452,7 +452,7 @@ export default function SalesPageC() {
                 ].map((item, i) => (
                   <div key={i} style={{ padding: '10px 0', borderBottom: i < 2 ? `1px solid ${C.border}` : 'none', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                     <span style={{ color: C.muted, fontWeight: 900, flexShrink: 0, fontSize: '14px', paddingTop: '1px' }}>·</span>
-                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: C.muted, margin: 0, lineHeight: 1.6 }}>{item}</p>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '16px', color: C.muted, margin: 0, lineHeight: 1.7 }}>{item}</p>
                   </div>
                 ))}
                 <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: 700, color: C.navy, marginTop: '16px', lineHeight: 1.5, margin: '16px 0 0' }}>
@@ -465,18 +465,18 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ THE OFFER / PRICING ═══════════════════════════ */}
-      <section style={{ backgroundColor: C.navy, padding: '80px 32px' }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <section style={{ backgroundColor: C.navy, padding: '96px 24px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
             <Label text="The Offer" light />
-            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(24px, 4.5vw, 44px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '40px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(32px, 5.5vw, 60px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '40px' }}>
               The full system plus five bonuses, one payment.
             </h2>
           </Reveal>
           <Reveal delay={60}>
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '0', overflow: 'hidden', maxWidth: '680px' }}>
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '0', overflow: 'hidden', maxWidth: '840px' }}>
               {/* Line items */}
-              <div style={{ padding: '24px 28px' }}>
+              <div style={{ padding: '32px 36px' }}>
                 {[
                   { label: 'Think Like a Consultant: the 6-step system, 25+ frameworks, solved case, step templates', val: '₦8,750', bold: true },
                   { label: 'Bonus 1: Productivity Management Method', val: '₦5,000' },
@@ -486,8 +486,8 @@ export default function SalesPageC() {
                   { label: "Bonus 5: The Consultant's Mindset", val: '₦3,750' },
                   { label: 'Total value', val: '₦31,250', total: true },
                 ].map((row, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px 0', borderBottom: i < 6 ? '1px solid rgba(255,255,255,0.07)' : 'none', gap: '12px' }}>
-                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: row.total ? '15px' : '14px', fontWeight: row.bold || row.total ? 700 : 400, color: row.total ? C.bg : 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.4 }}>
+                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 0', borderBottom: i < 6 ? '1px solid rgba(255,255,255,0.07)' : 'none', gap: '12px' }}>
+                    <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: row.total ? '17px' : '15px', fontWeight: row.bold || row.total ? 700 : 400, color: row.total ? C.bg : 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.4 }}>
                       {row.bold ? <em>{row.label}</em> : row.label}
                     </p>
                     <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: row.total ? 700 : 400, color: row.total ? C.bg : 'rgba(255,255,255,0.4)', margin: 0, flexShrink: 0 }}>{row.val}</p>
@@ -496,7 +496,7 @@ export default function SalesPageC() {
               </div>
 
               {/* Price highlight */}
-              <div style={{ backgroundColor: 'rgba(255,255,255,0.06)', padding: '20px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+              <div style={{ backgroundColor: 'rgba(255,255,255,0.06)', padding: '24px 36px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
                 <div>
                   <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '4px' }}>Your price today</p>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '14px' }}>
@@ -511,7 +511,7 @@ export default function SalesPageC() {
               </div>
 
               {/* CTA */}
-              <div style={{ padding: '20px 28px' }}>
+              <div style={{ padding: '24px 36px' }}>
                 <CTABtn text="Get the book + 5 bonuses for ₦12,500 →" full />
                 <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginTop: '10px', textAlign: 'center', letterSpacing: '0.02em' }}>
                   One payment · Instant download · No subscription · The ₦12,500 launch price ends soon.
@@ -519,7 +519,7 @@ export default function SalesPageC() {
               </div>
 
               {/* Guarantee */}
-              <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: '20px 28px' }}>
+              <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: '24px 36px' }}>
                 <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', fontWeight: 700, color: C.bg, marginBottom: '8px' }}>The "one real problem" guarantee</p>
                 <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14px', color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.75 }}>
                   Download it and run steps 1 to 3 on a real problem you are facing right now. If you do not finish with a clearer problem and a sharper list of priorities, email us within 30 days and we will refund every cent. No forms, no interrogation. You keep the files.
@@ -531,10 +531,10 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ FAQ ═══════════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.bg, padding: '80px 32px', borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+      <section style={{ backgroundColor: C.bg, padding: '96px 24px', borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
-            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '32px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 900, color: C.navy, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '32px' }}>
               Questions before you buy
             </h2>
           </Reveal>
@@ -557,13 +557,13 @@ export default function SalesPageC() {
       </section>
 
       {/* ══ FINAL CTA ═════════════════════════════════════ */}
-      <section style={{ backgroundColor: C.navy, padding: '88px 32px', textAlign: 'center' }}>
-        <div style={{ maxWidth: '640px', margin: '0 auto' }}>
+      <section style={{ backgroundColor: C.navy, padding: '104px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal>
-            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(26px, 5vw, 48px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '20px' }}>
+            <h2 style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(34px, 6vw, 60px)', fontWeight: 900, color: C.bg, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '20px' }}>
               Your next problem is coming whether you have a method or not.
             </h2>
-            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(15px, 1.8vw, 17px)', lineHeight: 1.8, color: 'rgba(255,255,255,0.55)', marginBottom: '36px' }}>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 'clamp(17px, 2vw, 20px)', lineHeight: 1.8, color: 'rgba(255,255,255,0.55)', marginBottom: '36px' }}>
               You can meet it with a hunch and a meeting, or with a structure that gets you from confusion to a plan in six steps.
             </p>
             <CTABtn text="Get Think Like a Consultant + 5 bonuses, ₦12,500 →" />
